@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Shook.DomainModel", "iTechArt.Shook.DomainModel\iTechArt.Shook.DomainModel.csproj", "{7BC38291-05A3-46B8-AA12-2B4B5469D025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Shook.Repositories", "iTechArt.Shook.Repositories\iTechArt.Shook.Repositories.csproj", "{1ED16943-D613-4DB8-966C-39DB1748D137}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Shook.Foundation", "iTechArt.Shook.Foundation\iTechArt.Shook.Foundation.csproj", "{BE097190-0D22-4867-A1DC-949BA6516EE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Shook.WebApp", "iTechArt.Shook.WebApp\iTechArt.Shook.WebApp.csproj", "{84A812E4-FBC0-4ABC-9D5A-3E24D7BD8BDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Common", "iTechArt.Common\iTechArt.Common.csproj", "{414D6FBE-393B-474A-B2BD-B8CDCD62609F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iTechArt.Repositories", "iTechArt.Repositories\iTechArt.Repositories.csproj", "{4D6BAC8C-8C71-4C68-8881-B25B0FE76093}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BC38291-05A3-46B8-AA12-2B4B5469D025}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC38291-05A3-46B8-AA12-2B4B5469D025}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC38291-05A3-46B8-AA12-2B4B5469D025}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC38291-05A3-46B8-AA12-2B4B5469D025}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ED16943-D613-4DB8-966C-39DB1748D137}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED16943-D613-4DB8-966C-39DB1748D137}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED16943-D613-4DB8-966C-39DB1748D137}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED16943-D613-4DB8-966C-39DB1748D137}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE097190-0D22-4867-A1DC-949BA6516EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE097190-0D22-4867-A1DC-949BA6516EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE097190-0D22-4867-A1DC-949BA6516EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE097190-0D22-4867-A1DC-949BA6516EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84A812E4-FBC0-4ABC-9D5A-3E24D7BD8BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84A812E4-FBC0-4ABC-9D5A-3E24D7BD8BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84A812E4-FBC0-4ABC-9D5A-3E24D7BD8BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84A812E4-FBC0-4ABC-9D5A-3E24D7BD8BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{414D6FBE-393B-474A-B2BD-B8CDCD62609F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{414D6FBE-393B-474A-B2BD-B8CDCD62609F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{414D6FBE-393B-474A-B2BD-B8CDCD62609F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{414D6FBE-393B-474A-B2BD-B8CDCD62609F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D6BAC8C-8C71-4C68-8881-B25B0FE76093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D6BAC8C-8C71-4C68-8881-B25B0FE76093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D6BAC8C-8C71-4C68-8881-B25B0FE76093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D6BAC8C-8C71-4C68-8881-B25B0FE76093}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {581B0B9E-8F7A-4760-BFD0-146A52BFDF7E}
+	EndGlobalSection
+EndGlobal
