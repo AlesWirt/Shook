@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
+    <ProjectReference Include="..\iTechArt.Shook.Foundation\iTechArt.Shook.Foundation.csproj" />
+  </ItemGroup>
+
 </Project>
