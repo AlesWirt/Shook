@@ -1,0 +1,19 @@
+﻿@model iTechArt.Shook.DomainModel.Models.Clicker
+@{ Layout = null; }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet"  />
+    <title>Click-Clack</title>
+</head>
+<body>
+    <div class="text-center">
+        <p>@Model.ClickerCounter</p>
+        <form method="post">
+            <button asp-controller="Home" asp-action="IncreaseClicker" type="submit" class="btn btn-success btn-lg">Increase</button>
+        </form>
+    </div>
+</body>
+</html>
