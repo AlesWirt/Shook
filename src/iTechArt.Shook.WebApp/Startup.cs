@@ -11,6 +11,7 @@ namespace iTechArt.Shook.WebApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddControllersWithViews();
         }
 
