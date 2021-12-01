@@ -28,8 +28,6 @@ namespace iTechArt.Shook.WebApp.Controllers
             clicker.ClickerCounter += 1;
             uow.ClickerRepository.Update(clicker);
             uow.SaveChanges();
-            //Repository.IncreaseClicker();
-            //return View("Index", Repository.Clicker);
             return View("Index", clicker);
         }
     }
