@@ -1,6 +1,8 @@
-using Microsoft.Extensions.Logging;
+using iTechArt.Shook.Foundation;
+using iTechArt.Shook.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -8,17 +10,19 @@ namespace iTechArt.Shook.WebApp
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            using(var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ClickerDbContext>();
+
+                DataGenerator.Initialize(services);
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .ConfigureLogging(loggingBuilder =>
-            {
-                loggingBuilder.ClearProviders();
-                loggingBuilder.AddConsole();
-                loggingBuilder.AddTraceSource("Information, Activity Tracing");
-            })
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();

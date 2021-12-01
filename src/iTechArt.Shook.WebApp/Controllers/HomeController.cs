@@ -1,4 +1,5 @@
 ﻿using iTechArt.Repositories;
+using iTechArt.Shook.Repositories;
 using iTechArt.Shook.DomainModel.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,24 +9,28 @@ namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private ILogger<HomeController> _logger;
+        private UnitOfWork uow;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ClickerDbContext context)
         {
-            _logger = logger;
+            uow = new UnitOfWork(context);
         }
 
         public IActionResult Index()
         {
-            _logger.LogInformation($"Controller action executed on: {DateTime.Now.TimeOfDay}");
             return View(Repository.Clicker);
         }
 
         [HttpPost]
         public IActionResult IncreaseClicker()
         {
-            Repository.IncreaseClicker();
-            return View("Index", Repository.Clicker);
+            Clicker clicker = uow.ClickerRepository.Read(1);
+            clicker.ClickerCounter += 1;
+            uow.ClickerRepository.Update(clicker);
+            uow.SaveChanges();
+            //Repository.IncreaseClicker();
+            //return View("Index", Repository.Clicker);
+            return View("Index", clicker);
         }
     }
 }

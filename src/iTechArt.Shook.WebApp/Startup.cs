@@ -1,7 +1,9 @@
-using iTechArt.Common;
+using iTechArt.Repositories;
+using iTechArt.Repositories.Interfaces;
+using iTechArt.Shook.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -11,7 +13,8 @@ namespace iTechArt.Shook.WebApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging();
+            services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews();
         }
 
