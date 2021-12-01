@@ -1,19 +1,17 @@
 ﻿using iTechArt.Repositories;
 using iTechArt.Shook.Repositories;
-using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.Foundation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private UnitOfWork uow;
+        private ClickerCounter _counter;
 
         public HomeController(ClickerDbContext context)
         {
-            uow = new UnitOfWork(context);
+            _counter = new ClickerCounter(context);
         }
 
         public IActionResult Index()
@@ -24,10 +22,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpPost]
         public IActionResult IncreaseClicker()
         {
-            Clicker clicker = uow.ClickerRepository.Read(1);
-            clicker.ClickerCounter += 1;
-            uow.ClickerRepository.Update(clicker);
-            uow.SaveChanges();
+            var clicker = _counter.IncreaseClicker();
             return View("Index", clicker);
         }
     }
