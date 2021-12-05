@@ -6,6 +6,12 @@ namespace iTechArt.Shook.Repositories
     public class ClickerDbContext : DbContext
     {
         public DbSet<Clicker> Clickers { get; set; }
+
+        public ClickerDbContext()
+        {
+
+        }
+
         public ClickerDbContext(DbContextOptions<ClickerDbContext> options) : base(options)
         {
 

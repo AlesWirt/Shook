@@ -1,45 +1,131 @@
 ﻿using iTechArt.Repositories.Interfaces;
 using iTechArt.Shook.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace iTechArt.Repositories
 {
-    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity, TContext> : IRepository<TEntity, TContext> 
+        where TEntity : class
+        where TContext : DbContext, new()
     {
-        protected DbSet<TEntity> Entities;
-        protected readonly ClickerDbContext _context;
+        private DbSet<TEntity> _entities;
+        private string _errorMessage = string.Empty;
+        private bool _disposed;
+        
 
-        public GenericRepository(ClickerDbContext context)
+        protected virtual DbSet<TEntity> Entities
         {
-            _context = context;
-            Entities = _context.Set<TEntity>();
+            get { return _entities ?? (_entities = Context.Set<TEntity>()); }
         }
 
-        public void Add(TEntity entity)
+        public TContext Context { get; set; }
+
+        public GenericRepository()
         {
-            Entities.Add(entity);
+            _disposed = false;
+            Context = new TContext();
         }
 
-        public void Delete(TEntity entity)
+        public virtual IQueryable<TEntity> Table
         {
-            Entities.Remove(entity);
+            get { return Entities; }
         }
 
-        public TEntity Read(int id)
+        public virtual TEntity GetById(object id)
         {
             return Entities.Find(id);
         }
 
-        public IQueryable<TEntity> ReadAll()
+        public virtual void Insert(TEntity entity)
+        {
+            try
+            {
+                if(entity == null)
+                {
+                    throw new ArgumentNullException("entity");
+                }
+                Entities.Add(entity);
+                if(Context == null || _disposed)
+                {
+                    Context = new TContext();
+                }
+            }
+            catch(DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        _errorMessage += string.Format(
+                            "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage)
+                            + Environment.NewLine;
+                    }
+                }
+                throw new Exception(_errorMessage, dbEx);
+            }
+        }
+
+        public IQueryable<TEntity> GetAll()
         {
             return Entities;
         }
 
         public void Update(TEntity entity)
         {
-            Entities.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
+            try
+            {
+                if (entity == null)
+                {
+                    throw new ArgumentNullException("entity");
+                }
+                if (Context == null || _disposed)
+                {
+                    Context = new TContext();
+                }
+                Context.Entry(entity).State = EntityState.Modified;
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        _errorMessage += Environment.NewLine + string.Format(
+                            "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
+                throw new Exception(_errorMessage, dbEx);
+            }
+        }
+        public virtual void Delete(TEntity entity)
+        {
+            try
+            {
+                if (entity == null)
+                {
+                    throw new ArgumentNullException("entity");
+                }
+                if (Context == null || _disposed)
+                {
+                    Context = new TContext();
+                }
+                Entities.Remove(entity);
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        _errorMessage += Environment.NewLine + string.Format(
+                            "Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                    }
+                }
+                throw new Exception(_errorMessage, dbEx);
+            }
         }
     }
 }

@@ -9,14 +9,15 @@ namespace iTechArt.Shook.WebApp.Controllers
     {
         private ClickerCounter _counter;
 
-        public HomeController(ClickerDbContext context)
+
+        public HomeController()
         {
-            _counter = new ClickerCounter(context);
+            _counter = new ClickerCounter();
         }
 
         public IActionResult Index()
         {
-            return View(Repository.Clicker);
+            return View(_counter.Clicker);
         }
 
         [HttpPost]

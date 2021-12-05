@@ -6,21 +6,29 @@ namespace iTechArt.Shook.Foundation
 {
     public class ClickerCounter
     {
-        public UnitOfWork Uow { get; }
+        private GenericUnitOfWork<ClickerDbContext> _unitOfWork = new GenericUnitOfWork<ClickerDbContext>();
+        private Clicker _clicker;
 
-
-        public ClickerCounter(ClickerDbContext context)
+        public Clicker Clicker
         {
-            Uow = new UnitOfWork(context);
+            get 
+            { 
+                return _unitOfWork
+                .GenericRepository<Clicker, ClickerDbContext>()
+                .GetById((int)1);
+            }
+        }
+        public ClickerCounter()
+        {
+            _clicker = Clicker;
         }
 
         public Clicker IncreaseClicker()
         {
-            Clicker clicker = Uow.ClickerRepository.Read(1);
-            clicker.ClickerCounter += 1;
-            Uow.ClickerRepository.Update(clicker);
-            Uow.SaveChanges();
-            return clicker;
+            _clicker.ClickerCounter += 1;
+            _unitOfWork.GenericRepository<Clicker, ClickerDbContext>().Update(_clicker);
+            return _clicker;
         }
+
     }
 }

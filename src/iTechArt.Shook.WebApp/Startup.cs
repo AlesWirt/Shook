@@ -14,7 +14,7 @@ namespace iTechArt.Shook.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IGenericUnitOfWork<ClickerDbContext>, GenericUnitOfWork<ClickerDbContext>>();
             services.AddControllersWithViews();
         }
 

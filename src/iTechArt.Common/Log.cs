@@ -47,7 +47,7 @@ namespace iTechArt.Common
             }
             foreach(var log in loggers)
             {
-                log.Log(message, LogLevel.Debug, frameCount, context);
+                log.Log(message, LogLevel.Debug);
             }
         }
 
@@ -59,7 +59,7 @@ namespace iTechArt.Common
             }
             foreach (var log in loggers)
             {
-                log.Log(message, LogLevel.Info, frameCount, context);
+                log.Log(message, LogLevel.Info);
             }
         }
 
@@ -71,7 +71,7 @@ namespace iTechArt.Common
             }
             foreach (var log in loggers)
             {
-                log.Log(message, LogLevel.Warning, frameCount, context);
+                log.Log(message, LogLevel.Warning);
             }
         }
 
@@ -83,7 +83,7 @@ namespace iTechArt.Common
             }
             foreach (var log in loggers)
             {
-                log.Log(message, LogLevel.Error, frameCount, context);
+                log.Log(message, LogLevel.Error);
             }
         }
 
@@ -95,7 +95,7 @@ namespace iTechArt.Common
             }
             foreach (var log in loggers)
             {
-                log.Log(message, LogLevel.Fatal, frameCount, context);
+                log.Log(message, LogLevel.Fatal);
             }
         }
     }

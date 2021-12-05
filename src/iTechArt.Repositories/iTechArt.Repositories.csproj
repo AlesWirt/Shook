@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\iTechArt.Shook.DomainModel\iTechArt.Shook.DomainModel.csproj" />
     <ProjectReference Include="..\iTechArt.Shook.Repositories\iTechArt.Shook.Repositories.csproj" />
   </ItemGroup>

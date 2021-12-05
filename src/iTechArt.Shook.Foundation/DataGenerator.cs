@@ -13,15 +13,15 @@ namespace iTechArt.Shook.Foundation
         {
             var context = new ClickerDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ClickerDbContext>>());
-            using(var uow = new UnitOfWork(context))
+            using(var uow = new GenericUnitOfWork<ClickerDbContext>())
             {
-                uow.ClickerRepository.Add(
+                uow.GenericRepository<Clicker, ClickerDbContext>().Insert(
                     new Clicker()
                     {
                         Id = 1,
                         ClickerCounter = 0
                     });
-                uow.SaveChanges();
+                uow.Save();
             }
         }
     }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace iTechArt.Repositories.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity, TContext> 
+        where TEntity : class
+        where TContext : DbContext, new()
     {
-        T Read(int id);
-        IQueryable<T> ReadAll();
-        void Update(T entity);
-        void Add(T entity);
-        void Delete(T entity);
+        TEntity GetById(object id);
+        IQueryable<TEntity> GetAll();
+        void Update(TEntity entity);
+        void Insert(TEntity entity);
+        void Delete(TEntity entity);
     }
 }
