@@ -1,6 +1,6 @@
 ﻿namespace iTechArt.Common
 {
-    internal enum LogLevel
+    public enum LogLevel
     {
         None,
         Fatal,

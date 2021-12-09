@@ -1,5 +1,4 @@
-﻿using iTechArt.Repositories;
-using iTechArt.Shook.Repositories;
+﻿using iTechArt.Common.Interface;
 using iTechArt.Shook.Foundation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,23 +6,25 @@ namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private ClickerCounter _counter;
+        private IClickerService _service;
+        private ILog _logger;
 
 
-        public HomeController()
+        public HomeController(IClickerService service, ILog logger)
         {
-            _counter = new ClickerCounter();
+            _service = service;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View(_counter.Clicker);
+            return View(_service.GetClicker());
         }
 
         [HttpPost]
         public IActionResult IncreaseClicker()
         {
-            var clicker = _counter.IncreaseClicker();
+            var clicker = _service.Update();
             return View("Index", clicker);
         }
     }

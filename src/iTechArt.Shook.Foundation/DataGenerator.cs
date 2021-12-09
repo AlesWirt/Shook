@@ -9,19 +9,17 @@ namespace iTechArt.Shook.Foundation
 {
     public class DataGenerator
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static void Initialize(ClickerDbContext context)
         {
-            var context = new ClickerDbContext(
-                serviceProvider.GetRequiredService<DbContextOptions<ClickerDbContext>>());
-            using(var uow = new GenericUnitOfWork<ClickerDbContext>())
+            using(var uow = new UnitOfWork<ClickerDbContext>(context))
             {
-                uow.GenericRepository<Clicker, ClickerDbContext>().Insert(
+                uow.GetRepository<Clicker>().Insert(
                     new Clicker()
                     {
                         Id = 1,
                         ClickerCounter = 0
                     });
-                uow.Save();
+                uow.SaveChangesAsync();
             }
         }
     }

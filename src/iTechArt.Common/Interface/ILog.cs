@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Serilog;
 
 namespace iTechArt.Common.Interface
 {
-    internal interface ILog
+    public interface ILog
     {
-        void Log(object message, LogLevel logLevel);
+        public void Log(object message, LogLevel logLevel);
     }
 }

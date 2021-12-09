@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace iTechArt.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        public void SaveChanges();
+        Task<int> SaveChangesAsync();
+        IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
     }
 }
