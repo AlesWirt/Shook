@@ -9,24 +9,38 @@ namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
-        private readonly IUnitOfWork _uow;
+        private readonly DataSeeder _seeder;
         private Clicker _clicker;
 
+
+        public Clicker Clicker { get; }
+
+        public Clicker Insert()
+        {
+            _clicker = new Clicker()
+            {
+                Id = 1,
+                ClickerCounter = 0
+            };
+            _seeder.UnitOfWork.GetRepository<Clicker>().Insert(_clicker);
+            _seeder.UnitOfWork.SaveChangesAsync();
+            return _clicker;
+        }
         public Clicker GetClicker()
         {
-                return _uow
+                return _seeder.UnitOfWork
                 .GetRepository<Clicker>()
                 .GetById((int)1);
         }
         public ClickerService(IUnitOfWork uow)
         {
-            _uow = uow;
+            _seeder = new DataSeeder(uow);
         }
 
         public Clicker Update()
         {
             _clicker.ClickerCounter += 1;
-            _uow.GetRepository<Clicker>().Update(_clicker);
+            _seeder.UnitOfWork.GetRepository<Clicker>().Update(_clicker);
             return _clicker;
         }
 

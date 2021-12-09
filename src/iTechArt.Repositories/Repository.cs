@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace iTechArt.Repositories
 {
@@ -31,14 +32,14 @@ namespace iTechArt.Repositories
             get { return Entities; }
         }
 
-        public virtual TEntity GetById(object id)
+        public virtual async Task<TEntity> GetById(object id)
         {
-            return Entities.Find(id);
+            return await Entities.FindAsync(id);
         }
 
-        public virtual void Insert(TEntity entity)
+        public virtual async void InsertAsync (TEntity entity)
         {
-            Entities.Add(entity);
+            await Entities.AddAsync(entity);
         }
 
         public IEnumerable<TEntity> GetAll()
@@ -46,9 +47,10 @@ namespace iTechArt.Repositories
             return Entities;
         }
 
-        public void Update(TEntity entity)
+        public TEntity UpdateAsync(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Modified;
+            return Entities.Update(entity).Entity;
         }
 
         public virtual void Delete(TEntity entity)
