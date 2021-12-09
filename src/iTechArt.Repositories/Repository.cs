@@ -32,12 +32,12 @@ namespace iTechArt.Repositories
             get { return Entities; }
         }
 
-        public virtual async Task<TEntity> GetById(object id)
+        public virtual async Task<TEntity> GetByIdAsync(object id)
         {
             return await Entities.FindAsync(id);
         }
 
-        public virtual async void InsertAsync (TEntity entity)
+        public virtual async void InsertAsync(TEntity entity)
         {
             await Entities.AddAsync(entity);
         }
@@ -47,7 +47,7 @@ namespace iTechArt.Repositories
             return Entities;
         }
 
-        public TEntity UpdateAsync(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Modified;
             return Entities.Update(entity).Entity;
@@ -55,9 +55,7 @@ namespace iTechArt.Repositories
 
         public virtual void Delete(TEntity entity)
         {
-            
             Entities.Remove(entity);
-            
         }
 
         public void Dispose()

@@ -1,39 +1,48 @@
 ﻿using iTechArt.Common.Interface;
 using Serilog;
+using System;
 using SerLog = Serilog.Core;
 
 namespace iTechArt.Common
 {
     public class Logger : ILog
     {
-        static LoggerConfiguration _configuration = new LoggerConfiguration();
-        public static LogLevel logLevel = LogLevel.Debug;
-        public SerLog.Logger SerLogger;
+        private ILogger _logger;
 
-        public Logger(LoggerConfiguration configuration)
+        
+        public Logger()
         {
-            _configuration = configuration;
-            SerLogger = _configuration.CreateLogger();
+            _logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
         }
 
-        public void Log(object message, LogLevel logLevel)
+        public Logger(string path)
+        {
+            LogToFile(path);
+        }
+
+        private void LogToFile(string path)
+        {
+            _logger = new LoggerConfiguration().WriteTo.File(path).CreateLogger();
+        }
+
+        public void Log(LogLevel logLevel, string message, Exception exception = null)
         {
             switch (logLevel)
             {
                 case LogLevel.Debug:
-                    _configuration.WriteTo.File("Logs\\log.txt", Serilog.Events.LogEventLevel.Debug);
-                    break;
-                case LogLevel.Error:
-                    _configuration.WriteTo.File("Logs\\log.txt", Serilog.Events.LogEventLevel.Error);
-                    break;
-                case LogLevel.Fatal:
-                    _configuration.WriteTo.File("Logs\\log.txt", Serilog.Events.LogEventLevel.Fatal);
+                    _logger.Debug(message);
                     break;
                 case LogLevel.Info:
-                    _configuration.WriteTo.File("Logs\\log.txt", Serilog.Events.LogEventLevel.Information);
+                    _logger.Information(message);
                     break;
                 case LogLevel.Warning:
-                    _configuration.WriteTo.File("Logs\\log.txt", Serilog.Events.LogEventLevel.Warning);
+                    _logger.Warning(message);
+                    break;
+                case LogLevel.Error:
+                    _logger.Error(message, exception);
+                    break;
+                case LogLevel.Fatal:
+                    _logger.Fatal(message, exception);
                     break;
             }
         }

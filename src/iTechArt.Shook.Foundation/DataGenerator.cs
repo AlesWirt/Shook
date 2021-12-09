@@ -13,7 +13,7 @@ namespace iTechArt.Shook.Foundation
         {
             using(var uow = new UnitOfWork<ClickerDbContext>(context))
             {
-                uow.GetRepository<Clicker>().Insert(
+                uow.GetRepository<Clicker>().InsertAsync(
                     new Clicker()
                     {
                         Id = 1,

@@ -1,9 +1,6 @@
 ﻿using iTechArt.Repositories.Interfaces;
 using iTechArt.Shook.Repositories;
 using iTechArt.Shook.DomainModel.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace iTechArt.Shook.Foundation
 {
@@ -22,7 +19,7 @@ namespace iTechArt.Shook.Foundation
                 Id = 1,
                 ClickerCounter = 0
             };
-            _seeder.UnitOfWork.GetRepository<Clicker>().Insert(_clicker);
+            _seeder.UnitOfWork.GetRepository<Clicker>().InsertAsync(_clicker);
             _seeder.UnitOfWork.SaveChangesAsync();
             return _clicker;
         }
@@ -30,7 +27,7 @@ namespace iTechArt.Shook.Foundation
         {
                 return _seeder.UnitOfWork
                 .GetRepository<Clicker>()
-                .GetById((int)1);
+                .GetByIdAsync((int)1).Result;
         }
         public ClickerService(IUnitOfWork uow)
         {
