@@ -1,16 +1,25 @@
 ﻿using iTechArt.Repositories.Interfaces;
-using iTechArt.Shook.Repositories;
 using iTechArt.Shook.DomainModel.Models;
 
 namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
-        private readonly DataSeeder _seeder;
+        private readonly IUnitOfWork _clickerUnitOfWork;
+        
+        
         private Clicker _clicker;
 
 
         public Clicker Clicker { get; }
+
+
+        public ClickerService(IUnitOfWork uow)
+        {
+            _clickerUnitOfWork = uow;
+            _clickerUnitOfWork.GetRepository<Clicker>();
+        }
+
 
         public Clicker Insert()
         {
@@ -19,27 +28,23 @@ namespace iTechArt.Shook.Foundation
                 Id = 1,
                 ClickerCounter = 0
             };
-            _seeder.UnitOfWork.GetRepository<Clicker>().InsertAsync(_clicker);
-            _seeder.UnitOfWork.SaveChangesAsync();
+            _clickerUnitOfWork.GetRepository<Clicker>().CreateAsync(_clicker);
+            _clickerUnitOfWork.SaveChangesAsync();
             return _clicker;
         }
+
         public Clicker GetClicker()
         {
-                return _seeder.UnitOfWork
+                return _clickerUnitOfWork
                 .GetRepository<Clicker>()
                 .GetByIdAsync((int)1).Result;
-        }
-        public ClickerService(IUnitOfWork uow)
-        {
-            _seeder = new DataSeeder(uow);
         }
 
         public Clicker Update()
         {
             _clicker.ClickerCounter += 1;
-            _seeder.UnitOfWork.GetRepository<Clicker>().Update(_clicker);
+            _clickerUnitOfWork.GetRepository<Clicker>().UpdateAsync(_clicker);
             return _clicker;
         }
-
     }
 }

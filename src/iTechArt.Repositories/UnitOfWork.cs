@@ -32,9 +32,9 @@ namespace iTechArt.Repositories
         }
         
 
-        public async Task<int> SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
 
@@ -59,13 +59,14 @@ namespace iTechArt.Repositories
         private IRepository<TEntity> CreateRepository<TEntity>(Type entityType)
             where TEntity : class
         {
-            var repositoryType = typeof(IRepository<TEntity>);
+            var repositoryType = typeof(IRepository<>);
+            var constructed = repositoryType.MakeGenericType(entityType);
 
             var customRepository = Activator.CreateInstance(
-                repositoryType.MakeGenericType(entityType)
-                , _context);
+            constructed, _context);
 
             _repositories.Add(entityType, customRepository);
+            
 
             return (Repository<TEntity>)_repositories[entityType];
         }
