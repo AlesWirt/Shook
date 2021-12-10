@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace iTechArt.Repositories.Interfaces
 {
-    public interface IRepository<TEntity> : IDisposable
+    public interface IRepository<TEntity>
         where TEntity : class
     {
         Task<TEntity> GetByIdAsync(object id);

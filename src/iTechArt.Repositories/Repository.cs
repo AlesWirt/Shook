@@ -12,12 +12,8 @@ namespace iTechArt.Repositories
         protected readonly DbContext _context;
 
 
-        private bool _disposed;
-
-
         public Repository(DbContext context)
         {
-            _disposed = false;
             _context = context;
         }
 
@@ -49,26 +45,6 @@ namespace iTechArt.Repositories
         public virtual async Task DeleteAsync(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-        }
-
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            _disposed = true;
         }
     }
 }

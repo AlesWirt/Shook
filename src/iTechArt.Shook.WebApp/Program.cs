@@ -1,7 +1,9 @@
 using iTechArt.Common;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Settings.Configuration;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -9,10 +11,17 @@ namespace iTechArt.Shook.WebApp
     {
         public static void Main(string[] args)
         {
-            Log.Logger =            
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Logger logger = new Logger(
                 new LoggerConfiguration()
-                .WriteTo.File("Logs\\logs.txt")
-                .CreateLogger();
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger());
+
+            logger.Log(LogLevel.Info, "***Hello, first logger!***");
+
             CreateHostBuilder(args).Build().Run();
         }
 

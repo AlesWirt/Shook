@@ -1,12 +1,16 @@
 ﻿using iTechArt.Repositories.Interfaces;
 using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.Foundation.Units;
+using iTechArt.Shook.Foundation.Repositories;
 
 namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
-        private readonly IUnitOfWork _clickerUnitOfWork;
-        
+        private readonly IClickerUnitOfWork _clickerUnitOfWork;
+
+
+        private readonly ClickerRepository _repository;
         
         private Clicker _clicker;
 
@@ -14,10 +18,10 @@ namespace iTechArt.Shook.Foundation
         public Clicker Clicker { get; }
 
 
-        public ClickerService(IUnitOfWork uow)
+        public ClickerService(IClickerUnitOfWork uow)
         {
             _clickerUnitOfWork = uow;
-            _clickerUnitOfWork.GetRepository<Clicker>();
+            _repository = (ClickerRepository)_clickerUnitOfWork.GetRepository<Clicker>();
         }
 
 
