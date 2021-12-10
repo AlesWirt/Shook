@@ -1,7 +1,6 @@
 ﻿using iTechArt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,53 +9,48 @@ namespace iTechArt.Repositories
     public class Repository<TEntity> : IRepository<TEntity> 
         where TEntity : class
     {
-        private DbSet<TEntity> _entities;
+        protected readonly DbContext _context;
+
+
         private bool _disposed;
-        
 
-        protected virtual DbSet<TEntity> Entities
-        {
-            get { return _entities ?? (_entities = Context.Set<TEntity>()); }
-        }
-
-        public DbContext Context { get; set; }
 
         public Repository(DbContext context)
         {
             _disposed = false;
-            Context = context;
+            _context = context;
         }
 
-        public virtual IQueryable<TEntity> Table
-        {
-            get { return Entities; }
-        }
 
         public virtual async Task<TEntity> GetByIdAsync(object id)
         {
-            return await Entities.FindAsync(id);
+            return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public virtual async void InsertAsync(TEntity entity)
+
+        public virtual async void CreateAsync(TEntity entity)
         {
-            await Entities.AddAsync(entity);
+            await _context.Set<TEntity>().AddAsync(entity);
         }
 
-        public IEnumerable<TEntity> GetAll()
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return Entities;
+            return _context.Set<TEntity>();
         }
 
-        public TEntity Update(TEntity entity)
+
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            Context.Entry(entity).State = EntityState.Modified;
-            return Entities.Update(entity).Entity;
+            return _context.Set<TEntity>().Update(entity).Entity;
         }
 
-        public virtual void Delete(TEntity entity)
+
+        public virtual async Task DeleteAsync(TEntity entity)
         {
-            Entities.Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
         }
+
 
         public void Dispose()
         {
@@ -64,13 +58,14 @@ namespace iTechArt.Repositories
             GC.SuppressFinalize(this);
         }
 
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
             {
                 if (disposing)
                 {
-                    Context.Dispose();
+                    _context.Dispose();
                 }
             }
             _disposed = true;

@@ -8,9 +8,9 @@ namespace iTechArt.Repositories.Interfaces
         where TEntity : class
     {
         Task<TEntity> GetByIdAsync(object id);
-        IEnumerable<TEntity> GetAll();
-        TEntity Update(TEntity entity);
-        void InsertAsync(TEntity entity);
-        void Delete(TEntity entity);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<TEntity> UpdateAsync(TEntity entity);
+        void CreateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
     }
 }
