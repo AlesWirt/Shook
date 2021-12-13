@@ -48,7 +48,7 @@ namespace iTechArt.Shook.Foundation
         {
             _clicker = GetClicker();
             _clicker.ClickerCounter += 1;
-            _clickerUnitOfWork.GetRepository<Clicker>().UpdateAsync(_clicker);
+            _clickerUnitOfWork.GetRepository<Clicker>().Update(_clicker);
             _clickerUnitOfWork.SaveChangesAsync();
             return _clicker;
         }

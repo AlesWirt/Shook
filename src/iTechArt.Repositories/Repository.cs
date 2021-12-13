@@ -22,31 +22,32 @@ namespace iTechArt.Repositories
         }
 
 
-        public virtual async Task<TEntity> GetByIdAsync(object id)
+        public async Task<TEntity> GetByIdAsync(params object[] id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
 
-        public virtual async void CreateAsync(TEntity entity)
+        public async Task CreateAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
         }
 
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public IReadOnlyCollection<TEntity> GetAllAsync()
         {
-            return _context.Set<TEntity>();
+            
+            return (IReadOnlyCollection<TEntity>)_context.Set<TEntity>().ToListAsync();
         }
 
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
+        public void Update(TEntity entity)
         {
-            return _context.Set<TEntity>().Update(entity).Entity;
+            _context.Set<TEntity>().Update(entity);
         }
 
 
-        public virtual async Task DeleteAsync(TEntity entity)
+        public virtual void DeleteAsync(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
         }

@@ -6,14 +6,14 @@ namespace iTechArt.Repositories.Interfaces
     public interface IRepository<TEntity>
         where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(object id);
+        Task<TEntity> GetByIdAsync(params object[] id);
 
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        IReadOnlyCollection<TEntity> GetAllAsync();
 
-        Task<TEntity> UpdateAsync(TEntity entity);
+        void Update(TEntity entity);
 
-        void CreateAsync(TEntity entity);
+        Task CreateAsync(TEntity entity);
 
-        Task DeleteAsync(TEntity entity);
+        void DeleteAsync(TEntity entity);
     }
 }
