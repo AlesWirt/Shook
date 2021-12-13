@@ -1,27 +1,27 @@
-﻿using iTechArt.Repositories.Interfaces;
-using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.Foundation.Units;
-using iTechArt.Shook.Foundation.Repositories;
+﻿using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.Repositories.Units;
+using iTechArt.Common;
 
 namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
-        private readonly IClickerUnitOfWork _clickerUnitOfWork;
+        private ILog _logger;
 
-
-        private readonly ClickerRepository _repository;
         
+        private readonly IClickerUnitOfWork _clickerUnitOfWork;
+        
+
         private Clicker _clicker;
 
 
         public Clicker Clicker { get; }
 
 
-        public ClickerService(IClickerUnitOfWork uow)
+        public ClickerService(IClickerUnitOfWork uow, ILog logger)
         {
             _clickerUnitOfWork = uow;
-            _repository = (ClickerRepository)_clickerUnitOfWork.GetRepository<Clicker>();
+            _logger = logger;
         }
 
 
@@ -44,10 +44,12 @@ namespace iTechArt.Shook.Foundation
                 .GetByIdAsync((int)1).Result;
         }
 
-        public Clicker Update()
+        public Clicker Update(int id = 1)
         {
+            _clicker = GetClicker();
             _clicker.ClickerCounter += 1;
             _clickerUnitOfWork.GetRepository<Clicker>().UpdateAsync(_clicker);
+            _clickerUnitOfWork.SaveChangesAsync();
             return _clicker;
         }
     }

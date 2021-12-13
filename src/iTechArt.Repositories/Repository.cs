@@ -1,6 +1,6 @@
-﻿using iTechArt.Repositories.Interfaces;
+﻿using iTechArt.Common;
+using iTechArt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,9 +12,13 @@ namespace iTechArt.Repositories
         protected readonly DbContext _context;
 
 
-        public Repository(DbContext context)
+        private ILog _logger;
+
+
+        public Repository(DbContext context, ILog logger)
         {
             _context = context;
+            _logger = logger;
         }
 
 

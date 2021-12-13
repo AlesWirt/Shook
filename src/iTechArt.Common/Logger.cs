@@ -1,5 +1,4 @@
-﻿using iTechArt.Common.Interface;
-using Serilog;
+﻿using Serilog;
 using System;
 
 namespace iTechArt.Common

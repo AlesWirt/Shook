@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
     <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
     <ProjectReference Include="..\iTechArt.Shook.DomainModel\iTechArt.Shook.DomainModel.csproj" />
   </ItemGroup>

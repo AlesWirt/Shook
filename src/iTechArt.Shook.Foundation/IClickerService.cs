@@ -6,6 +6,6 @@ namespace iTechArt.Shook.Foundation
     {
         public Clicker Insert();
         public Clicker GetClicker();
-        public Clicker Update();
+        public Clicker Update(int id = 1);
     }
 }

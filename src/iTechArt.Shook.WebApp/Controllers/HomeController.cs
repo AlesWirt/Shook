@@ -1,5 +1,4 @@
 ﻿using iTechArt.Common;
-using iTechArt.Common.Interface;
 using iTechArt.Shook.Foundation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,16 +18,18 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         public IActionResult Index()
         {
-            _logger.Log(LogLevel.Info, "Clicker view", null);
+            _logger.Log(LogLevel.Info, "Clicker view");
+            _service.Insert();
+
             return View(_service.GetClicker());
         }
 
         [HttpPost]
         public IActionResult IncreaseClicker()
         {
-            _logger.Log(LogLevel.Info, "Clicker increased", null);
-            var clicker = _service.Update();
-            return View("Index", clicker);
+            _logger.Log(LogLevel.Info, "Clicker increased");
+            
+            return View("Index", _service.Update());
         }
     }
 }
