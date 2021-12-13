@@ -7,6 +7,8 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class HomeController : Controller
     {
         private IClickerService _service;
+
+
         private ILog _logger;
 
 
@@ -23,6 +25,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             return View(_service.GetClicker());
         }
+
 
         [HttpPost]
         public IActionResult IncreaseClicker()

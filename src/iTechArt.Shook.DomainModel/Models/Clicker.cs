@@ -3,6 +3,8 @@
     public class Clicker
     {
         public int Id { get; set; }
+
+
         public int ClickerCounter { get; set; }
     }
 }

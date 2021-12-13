@@ -11,6 +11,7 @@ namespace iTechArt.Repositories
         where TContext : DbContext
     {
         private ILog _logger;
+
         
         protected TContext _context;
 

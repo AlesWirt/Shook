@@ -34,6 +34,7 @@ namespace iTechArt.Shook.Foundation
             };
             _clickerUnitOfWork.GetRepository<Clicker>().CreateAsync(_clicker);
             _clickerUnitOfWork.SaveChangesAsync();
+
             return _clicker;
         }
 
@@ -50,6 +51,7 @@ namespace iTechArt.Shook.Foundation
             _clicker.ClickerCounter += 1;
             _clickerUnitOfWork.GetRepository<Clicker>().Update(_clicker);
             _clickerUnitOfWork.SaveChangesAsync();
+
             return _clicker;
         }
     }
