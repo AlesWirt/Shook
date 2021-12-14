@@ -10,10 +10,10 @@ namespace iTechArt.Repositories
     public class UnitOfWork<TContext> : IUnitOfWork
         where TContext : DbContext
     {
-        private ILog _logger;
+        private readonly ILog _logger;
 
         
-        private readonly TContext _context;
+        protected TContext Context { get; }
 
 
         private bool _disposed;
@@ -25,7 +25,7 @@ namespace iTechArt.Repositories
 
         public UnitOfWork(TContext context, ILog logger)
         {
-            _context = context;
+            Context = context;
             _logger = logger;
             _repositories = new Dictionary<Type, object>();
             _registeredRepo = new Dictionary<Type, Type>();
@@ -34,7 +34,7 @@ namespace iTechArt.Repositories
 
         public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
 
 
@@ -49,6 +49,7 @@ namespace iTechArt.Repositories
             }
             
             var createdRepository = CreateRepository<TEntity>();
+            _repositories.Add(entityType, createdRepository);
 
             return createdRepository;
         }
@@ -60,19 +61,18 @@ namespace iTechArt.Repositories
 
             if (!_registeredRepo.TryGetValue(entityType, out var repositoryType))
             {
-
+                return new Repository<TEntity>(Context, _logger);
             }
 
             var customRepository = Activator.CreateInstance(
-                repositoryType, _context, _logger);
-
-            _repositories.Add(entityType, customRepository);
+                repositoryType, Context, _logger);
 
             return (IRepository<TEntity>)customRepository;
         }
 
         protected void RegisterRepository<TEntity, TRepository>()
             where TEntity : class
+            where TRepository : IRepository<TEntity>
         {
             _registeredRepo.Add(typeof(TEntity), typeof(TRepository));
         }
@@ -89,7 +89,7 @@ namespace iTechArt.Repositories
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    Context.Dispose();
                 }
             }
             _disposed = true;

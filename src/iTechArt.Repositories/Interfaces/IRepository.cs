@@ -6,7 +6,7 @@ namespace iTechArt.Repositories.Interfaces
     public interface IRepository<TEntity>
         where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(params object[] id);
+        Task<TEntity> GetByIdAsync(params object[] values);
 
         Task<IReadOnlyCollection<TEntity>> GetAllAsync();
 
@@ -14,6 +14,6 @@ namespace iTechArt.Repositories.Interfaces
 
         Task CreateAsync(TEntity entity);
 
-        void DeleteAsync(TEntity entity);
+        void Delete(TEntity entity);
     }
 }

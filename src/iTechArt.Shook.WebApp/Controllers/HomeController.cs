@@ -1,5 +1,6 @@
 ﻿using iTechArt.Common;
 using iTechArt.Shook.Foundation;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.Shook.WebApp.Controllers
@@ -18,21 +19,21 @@ namespace iTechArt.Shook.WebApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             _logger.Log(LogLevel.Info, "Launching Index view.");
-            _service.Insert();
+            await _service.InsertAsync();
 
-            return View(_service.GetClicker());
+            return View(await _service.GetClickerAsync());
         }
 
 
         [HttpPost]
-        public IActionResult IncreaseClicker()
+        public async Task<IActionResult> IncreaseClicker()
         {
             _logger.Log(LogLevel.Info, "Clicker increased");
             
-            return View("Index", _service.Update());
+            return View("Index", await _service.UpdateAsync());
         }
     }
 }

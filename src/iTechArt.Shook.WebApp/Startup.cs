@@ -30,9 +30,7 @@ namespace iTechArt.Shook.WebApp
         {
             services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
             services.AddSingleton<ILog, Logger>();
-            services.AddScoped<IUnitOfWork, UnitOfWork<ClickerDbContext>>();
             services.AddScoped<IClickerUnitOfWork, ClickerUnitOfWork>();
-            services.AddScoped<IClickerRepository, ClickerRepository>();
             services.AddScoped<IClickerService, ClickerService>();
             services.AddControllersWithViews();
         }

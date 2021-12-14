@@ -1,12 +1,13 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.Units;
 using iTechArt.Common;
+using System.Threading.Tasks;
 
 namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
-        private ILog _logger;
+        private readonly ILog _logger;
 
         
         private readonly IClickerUnitOfWork _clickerUnitOfWork;
@@ -25,7 +26,7 @@ namespace iTechArt.Shook.Foundation
         }
 
 
-        public Clicker Insert()
+        public async Task<Clicker> InsertAsync()
         {
             _logger.Log(LogLevel.Info, "Inserting Clicker entity into In-Memory database");
             _clicker = new Clicker()
@@ -33,25 +34,26 @@ namespace iTechArt.Shook.Foundation
                 Id = 1,
                 ClickerCounter = 0
             };
-            _clickerUnitOfWork.ClickerRepository.CreateAsync(_clicker);
-            _clickerUnitOfWork.SaveChangesAsync();
+
+            await _clickerUnitOfWork.ClickerRepository.CreateAsync(_clicker);
+            await _clickerUnitOfWork.SaveChangesAsync();
 
             return _clicker;
         }
 
-        public Clicker GetClicker()
+        public async Task<Clicker> GetClickerAsync()
         {
                 return _clickerUnitOfWork
                 .ClickerRepository
                 .GetByIdAsync((int)1).Result;
         }
 
-        public Clicker Update(int id = 1)
+        public async Task<Clicker> UpdateAsync(int id = 1)
         {
-            _clicker = GetClicker();
+            _clicker = GetClickerAsync().Result;
             _clicker.ClickerCounter += 1;
             _clickerUnitOfWork.ClickerRepository.Update(_clicker);
-            _clickerUnitOfWork.SaveChangesAsync();
+            await _clickerUnitOfWork.SaveChangesAsync();
 
             return _clicker;
         }

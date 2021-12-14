@@ -1,13 +1,14 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
+using System.Threading.Tasks;
 
 namespace iTechArt.Shook.Foundation
 {
     public interface IClickerService
     {
-        public Clicker Insert();
+        public Task<Clicker>InsertAsync();
 
-        public Clicker GetClicker();
+        public Task<Clicker> GetClickerAsync();
 
-        public Clicker Update(int id = 1);
+        public Task<Clicker> UpdateAsync(int id = 1);
     }
 }

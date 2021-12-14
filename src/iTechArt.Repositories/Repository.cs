@@ -10,56 +10,50 @@ namespace iTechArt.Repositories
     public class Repository<TEntity> : IRepository<TEntity> 
         where TEntity : class
     {
-        protected readonly DbContext _context;
+        private readonly ILog _logger;
 
 
-        private ILog _logger;
+        protected DbContext Context { get; }
 
 
         public Repository(DbContext context, ILog logger)
         {
-            _context = context;
+            Context = context;
             _logger = logger;
         }
 
 
-        public async Task<TEntity> GetByIdAsync(params object[] id)
+        public async Task<TEntity> GetByIdAsync(params object[] values)
         {
-            _logger.Log(LogLevel.Debug, "Getting Clicker object");
-            return await _context.Set<TEntity>().FindAsync(id);
+            _logger.LogDebug($"Getting entity. {typeof(TEntity).Name}.");
+            return await Context.Set<TEntity>().FindAsync(values);
         }
 
 
         public async Task CreateAsync(TEntity entity)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
+            await Context.Set<TEntity>().AddAsync(entity);
         }
 
 
         public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
         {
-            
-            return await _context.Set<TEntity>().ToListAsync();
+            _logger.LogInformation($"Get all entities of the type {typeof(TEntity).Name}.");
+            return await Context.Set<TEntity>().ToListAsync();
         }
 
 
         public void Update(TEntity entity)
         {
-            try
-            {
-                _logger.Log(LogLevel.Info, "Update Clicker.");
-                _context.Set<TEntity>().Update(entity);
-            }
-            catch(Exception ex)
-            {
-                _logger.Log(LogLevel.Error, "Something went wrong in Update method!", ex);
-            }
+            _logger.LogInformation($"Update entity. The enityt name: {typeof(TEntity).Name}.");
+            Context.Set<TEntity>().Update(entity);
         }
 
 
-        public virtual void DeleteAsync(TEntity entity)
+        public void Delete(TEntity entity)
         {
-            _context.Set<TEntity>().Remove(entity);
+            _logger.LogInformation($"Delete entity. The enityt name: {typeof(TEntity).Name}.");
+            Context.Set<TEntity>().Remove(entity);
         }
     }
 }
