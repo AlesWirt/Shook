@@ -8,7 +8,7 @@ namespace iTechArt.Repositories.Interfaces
     {
         Task<TEntity> GetByIdAsync(params object[] id);
 
-        IReadOnlyCollection<TEntity> GetAllAsync();
+        Task<IReadOnlyCollection<TEntity>> GetAllAsync();
 
         void Update(TEntity entity);
 

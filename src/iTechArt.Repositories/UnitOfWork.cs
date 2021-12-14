@@ -13,20 +13,19 @@ namespace iTechArt.Repositories
         private ILog _logger;
 
         
-        protected TContext _context;
+        private readonly TContext _context;
 
 
         private bool _disposed;
 
 
         protected Dictionary<Type, object> _repositories;
-
-
         protected Dictionary<Type, Type> _registeredRepo;
 
 
-        public UnitOfWork(ILog logger)
+        public UnitOfWork(TContext context, ILog logger)
         {
+            _context = context;
             _logger = logger;
             _repositories = new Dictionary<Type, object>();
             _registeredRepo = new Dictionary<Type, Type>();
@@ -48,38 +47,34 @@ namespace iTechArt.Repositories
             {
                 return (IRepository<TEntity>)repositoryObject;
             }
-            else
-            {
-                CreateRepository<TEntity>();
-            }
             
+            var createdRepository = CreateRepository<TEntity>();
 
-            return (IRepository<TEntity>)_repositories[entityType];
+            return createdRepository;
         }
 
-        protected virtual IRepository<TEntity> CreateRepository<TEntity>()
+        private IRepository<TEntity> CreateRepository<TEntity>()
             where TEntity : class
         {
             var entityType = typeof(TEntity);
+
             if (!_registeredRepo.TryGetValue(entityType, out var repositoryType))
             {
-                repositoryType = RegisterRepository<TEntity>();
+
             }
 
             var customRepository = Activator.CreateInstance(
-            repositoryType, _context, _logger );
+                repositoryType, _context, _logger);
 
             _repositories.Add(entityType, customRepository);
 
-            return (Repository<TEntity>)_repositories[entityType];
+            return (IRepository<TEntity>)customRepository;
         }
 
-        protected virtual Type RegisterRepository<TEntity>()
+        protected void RegisterRepository<TEntity, TRepository>()
             where TEntity : class
         {
-            _registeredRepo.Add(typeof(TEntity), typeof(IRepository<>));
-
-            return _registeredRepo[typeof(TEntity)];
+            _registeredRepo.Add(typeof(TEntity), typeof(TRepository));
         }
 
         public void Dispose()

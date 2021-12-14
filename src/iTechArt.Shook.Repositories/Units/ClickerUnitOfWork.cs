@@ -9,23 +9,13 @@ namespace iTechArt.Shook.Repositories.Units
 {
     public class ClickerUnitOfWork : UnitOfWork<ClickerDbContext>, IClickerUnitOfWork
     {
-        public IClickerRepository ClickerRepository { get; }
+        public IClickerRepository ClickerRepository => (IClickerRepository)GetRepository<Clicker>();
 
 
         public ClickerUnitOfWork(ClickerDbContext context, ILog logger)
-            : base(logger)
+            : base(context, logger)
         {
-            _context = context;
-            ClickerRepository = (IClickerRepository)GetRepository<Clicker>();
-        }
-
-
-        protected override Type RegisterRepository<TEntity>()
-            where TEntity : class
-        {
-            _registeredRepo.Add(typeof(TEntity), typeof(ClickerRepository));
-
-            return _registeredRepo[typeof(TEntity)];
+            RegisterRepository<Clicker, ClickerRepository>();
         }
     }
 }

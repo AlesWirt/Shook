@@ -20,7 +20,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         public IActionResult Index()
         {
-            _logger.Log(LogLevel.Info, "Clicker view");
+            _logger.Log(LogLevel.Info, "Launching Index view.");
             _service.Insert();
 
             return View(_service.GetClicker());

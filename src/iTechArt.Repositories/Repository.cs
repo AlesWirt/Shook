@@ -3,6 +3,7 @@ using iTechArt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace iTechArt.Repositories
 {
@@ -24,6 +25,7 @@ namespace iTechArt.Repositories
 
         public async Task<TEntity> GetByIdAsync(params object[] id)
         {
+            _logger.Log(LogLevel.Debug, "Getting Clicker object");
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
@@ -34,16 +36,24 @@ namespace iTechArt.Repositories
         }
 
 
-        public IReadOnlyCollection<TEntity> GetAllAsync()
+        public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
         {
             
-            return (IReadOnlyCollection<TEntity>)_context.Set<TEntity>().ToListAsync();
+            return await _context.Set<TEntity>().ToListAsync();
         }
 
 
         public void Update(TEntity entity)
         {
-            _context.Set<TEntity>().Update(entity);
+            try
+            {
+                _logger.Log(LogLevel.Info, "Update Clicker.");
+                _context.Set<TEntity>().Update(entity);
+            }
+            catch(Exception ex)
+            {
+                _logger.Log(LogLevel.Error, "Something went wrong in Update method!", ex);
+            }
         }
 
 

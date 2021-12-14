@@ -27,12 +27,13 @@ namespace iTechArt.Shook.Foundation
 
         public Clicker Insert()
         {
+            _logger.Log(LogLevel.Info, "Inserting Clicker entity into In-Memory database");
             _clicker = new Clicker()
             {
                 Id = 1,
                 ClickerCounter = 0
             };
-            _clickerUnitOfWork.GetRepository<Clicker>().CreateAsync(_clicker);
+            _clickerUnitOfWork.ClickerRepository.CreateAsync(_clicker);
             _clickerUnitOfWork.SaveChangesAsync();
 
             return _clicker;
@@ -41,7 +42,7 @@ namespace iTechArt.Shook.Foundation
         public Clicker GetClicker()
         {
                 return _clickerUnitOfWork
-                .GetRepository<Clicker>()
+                .ClickerRepository
                 .GetByIdAsync((int)1).Result;
         }
 
@@ -49,7 +50,7 @@ namespace iTechArt.Shook.Foundation
         {
             _clicker = GetClicker();
             _clicker.ClickerCounter += 1;
-            _clickerUnitOfWork.GetRepository<Clicker>().Update(_clicker);
+            _clickerUnitOfWork.ClickerRepository.Update(_clicker);
             _clickerUnitOfWork.SaveChangesAsync();
 
             return _clicker;

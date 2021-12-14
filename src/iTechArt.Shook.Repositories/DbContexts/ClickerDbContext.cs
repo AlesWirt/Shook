@@ -10,7 +10,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
 
         public ClickerDbContext(DbContextOptions<ClickerDbContext> options) : base(options)
         {
-
+            
         }
     }
 }
