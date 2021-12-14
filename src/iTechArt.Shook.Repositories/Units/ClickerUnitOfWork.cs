@@ -15,6 +15,7 @@ namespace iTechArt.Shook.Repositories.Units
         public ClickerUnitOfWork(ClickerDbContext context, ILog logger)
             : base(context, logger)
         {
+            _logger.Log(LogLevel.Debug, "Registering logger in ClickerUnitOfWork constructor.");
             RegisterRepository<Clicker, ClickerRepository>();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using Serilog.Events;
 using System;
 
 namespace iTechArt.Common
@@ -16,46 +17,12 @@ namespace iTechArt.Common
 
         public void Log(LogLevel logLevel, string message, Exception exception)
         {
-            switch (logLevel)
-            {
-                case LogLevel.Debug:
-                    _logger.Debug(message);
-                    break;
-                case LogLevel.Info:
-                    _logger.Information(message);
-                    break;
-                case LogLevel.Warning:
-                    _logger.Warning(message);
-                    break;
-                case LogLevel.Error:
-                    _logger.Error(message, exception);
-                    break;
-                case LogLevel.Fatal:
-                    _logger.Fatal(message, exception);
-                    break;
-            }
+            _logger.Write((LogEventLevel)logLevel, exception, message);
         }
 
         public void Log(LogLevel logLevel, string message)
         {
-            switch (logLevel)
-            {
-                case LogLevel.Debug:
-                    _logger.Debug(message);
-                    break;
-                case LogLevel.Info:
-                    _logger.Information(message);
-                    break;
-                case LogLevel.Warning:
-                    _logger.Warning(message);
-                    break;
-                case LogLevel.Error:
-                    _logger.Error(message);
-                    break;
-                case LogLevel.Fatal:
-                    _logger.Fatal(message);
-                    break;
-            }
+            _logger.Write((LogEventLevel)logLevel, message);
         }
     }
 }
