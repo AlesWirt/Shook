@@ -5,10 +5,10 @@ namespace iTechArt.Shook.Foundation
 {
     public interface IClickerService
     {
-        public Task<Clicker>InsertAsync();
+        public Task InsertAsync(Clicker clickerEntity);
 
-        public Task<Clicker> GetClickerAsync();
+        public Task<Clicker> GetClickerAsync(params object[] values);
 
-        public Task<Clicker> UpdateAsync(int id = 1);
+        public Task UpdateAsync(Clicker clickerEntity);
     }
 }

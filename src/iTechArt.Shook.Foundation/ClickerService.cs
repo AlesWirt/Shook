@@ -11,9 +11,6 @@ namespace iTechArt.Shook.Foundation
 
         
         private readonly IClickerUnitOfWork _clickerUnitOfWork;
-        
-
-        private Clicker _clicker;
 
 
         public Clicker Clicker { get; }
@@ -26,36 +23,24 @@ namespace iTechArt.Shook.Foundation
         }
 
 
-        public async Task<Clicker> InsertAsync()
+        public async Task InsertAsync(Clicker clickerEntity)
         {
             _logger.Log(LogLevel.Info, "Inserting Clicker entity into In-Memory database");
-            _clicker = new Clicker()
-            {
-                Id = 1,
-                ClickerCounter = 0
-            };
-
-            await _clickerUnitOfWork.ClickerRepository.CreateAsync(_clicker);
+            await _clickerUnitOfWork.ClickerRepository.CreateAsync(clickerEntity);
             await _clickerUnitOfWork.SaveChangesAsync();
-
-            return _clicker;
         }
 
-        public async Task<Clicker> GetClickerAsync()
+        public async Task<Clicker> GetClickerAsync(params object[] values)
         {
-                return _clickerUnitOfWork
+                return await _clickerUnitOfWork
                 .ClickerRepository
-                .GetByIdAsync((int)1).Result;
+                .GetByIdAsync(values);
         }
 
-        public async Task<Clicker> UpdateAsync(int id = 1)
+        public async Task UpdateAsync(Clicker clickerEntity)
         {
-            _clicker = GetClickerAsync().Result;
-            _clicker.ClickerCounter += 1;
-            _clickerUnitOfWork.ClickerRepository.Update(_clicker);
+            _clickerUnitOfWork.ClickerRepository.Update(clickerEntity);
             await _clickerUnitOfWork.SaveChangesAsync();
-
-            return _clicker;
         }
     }
 }
