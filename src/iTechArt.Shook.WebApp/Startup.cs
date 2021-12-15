@@ -1,9 +1,6 @@
 using iTechArt.Common;
-using iTechArt.Repositories;
-using iTechArt.Repositories.Interfaces;
 using iTechArt.Shook.Repositories.DbContexts;
 using iTechArt.Shook.Repositories.Units;
-using iTechArt.Shook.Repositories.Repositories;
 using iTechArt.Shook.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
