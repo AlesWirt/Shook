@@ -11,13 +11,10 @@ namespace iTechArt.Repositories
         where TContext : DbContext
     {
         private readonly ILog _logger;
-
         
         private TContext DbContext { get; }
 
-
         private bool _disposed;
-
 
         private readonly Dictionary<Type, object> _repositories;
         private readonly Dictionary<Type, Type> _registeredRepo;

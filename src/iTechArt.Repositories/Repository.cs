@@ -11,7 +11,6 @@ namespace iTechArt.Repositories
     {
         private readonly ILog _logger;
 
-
         private DbContext DbContext { get; }
 
 
