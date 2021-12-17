@@ -21,9 +21,9 @@ namespace iTechArt.Shook.WebApp
                     .AddJsonFile("appsettings.json")
                     .Build());
             })
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
