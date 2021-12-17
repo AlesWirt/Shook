@@ -9,7 +9,6 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly IClickerService _service;
-
         private readonly ILog _logger;
 
 
@@ -32,7 +31,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> IncreaseClicker()
         {
-            _logger.Log(LogLevel.Info, "Clicker increased");
+            _logger.LogInformation("Clicker increased");
             var clicker = await _service.GetClickerAsync(1);
             ++clicker.Counter;
             await _service.UpdateAsync(clicker);

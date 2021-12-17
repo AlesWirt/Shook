@@ -11,12 +11,12 @@ namespace iTechArt.Repositories
     {
         private readonly ILog _logger;
 
-        private DbContext DbContext { get; }
+        protected DbContext _dbContext { get; }
 
 
         public Repository(DbContext context, ILog logger)
         {
-            DbContext = context;
+            _dbContext = context;
             _logger = logger;
         }
 
@@ -24,30 +24,30 @@ namespace iTechArt.Repositories
         public async Task<TEntity> GetByIdAsync(params object[] values)
         {
             _logger.LogDebug($"Getting entity {typeof(TEntity).Name}.");
-            return await DbContext.Set<TEntity>().FindAsync(values);
+            return await _dbContext.Set<TEntity>().FindAsync(values);
         }
 
         public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
         {
             _logger.LogInformation($"Get all entities of the type {typeof(TEntity).Name}.");
-            return await DbContext.Set<TEntity>().ToListAsync();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
         public void Update(TEntity entity)
         {
             _logger.LogInformation($"Update entity. The enityt name: {typeof(TEntity).Name}.");
-            DbContext.Set<TEntity>().Update(entity);
+            _dbContext.Set<TEntity>().Update(entity);
         }
 
         public async Task CreateAsync(TEntity entity)
         {
-            await DbContext.Set<TEntity>().AddAsync(entity);
+            await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
         public void Delete(TEntity entity)
         {
             _logger.LogInformation($"Delete entity. The enityt name: {typeof(TEntity).Name}.");
-            DbContext.Set<TEntity>().Remove(entity);
+            _dbContext.Set<TEntity>().Remove(entity);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace iTechArt.Shook.Foundation
     {
         public Task InsertAsync(Clicker clickerEntity);
 
-        public Task<Clicker> GetClickerAsync(params object[] values);
+        public Task<Clicker> GetClickerAsync(int id);
 
         public Task UpdateAsync(Clicker clickerEntity);
     }

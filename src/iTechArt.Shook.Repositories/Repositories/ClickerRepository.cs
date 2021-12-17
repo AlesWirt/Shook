@@ -8,7 +8,7 @@ namespace iTechArt.Shook.Repositories.Repositories
     public class ClickerRepository : Repository<Clicker>, IClickerRepository
     {
         public ClickerRepository(ClickerDbContext context, ILog logger)
-            :base(context, logger)
+            : base(context, logger)
         {
 
         }

@@ -11,9 +11,7 @@ namespace iTechArt.Repositories
         where TContext : DbContext
     {
         private readonly ILog _logger;
-        
-        private TContext DbContext { get; }
-
+        private TContext _dbContext;
         private bool _disposed;
 
         private readonly Dictionary<Type, object> _repositories;
@@ -22,7 +20,7 @@ namespace iTechArt.Repositories
 
         public UnitOfWork(TContext context, ILog logger)
         {
-            DbContext = context;
+            _dbContext = context;
             _logger = logger;
             _repositories = new Dictionary<Type, object>();
             _registeredRepo = new Dictionary<Type, Type>();
@@ -31,7 +29,7 @@ namespace iTechArt.Repositories
 
         public async Task SaveChangesAsync()
         {
-            await DbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -56,6 +54,7 @@ namespace iTechArt.Repositories
             return createdRepository;
         }
 
+
         protected void RegisterRepository<TEntity, TRepository>()
             where TEntity : class
             where TRepository : IRepository<TEntity>
@@ -69,11 +68,12 @@ namespace iTechArt.Repositories
             {
                 if (disposing)
                 {
-                    DbContext.Dispose();
+                    _dbContext.Dispose();
                 }
             }
             _disposed = true;
         }
+
 
         private IRepository<TEntity> CreateRepository<TEntity>()
             where TEntity : class
@@ -82,11 +82,11 @@ namespace iTechArt.Repositories
 
             if (!_registeredRepo.TryGetValue(entityType, out var repositoryType))
             {
-                return new Repository<TEntity>(DbContext, _logger);
+                return new Repository<TEntity>(_dbContext, _logger);
             }
 
             var customRepository = Activator.CreateInstance(
-                repositoryType, DbContext, _logger);
+                repositoryType, _dbContext, _logger);
 
             return (IRepository<TEntity>)customRepository;
         }

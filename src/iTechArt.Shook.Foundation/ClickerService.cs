@@ -2,17 +2,14 @@
 using iTechArt.Shook.Repositories.Units;
 using iTechArt.Common;
 using System.Threading.Tasks;
+using System;
 
 namespace iTechArt.Shook.Foundation
 {
     public class ClickerService : IClickerService
     {
         private readonly ILog _logger;
-        
         private readonly IClickerUnitOfWork _clickerUnitOfWork;
-
-
-        public Clicker Clicker { get; }
 
 
         public ClickerService(IClickerUnitOfWork uow, ILog logger)
@@ -29,11 +26,21 @@ namespace iTechArt.Shook.Foundation
             await _clickerUnitOfWork.SaveChangesAsync();
         }
 
-        public async Task<Clicker> GetClickerAsync(params object[] values)
+        public async Task<Clicker> GetClickerAsync(int id)
         {
-                return await _clickerUnitOfWork
-                .ClickerRepository
-                .GetByIdAsync(values);
+
+            var clicker =  await _clickerUnitOfWork
+            .ClickerRepository
+            .GetByIdAsync(id);
+
+            if(clicker == null)
+            {
+                var error =  new ArgumentNullException();
+                _logger.LogError($"{typeof(ClickerService).GetMethod("GetClikcerAsync").Name} method get wrong id number", error);
+                throw error;
+            }
+
+            return clicker;
         }
 
         public async Task UpdateAsync(Clicker clickerEntity)
