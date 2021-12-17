@@ -8,7 +8,6 @@ namespace iTechArt.Shook.Foundation
     public class ClickerService : IClickerService
     {
         private readonly ILog _logger;
-
         
         private readonly IClickerUnitOfWork _clickerUnitOfWork;
 
@@ -25,7 +24,7 @@ namespace iTechArt.Shook.Foundation
 
         public async Task InsertAsync(Clicker clickerEntity)
         {
-            _logger.Log(LogLevel.Info, "Inserting Clicker entity into In-Memory database");
+            _logger.LogInformation("Inserting Clicker entity into In-Memory database");
             await _clickerUnitOfWork.ClickerRepository.CreateAsync(clickerEntity);
             await _clickerUnitOfWork.SaveChangesAsync();
         }
