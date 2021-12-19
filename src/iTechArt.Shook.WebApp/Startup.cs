@@ -31,6 +31,8 @@ namespace iTechArt.Shook.WebApp
                 (options => options.UseSqlServer
                 (Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<ILog, Logger>();
+            services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
+            services.AddScoped<IUserService, UserService>();
             services.AddControllersWithViews();
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
         }
