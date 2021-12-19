@@ -50,6 +50,9 @@ namespace iTechArt.Shook.WebApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("user",
+                    "",
+                    new { Controller = "User", action = "Create" });
                 endpoints.MapDefaultControllerRoute();
             });
         }
