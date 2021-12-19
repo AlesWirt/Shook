@@ -1,9 +1,11 @@
 using iTechArt.Common;
 using iTechArt.Shook.Repositories.DbContexts;
+using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.Units;
 using iTechArt.Shook.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +32,7 @@ namespace iTechArt.Shook.WebApp
                 (Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<ILog, Logger>();
             services.AddControllersWithViews();
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
         }
 
         
