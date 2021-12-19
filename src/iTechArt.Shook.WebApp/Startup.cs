@@ -5,7 +5,6 @@ using iTechArt.Shook.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +25,9 @@ namespace iTechArt.Shook.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<UserDbContext>
+                (options => options.UseSqlServer
+                (Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<IClickerUnitOfWork, ClickerUnitOfWork>();
