@@ -7,7 +7,7 @@ namespace iTechArt.Shook.Repositories.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(UserDbContext context, Logger logger)
+        public UserRepository(UserDbContext context, ILog logger)
             : base (context, logger)
         {
 

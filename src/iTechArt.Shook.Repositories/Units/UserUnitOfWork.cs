@@ -11,7 +11,7 @@ namespace iTechArt.Shook.Repositories.Units
         public IUserRepository UserRepository => (IUserRepository)GetRepository<User>();
 
 
-        public UserUnitOfWork(UserDbContext context, Logger logger)
+        public UserUnitOfWork(UserDbContext context, ILog logger)
             : base(context, logger)
         {
             RegisterRepository<User, UserRepository>();

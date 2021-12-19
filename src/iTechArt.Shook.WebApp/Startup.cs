@@ -34,7 +34,6 @@ namespace iTechArt.Shook.WebApp
             services.AddScoped<IUserUnitOfWork, UserUnitOfWork>();
             services.AddScoped<IUserService, UserService>();
             services.AddControllersWithViews();
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
         }
 
         
