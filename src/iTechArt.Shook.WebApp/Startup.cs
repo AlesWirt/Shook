@@ -28,10 +28,7 @@ namespace iTechArt.Shook.WebApp
             services.AddDbContext<UserDbContext>
                 (options => options.UseSqlServer
                 (Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
             services.AddSingleton<ILog, Logger>();
-            services.AddScoped<IClickerUnitOfWork, ClickerUnitOfWork>();
-            services.AddScoped<IClickerService, ClickerService>();
             services.AddControllersWithViews();
         }
 
