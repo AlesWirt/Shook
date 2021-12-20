@@ -30,6 +30,10 @@ namespace iTechArt.Shook.Foundation
 
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
+            _logger.LogInformation($"Creating user entity method. " +
+                $"Class: {typeof(UserService).Name}. " +
+                $"Method: {typeof(UserService).GetMethod("GetAllUsersAsync").Name}.");
+
             var collection = await _uow.UserRepository.GetAllAsync();
             
             return collection;

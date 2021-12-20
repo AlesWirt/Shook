@@ -4,7 +4,6 @@ using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.DomainModel.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
@@ -23,6 +22,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         public async Task<IActionResult> Create(UserViewModel model)
         {
+            _logger.LogInformation($"Creating users page.");
             if (ModelState.IsValid)
             {
                 var user = new User
@@ -37,6 +37,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         public async Task<IActionResult> DisplayUsers()
         {
+            _logger.LogInformation($"Displaying users method.");
             var collection = await _service.GetAllUsersAsync();
             return View(collection);
         }

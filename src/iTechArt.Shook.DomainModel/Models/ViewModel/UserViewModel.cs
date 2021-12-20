@@ -4,7 +4,7 @@ namespace iTechArt.Shook.DomainModel.Models.ViewModel
 {
     public class UserViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Please, enter your name")]
         [MinLength(2)]
         [MaxLength(12)]
         [Display(Name = "Login this")]
