@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
+    <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
+    <ProjectReference Include="..\iTechArt.Shook.Foundation\iTechArt.Shook.Foundation.csproj" />
+  </ItemGroup>
 
 </Project>
