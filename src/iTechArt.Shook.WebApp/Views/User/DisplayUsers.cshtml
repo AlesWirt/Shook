@@ -1,13 +1,27 @@
 ﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.DomainModel.Models.User>
 
-@if (Model.Count > 0)
-{
-    @foreach (var user in Model)
-    {
-        <p>@user.Name</p>
-    }
-}
-else
-{
-    <p>No users created yet</p>
-}
+<div class="text-center p-2">
+    <h2>Here is a list of registered names in project</h2>
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr><th>Name</th></tr>
+        </thead>
+        @if (Model.Count > 0)
+        {
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>No users created yet.</td>
+            </tr>
+        }
+    </table>
+    
+</div>
+

@@ -20,6 +20,13 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
 
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public async Task<IActionResult> Create(UserViewModel model)
         {
             _logger.LogInformation($"Creating users page.");
