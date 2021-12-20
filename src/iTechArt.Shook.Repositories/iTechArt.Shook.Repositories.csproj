@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
     <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
     <ProjectReference Include="..\iTechArt.Shook.DomainModel\iTechArt.Shook.DomainModel.csproj" />
   </ItemGroup>

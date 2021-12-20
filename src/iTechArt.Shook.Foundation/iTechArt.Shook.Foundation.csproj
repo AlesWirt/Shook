@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Repositories\iTechArt.Repositories.csproj" />
     <ProjectReference Include="..\iTechArt.Shook.Repositories\iTechArt.Shook.Repositories.csproj" />
   </ItemGroup>
 
