@@ -4,4 +4,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iTechArt.Common\iTechArt.Common.csproj" />
+    <ProjectReference Include="..\iTechArt.Shook.Foundation\iTechArt.Shook.Foundation.csproj" />
+    <ProjectReference Include="..\iTechArt.Shook.Repositories\iTechArt.Shook.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,28 @@
+﻿using Serilog;
+using Serilog.Events;
+using System;
+
+namespace iTechArt.Common
+{
+    public class Logger : ILog
+    {
+        private readonly ILogger _logger;
+
+
+        public Logger(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+
+        public void Log(LogLevel logLevel, string message)
+        {
+            _logger.Write((LogEventLevel)logLevel, message);
+        }
+
+        public void Log(LogLevel logLevel, Exception exception, string message)
+        {
+            _logger.Write((LogEventLevel)logLevel, exception, message);
+        }
+    }
+}
