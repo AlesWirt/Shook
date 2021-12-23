@@ -2,11 +2,12 @@
 
 namespace iTechArt.Shook.DomainModel.Models
 {
-    public class Clicker
+    public class User
     {
         [Key]
         public int Id { get; set; }
-        
-        public int Counter { get; set; }
+
+        [Required]
+        public string UserName { get; set; }
     }
 }

@@ -1,15 +1,15 @@
 using iTechArt.Common;
 using iTechArt.Shook.Repositories.DbContexts;
-using iTechArt.Shook.Repositories.Units;
+using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.Foundation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using iTechArt.Shook.DomainModel.Models;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -26,10 +26,12 @@ namespace iTechArt.Shook.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ClickerDbContext>(options => options.UseInMemoryDatabase(databaseName: "UnitOfWork"));
+            services.AddDbContext<SurveyApplicationDbContext>(
+                options => options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<ILog, Logger>();
-            services.AddScoped<IClickerUnitOfWork, ClickerUnitOfWork>();
-            services.AddScoped<IClickerService, ClickerService>();
+            services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddControllersWithViews();
         }
 
@@ -48,6 +50,9 @@ namespace iTechArt.Shook.WebApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("create",
+                    "",
+                    new { Controller = "Home", action = "Create" });
                 endpoints.MapDefaultControllerRoute();
             });
         }

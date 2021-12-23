@@ -5,10 +5,10 @@ using iTechArt.Shook.Repositories.DbContexts;
 
 namespace iTechArt.Shook.Repositories.Repositories
 {
-    public class ClickerRepository : Repository<Clicker>, IClickerRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        public ClickerRepository(ClickerDbContext context, ILog logger)
-            : base(context, logger)
+        public UserRepository(ILog logger, SurveyApplicationDbContext context)
+            : base(logger, context)
         {
 
         }

@@ -1,0 +1,12 @@
+﻿@model iTechArt.Shook.WebApp.ViewModels.RegisterViewModel
+
+<h5 class="bg-primary text-white text-center m-2 p-2">Create user</h5>
+<form method="post" asp-action="Create" asp-controller="Home">
+    <hr />
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input type="text" class="form-control" asp-for="Name" />
+    </div>
+    <input type="submit" value="Create" class="btn btn-success" />
+</form>

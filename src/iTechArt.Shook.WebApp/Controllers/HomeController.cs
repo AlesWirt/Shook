@@ -1,41 +1,56 @@
 ﻿using iTechArt.Common;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.DomainModel.Models;
-using System.Threading.Tasks;
+using iTechArt.Shook.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IClickerService _service;
         private readonly ILog _logger;
+        private readonly IUserManagementService _service;
 
 
-        public HomeController(IClickerService service, ILog logger)
+        public HomeController(ILog logger, IUserManagementService service)
         {
-            _service = service;
             _logger = logger;
+            _service = service;
         }
 
-        public async Task<IActionResult> Index()
+
+        public IActionResult Index()
         {
-            _logger.Log(LogLevel.Info, "Launching Index view.");
-            var clicker = new Clicker();
-            await _service.InsertAsync(clicker);
-
-            return View(clicker);
+            return View();
         }
 
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> IncreaseClicker()
+        public async Task<IActionResult> Create(RegisterViewModel model)
         {
-            _logger.LogInformation("Clicker increased");
-            var clicker = await _service.GetClickerAsync(1);
-            ++clicker.Counter;
-            await _service.UpdateAsync(clicker);
-            return View("Index", clicker);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = new User
+            {
+                UserName = model.Name,
+            };
+            await _service.CreateAsync(user);
+            return RedirectToAction("DisplayUsers", "Home");
+        }
+
+        public async Task<IActionResult> DisplayUsers()
+        {
+            _logger.LogInformation($"Displaying users method.");
+            var collection = await _service.GetAllUsersAsync();
+            return View(collection);
         }
     }
 }

@@ -14,17 +14,17 @@ namespace iTechArt.Repositories
         protected DbContext DbContext { get; }
 
 
-        public Repository(DbContext context, ILog logger)
+        public Repository(ILog logger, DbContext context)
         {
-            DbContext = context;
             _logger = logger;
+            DbContext = context;
         }
 
 
-        public async Task<TEntity> GetByIdAsync(params object[] values)
+        public async Task<TEntity> GetByIdAsync(params object[] idValues)
         {
             _logger.LogDebug($"Getting entity {typeof(TEntity).Name}.");
-            return await DbContext.Set<TEntity>().FindAsync(values);
+            return await DbContext.Set<TEntity>().FindAsync(idValues);
         }
 
         public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
