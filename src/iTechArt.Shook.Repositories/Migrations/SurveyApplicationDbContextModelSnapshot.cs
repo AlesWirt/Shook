@@ -32,7 +32,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Survey_Users");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

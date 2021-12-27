@@ -1,6 +1,8 @@
 ﻿using iTechArt.Common;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.DomainModel.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

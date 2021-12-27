@@ -9,7 +9,7 @@ using iTechArt.Shook.Repositories.DbContexts;
 namespace iTechArt.Shook.Repositories.Migrations
 {
     [DbContext(typeof(SurveyApplicationDbContext))]
-    [Migration("20211223052331_Initial")]
+    [Migration("20211226112208_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Survey_Users");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

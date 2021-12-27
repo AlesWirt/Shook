@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
-using iTechArt.Shook.DomainModel.Models;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -29,10 +28,10 @@ namespace iTechArt.Shook.WebApp
             services.AddDbContext<SurveyApplicationDbContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
             services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddControllersWithViews();
         }
 
         
@@ -50,9 +49,6 @@ namespace iTechArt.Shook.WebApp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("create",
-                    "",
-                    new { Controller = "Home", action = "Create" });
                 endpoints.MapDefaultControllerRoute();
             });
         }

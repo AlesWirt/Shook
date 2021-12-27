@@ -52,5 +52,11 @@ namespace iTechArt.Shook.WebApp.Controllers
             var collection = await _service.GetAllUsersAsync();
             return View(collection);
         }
+
+        [HttpGet]
+        public ViewResult Login()
+        {
+            return View();
+        }
     }
 }
