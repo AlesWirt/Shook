@@ -3,12 +3,31 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Create user</title>
-    <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+
+    <header>
+        <nav class="navbar" style="background-color: #674ea7;">
+            <div>
+                <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="100" height="100"/>
+            </div>
+        </nav>
+    </header>
+
+    <div>@RenderBody()</div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - iTechArt -
+        </div>
+    </footer>
+
+    <script src="~/js/validation-scripts.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
