@@ -1,8 +1,7 @@
 ﻿using iTechArt.Common;
+using iTechArt.Shook.Repositories.Stores;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.DomainModel.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,6 +11,7 @@ namespace iTechArt.Shook.Foundation
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
+        private readonly UserStore _userStore;
 
 
         public UserManagementService(ILog logger, ISurveyUnitOfWork uow)
@@ -23,7 +23,7 @@ namespace iTechArt.Shook.Foundation
 
         public async Task CreateAsync(User user)
         {
-            await _uow.UserRepository.CreateAsync(user);
+            await _userStore.CreateAsync(user);
             await _uow.SaveChangesAsync();
         }
 
