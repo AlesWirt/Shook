@@ -15,5 +15,7 @@ namespace iTechArt.Repositories.Interfaces
         Task CreateAsync(TEntity entity);
 
         void Delete(TEntity entity);
+
+        Task<int> GetEntityQuantity();
     }
 }

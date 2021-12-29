@@ -32,11 +32,13 @@ namespace iTechArt.Shook.WebApp
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
+
+            var builder = services.AddIdentityCore<User>();
+            builder.AddUserStore<User>();
+            builder.AddSignInManager<SignInManager<User>>();
+
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
             services.AddScoped<IUserManagementService, UserManagementService>();
-            var builder = services.AddIdentityCore<User>();
-            builder.AddSignInManager<SignInManager<User>>();
-            builder.AddUserStore<User>();
         }
 
         

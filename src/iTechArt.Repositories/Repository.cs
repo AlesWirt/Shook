@@ -49,5 +49,10 @@ namespace iTechArt.Repositories
             _logger.LogInformation($"Delete entity. The enityt name: {typeof(TEntity).Name}.");
             DbContext.Set<TEntity>().Remove(entity);
         }
+
+        public async Task<int> GetEntityQuantity()
+        {
+            return await DbContext.Set<TEntity>().CountAsync();
+        }
     }
 }

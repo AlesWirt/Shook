@@ -10,8 +10,9 @@ namespace iTechArt.Shook.Repositories.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        private readonly UserStore _userStore;
         private readonly SignInManager<User> _signInManager;
+
+
         public UserRepository(ILog logger, SurveyApplicationDbContext context)
             : base(logger, context)
         {
@@ -20,12 +21,12 @@ namespace iTechArt.Shook.Repositories.Repositories
 
         public async Task CreateAsync(User user)
         {
-            await _userStore.CreateAsync(user);
+
         }
 
-        public Task SignInUserAsync(User user, bool isPersistent)
+        public async Task SignInUserAsync(User user, bool isPersistent)
         {
-            throw new System.NotImplementedException();
+            await _signInManager.SignInAsync(user, isPersistent);
         }
     }
 }
