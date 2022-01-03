@@ -20,10 +20,8 @@ namespace iTechArt.Shook.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -32,7 +30,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("AspNetUsers");
                 });
 #pragma warning restore 612, 618
         }

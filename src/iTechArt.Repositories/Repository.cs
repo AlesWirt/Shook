@@ -1,12 +1,14 @@
-﻿using iTechArt.Common;
+﻿using System;
+using iTechArt.Common;
 using iTechArt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace iTechArt.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> 
+    public class Repository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {
         private readonly ILog _logger;
@@ -46,13 +48,18 @@ namespace iTechArt.Repositories
 
         public void Delete(TEntity entity)
         {
-            _logger.LogInformation($"Delete entity. The enityt name: {typeof(TEntity).Name}.");
+            _logger.LogInformation($"Delete entity. The entity name: {typeof(TEntity).Name}.");
             DbContext.Set<TEntity>().Remove(entity);
         }
 
         public async Task<int> GetEntityQuantity()
         {
             return await DbContext.Set<TEntity>().CountAsync();
+        }
+
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
     }
 }

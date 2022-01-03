@@ -8,7 +8,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
         public DbSet<User> Users { get; set; }
 
 
-        public SurveyApplicationDbContext(DbContextOptions<SurveyApplicationDbContext> options)
+        public SurveyApplicationDbContext(DbContextOptions options)
             : base(options)
         {
         }
@@ -18,7 +18,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
         {
             builder.Entity<User>(options =>
             {
-                options.ToTable("Users");
+                options.ToTable("AspNetUsers");
                 options.HasKey(p => p.Id);
                 options.Property(p => p.UserName).IsRequired().HasMaxLength(16);
             });

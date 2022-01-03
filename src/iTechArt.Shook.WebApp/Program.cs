@@ -13,16 +13,16 @@ namespace iTechArt.Shook.WebApp
     {
         public static async Task Main(string[] args)
         {
-            IHost webHost = CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
-            using(var scope = webHost.Services.CreateScope())
+            using(var scope = host.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
 
                 await dbContext.Database.MigrateAsync(); 
             }
 
-            await webHost.RunAsync();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -1,16 +1,16 @@
 using iTechArt.Common;
+using iTechArt.Shook.Foundation;
+using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
-using iTechArt.Shook.Foundation;
-using Microsoft.EntityFrameworkCore;
+using iTechArt.Shook.Repositories.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using iTechArt.Shook.DomainModel.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -30,14 +30,14 @@ namespace iTechArt.Shook.WebApp
             services.AddDbContext<SurveyApplicationDbContext>(
                 options => options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
+            services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
 
             var builder = services.AddIdentityCore<User>();
-            builder.AddUserStore<User>();
-            builder.AddSignInManager<SignInManager<User>>();
+            builder.AddUserStore<UserStore>();
 
-            services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
             services.AddScoped<IUserManagementService, UserManagementService>();
         }
 
@@ -61,3 +61,4 @@ namespace iTechArt.Shook.WebApp
         }
     }
 }
+    
