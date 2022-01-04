@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Repositories.Stores
 {
-    public class UserStore : IUserStore<User>
+    public class SurveyUserStore : IUserStore<User>
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
 
 
-        public UserStore(ILog logger, ISurveyUnitOfWork uow)
+        public SurveyUserStore(ILog logger, ISurveyUnitOfWork uow)
         {
             _logger = logger;
             _uow = uow;
@@ -88,7 +88,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult<object>(null);
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)

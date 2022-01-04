@@ -36,7 +36,7 @@ namespace iTechArt.Shook.WebApp
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
 
             var builder = services.AddIdentityCore<User>();
-            builder.AddUserStore<UserStore>();
+            builder.AddUserStore<SurveyUserStore>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
         }
