@@ -18,9 +18,8 @@ namespace iTechArt.Shook.Repositories.DbContexts
         {
             builder.Entity<User>(options =>
             {
-                options.ToTable("AspNetUsers");
-                options.HasKey(p => p.Id);
-                options.Property(p => p.UserName).IsRequired().HasMaxLength(16);
+                options.Property(p => p.UserName)
+                    .IsRequired();
             });
         }
     }

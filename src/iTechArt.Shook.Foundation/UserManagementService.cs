@@ -1,4 +1,5 @@
-﻿using iTechArt.Common;
+﻿using System;
+using iTechArt.Common;
 using iTechArt.Shook.DomainModel.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -24,12 +25,17 @@ namespace iTechArt.Shook.Foundation
         }
 
 
-        public async Task CreateAsync(User user)
+        public async Task RegisterAsync(User user)
         {
+            if (user == null)
+            {
+                _logger.LogError("You trying to register user with no identity!");
+                throw new ArgumentNullException();
+            }
             await _userManager.CreateAsync(user);
         }
 
-        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
+        public async Task<IReadOnlyCollection<User>> DisplayAllUsersAsync()
         {
             var collection = await _uow.UserRepository.GetAllAsync();
 

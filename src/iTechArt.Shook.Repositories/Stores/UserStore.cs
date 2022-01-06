@@ -5,24 +5,24 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using JetBrains.Annotations;
 
 namespace iTechArt.Shook.Repositories.Stores
 {
+    [UsedImplicitly]
     public class SurveyUserStore : IUserStore<User>
     {
-        private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
 
 
-        public SurveyUserStore(ILog logger, ISurveyUnitOfWork uow)
+        public SurveyUserStore(ISurveyUnitOfWork uow)
         {
-            _logger = logger;
             _uow = uow;
         }
 
 
         public async Task<IdentityResult> CreateAsync(User user,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             
@@ -51,7 +51,9 @@ namespace iTechArt.Shook.Repositories.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var user = await _uow.UserRepository.GetByIdAsync(userId);
+            int.TryParse(userId, out var id);
+
+            var user = await _uow.UserRepository.GetByIdAsync(id);
 
             return user;
         }
@@ -65,21 +67,26 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             throw new NotImplementedException();
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
         {
-            return Task.FromResult(user.Id);
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(user.Id.ToString());
         }
 
         public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(user.UserName);
         }
 
         public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             _uow.UserRepository.Update(user);
             await _uow.SaveChangesAsync();
 
@@ -88,11 +95,13 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult<object>(null);
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             throw new NotImplementedException();
         }
     }

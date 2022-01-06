@@ -10,13 +10,13 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILog _logger;
-        private readonly IUserManagementService _service;
+        private readonly IUserManagementService _userManagementService;
 
 
         public HomeController(ILog logger, IUserManagementService service)
         {
             _logger = logger;
-            _service = service;
+            _userManagementService = service;
         }
 
 
@@ -32,6 +32,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -42,14 +43,14 @@ namespace iTechArt.Shook.WebApp.Controllers
             {
                 UserName = model.Name,
             };
-            await _service.CreateAsync(user);
+            await _userManagementService.RegisterAsync(user);
             return RedirectToAction("DisplayUsers", "Home");
         }
 
         public async Task<IActionResult> DisplayUsers()
         {
             _logger.LogInformation($"Displaying users method.");
-            var collection = await _service.GetAllUsersAsync();
+            var collection = await _userManagementService.DisplayAllUsersAsync();
             return View(collection);
         }
 

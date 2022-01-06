@@ -9,7 +9,7 @@ using iTechArt.Shook.Repositories.DbContexts;
 namespace iTechArt.Shook.Repositories.Migrations
 {
     [DbContext(typeof(SurveyApplicationDbContext))]
-    [Migration("20220102165410_Initial")]
+    [Migration("20220106101901_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,17 +22,18 @@ namespace iTechArt.Shook.Repositories.Migrations
 
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
