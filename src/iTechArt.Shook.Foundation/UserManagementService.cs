@@ -24,15 +24,16 @@ namespace iTechArt.Shook.Foundation
             _userManager = userManager;
         }
 
-
-        public async Task RegisterAsync(User user)
+        public async Task<IdentityResult> RegisterAsync(User user)
         {
             if (user == null)
             {
                 _logger.LogError("You trying to register user with no identity!");
                 throw new ArgumentNullException();
             }
-            await _userManager.CreateAsync(user);
+            var result =  await _userManager.CreateAsync(user);
+
+            return result;
         }
 
         public async Task<IReadOnlyCollection<User>> DisplayAllUsersAsync()
