@@ -19,7 +19,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
             builder.Entity<User>(options =>
             {
                 options.Property(p => p.UserName)
-                    .HasMaxLength(User.userNameMaxLength)
+                    .HasMaxLength(User.UserNameMaxLength)
                     .IsRequired();
             });
         }

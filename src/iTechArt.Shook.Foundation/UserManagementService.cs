@@ -31,6 +31,7 @@ namespace iTechArt.Shook.Foundation
                 _logger.LogError("You trying to register user with no identity!");
                 throw new ArgumentNullException();
             }
+
             var result =  await _userManager.CreateAsync(user);
 
             return result;

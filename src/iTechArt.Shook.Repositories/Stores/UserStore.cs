@@ -3,6 +3,7 @@ using iTechArt.Shook.Repositories.UnitsOfWorks;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using iTechArt.Common;
 using Microsoft.AspNetCore.Identity;
 using JetBrains.Annotations;
 
@@ -11,11 +12,13 @@ namespace iTechArt.Shook.Repositories.Stores
     [UsedImplicitly]
     public class SurveyUserStore : IUserStore<User>
     {
+        private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
 
 
-        public SurveyUserStore(ISurveyUnitOfWork uow)
+        public SurveyUserStore(ILog logger, ISurveyUnitOfWork uow)
         {
+            _logger = logger;
             _uow = uow;
         }
 
@@ -28,10 +31,15 @@ namespace iTechArt.Shook.Repositories.Stores
             CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
+
             if (user == null)
             {
-                throw new ArgumentNullException();
+                var argumentNullException = new ArgumentNullException($"In the method CreateAsync of UserStore class, {typeof(User)} is null");
+                _logger.LogError("Log error from UserStore.CreateAsync", argumentNullException);
+
+                throw argumentNullException;
             }
+
             await _uow.UserRepository.CreateAsync(user);
             await _uow.SaveChangesAsync();
 
@@ -44,7 +52,10 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                throw new ArgumentNullException();
+                var argumentNullException = new ArgumentNullException($"In the method DeleteAsync of UserStore class, {typeof(User)} is null");
+                _logger.LogError("Log error from UserStore.DeleteAsync", argumentNullException);
+
+                throw argumentNullException;
             }
 
             _uow.UserRepository.Delete(user);
@@ -53,15 +64,16 @@ namespace iTechArt.Shook.Repositories.Stores
             return IdentityResult.Success;
         }
 
-        
-
         public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             if (!int.TryParse(userId, out var id))
             {
-                throw new InvalidCastException();
+                var invalidCastException = new InvalidCastException("Invalid identificator value.");
+                _logger.LogError("Log error from UserStore.FindByIdAsync", invalidCastException);
+
+                throw invalidCastException;
             }
 
             var user = await _uow.UserRepository.GetByIdAsync(id);
@@ -87,7 +99,10 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                throw new ArgumentNullException();
+                var argumentNullException = new ArgumentNullException($"In the method GetUserIdAsync of UserStore class, {typeof(User)} is null");
+                _logger.LogError("Log error from UserStore.GetUserIdAsync", argumentNullException);
+
+                throw argumentNullException;
             }
 
             return Task.FromResult(user.Id.ToString());
@@ -99,7 +114,10 @@ namespace iTechArt.Shook.Repositories.Stores
             
             if (user == null)
             {
-                throw new ArgumentNullException();
+                var argumentNullException = new ArgumentNullException($"In the method GetUserNameAsync of UserStore class, {typeof(User)} is null");
+                _logger.LogError("Log error from UserStore.GetUserNameAsync", argumentNullException);
+
+                throw argumentNullException;
             }
 
             return Task.FromResult(user.UserName);
@@ -111,7 +129,10 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                throw new ArgumentNullException();
+                var argumentNullException = new ArgumentNullException($"In the method UpdateAsync of UserStore class, {typeof(User)} is null");
+                _logger.LogError("Log error from UserStore.UpdateAsync", argumentNullException);
+
+                throw argumentNullException;
             }
 
             _uow.UserRepository.Update(user);
@@ -122,6 +143,8 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             return Task.FromResult<object>(null);
         }
 

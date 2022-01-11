@@ -41,7 +41,18 @@ namespace iTechArt.Shook.WebApp.Controllers
                 UserName = model.Name,
             };
 
-            await _userManagementService.RegisterAsync(user);
+            var result = await _userManagementService.RegisterAsync(user);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
             return RedirectToAction("DisplayUsers", "Home");
         }
 
