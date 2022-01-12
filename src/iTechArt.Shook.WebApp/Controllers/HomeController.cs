@@ -43,17 +43,17 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             var result = await _userManagementService.RegisterAsync(user);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-
-                return View(model);
+                return RedirectToAction("DisplayUsers", "Home");
             }
 
-            return RedirectToAction("DisplayUsers", "Home");
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
         }
 
         public async Task<IActionResult> DisplayUsers()

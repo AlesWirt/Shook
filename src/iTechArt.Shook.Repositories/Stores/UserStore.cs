@@ -34,10 +34,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                var argumentNullException = new ArgumentNullException($"In the method CreateAsync of UserStore class, {typeof(User)} is null");
-                _logger.LogError("Log error from UserStore.CreateAsync", argumentNullException);
+                _logger.LogError($"{nameof(User)} is null");
 
-                throw argumentNullException;
+                throw new ArgumentNullException($"{nameof(User)} is null"); ;
             }
 
             await _uow.UserRepository.CreateAsync(user);
@@ -52,10 +51,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                var argumentNullException = new ArgumentNullException($"In the method DeleteAsync of UserStore class, {typeof(User)} is null");
-                _logger.LogError("Log error from UserStore.DeleteAsync", argumentNullException);
+                _logger.LogError($"{nameof(User)} is null");
 
-                throw argumentNullException;
+                throw new ArgumentNullException($"{nameof(User)} is null"); ;
             }
 
             _uow.UserRepository.Delete(user);
@@ -70,10 +68,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (!int.TryParse(userId, out var id))
             {
-                var invalidCastException = new InvalidCastException("Invalid identificator value.");
-                _logger.LogError("Log error from UserStore.FindByIdAsync", invalidCastException);
+                _logger.LogError("Invalid identificator value");
 
-                throw invalidCastException;
+                throw new ArgumentNullException("Invalid identificator value"); ;
             }
 
             var user = await _uow.UserRepository.GetByIdAsync(id);
@@ -99,10 +96,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                var argumentNullException = new ArgumentNullException($"In the method GetUserIdAsync of UserStore class, {typeof(User)} is null");
-                _logger.LogError("Log error from UserStore.GetUserIdAsync", argumentNullException);
+                _logger.LogError($"{typeof(User)} is null");
 
-                throw argumentNullException;
+                throw new ArgumentNullException($"{nameof(User)} is null"); ;
             }
 
             return Task.FromResult(user.Id.ToString());
@@ -114,10 +110,9 @@ namespace iTechArt.Shook.Repositories.Stores
             
             if (user == null)
             {
-                var argumentNullException = new ArgumentNullException($"In the method GetUserNameAsync of UserStore class, {typeof(User)} is null");
-                _logger.LogError("Log error from UserStore.GetUserNameAsync", argumentNullException);
+                _logger.LogError($"{typeof(User)} is null");
 
-                throw argumentNullException;
+                throw new ArgumentNullException($"{nameof(User)} is null"); ;
             }
 
             return Task.FromResult(user.UserName);
@@ -129,10 +124,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                var argumentNullException = new ArgumentNullException($"In the method UpdateAsync of UserStore class, {typeof(User)} is null");
-                _logger.LogError("Log error from UserStore.UpdateAsync", argumentNullException);
+                _logger.LogError($"{nameof(user)} is null");
 
-                throw argumentNullException;
+                throw new ArgumentNullException($"{typeof(User)} is null"); ;
             }
 
             _uow.UserRepository.Update(user);
