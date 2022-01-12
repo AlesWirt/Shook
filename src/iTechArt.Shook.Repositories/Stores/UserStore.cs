@@ -34,9 +34,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{nameof(User)} is null");
+                _logger.LogError($"{nameof(User)} cannot be null");
 
-                throw new ArgumentNullException($"{nameof(User)} is null"); ;
+                throw new ArgumentNullException($" cannot be null"); ;
             }
 
             await _uow.UserRepository.CreateAsync(user);
@@ -51,9 +51,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{nameof(User)} is null");
+                _logger.LogError($"{nameof(User)} cannot be null");
 
-                throw new ArgumentNullException($"{nameof(User)} is null"); ;
+                throw new ArgumentNullException($"{nameof(User)} cannot be null"); ;
             }
 
             _uow.UserRepository.Delete(user);

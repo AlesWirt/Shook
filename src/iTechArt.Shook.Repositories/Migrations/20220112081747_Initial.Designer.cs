@@ -9,8 +9,8 @@ using iTechArt.Shook.Repositories.DbContexts;
 namespace iTechArt.Shook.Repositories.Migrations
 {
     [DbContext(typeof(SurveyApplicationDbContext))]
-    [Migration("20220111064928_UserNameRestrictionLength")]
-    partial class UserNameRestrictionLength
+    [Migration("20220112081747_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
