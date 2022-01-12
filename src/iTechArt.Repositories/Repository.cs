@@ -1,12 +1,14 @@
-﻿using iTechArt.Common;
+﻿using System;
+using iTechArt.Common;
 using iTechArt.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace iTechArt.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> 
+    public class Repository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {
         private readonly ILog _logger;
@@ -14,17 +16,17 @@ namespace iTechArt.Repositories
         protected DbContext DbContext { get; }
 
 
-        public Repository(DbContext context, ILog logger)
+        public Repository(ILog logger, DbContext context)
         {
-            DbContext = context;
             _logger = logger;
+            DbContext = context;
         }
 
 
-        public async Task<TEntity> GetByIdAsync(params object[] values)
+        public async Task<TEntity> GetByIdAsync(params object[] idValues)
         {
             _logger.LogDebug($"Getting entity {typeof(TEntity).Name}.");
-            return await DbContext.Set<TEntity>().FindAsync(values);
+            return await DbContext.Set<TEntity>().FindAsync(idValues);
         }
 
         public async Task<IReadOnlyCollection<TEntity>> GetAllAsync()
@@ -46,8 +48,18 @@ namespace iTechArt.Repositories
 
         public void Delete(TEntity entity)
         {
-            _logger.LogInformation($"Delete entity. The enityt name: {typeof(TEntity).Name}.");
+            _logger.LogInformation($"Delete entity. The entity name: {typeof(TEntity).Name}.");
             DbContext.Set<TEntity>().Remove(entity);
+        }
+
+        public async Task<int> GetEntityQuantity()
+        {
+            return await DbContext.Set<TEntity>().CountAsync();
+        }
+
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
     }
 }

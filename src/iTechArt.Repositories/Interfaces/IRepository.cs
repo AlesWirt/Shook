@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace iTechArt.Repositories.Interfaces
 {
     public interface IRepository<TEntity>
         where TEntity : class
     {
-        Task<TEntity> GetByIdAsync(params object[] values);
+        Task<TEntity> GetByIdAsync(params object[] idValues);
 
         Task<IReadOnlyCollection<TEntity>> GetAllAsync();
 
@@ -15,5 +17,9 @@ namespace iTechArt.Repositories.Interfaces
         Task CreateAsync(TEntity entity);
 
         void Delete(TEntity entity);
+
+        Task<int> GetEntityQuantity();
+
+        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

@@ -18,10 +18,10 @@ namespace iTechArt.Repositories
         private readonly Dictionary<Type, Type> _registeredRepo;
 
 
-        public UnitOfWork(TContext context, ILog logger)
+        public UnitOfWork(ILog logger, TContext context)
         {
-            _dbContext = context;
             _logger = logger;
+            _dbContext = context;
             _repositories = new Dictionary<Type, object>();
             _registeredRepo = new Dictionary<Type, Type>();
         }
@@ -82,11 +82,11 @@ namespace iTechArt.Repositories
 
             if (!_registeredRepo.TryGetValue(entityType, out var repositoryType))
             {
-                return new Repository<TEntity>(_dbContext, _logger);
+                return new Repository<TEntity>(_logger, _dbContext);
             }
 
             var customRepository = Activator.CreateInstance(
-                repositoryType, _dbContext, _logger);
+                repositoryType, _logger, _dbContext);
 
             return (IRepository<TEntity>)customRepository;
         }

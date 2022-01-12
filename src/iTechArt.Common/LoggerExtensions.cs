@@ -6,7 +6,7 @@ namespace iTechArt.Common
     {
         public static void LogDebug(this ILog logger, string message, Exception exception)
         {
-            logger.Log(LogLevel.Debug, message, exception);
+            logger.Log(LogLevel.Debug, exception, message);
         }
 
         public static void LogDebug(this ILog logger, string message)
@@ -16,7 +16,7 @@ namespace iTechArt.Common
 
         public static void LogInformation(this ILog logger, string message, Exception exception)
         {
-            logger.Log(LogLevel.Info, message, exception);
+            logger.Log(LogLevel.Info, exception, message);
         }
 
         public static void LogInformation(this ILog logger, string message)
@@ -26,7 +26,7 @@ namespace iTechArt.Common
 
         public static void LogWarning(this ILog logger, string message, Exception exception)
         {
-            logger.Log(LogLevel.Warning, message, exception);
+            logger.Log(LogLevel.Warning, exception, message);
         }
 
         public static void LogWarning(this ILog logger, string message)
@@ -36,7 +36,7 @@ namespace iTechArt.Common
 
         public static void LogError(this ILog logger, string message, Exception exception)
         {
-            logger.Log(LogLevel.Error, message, exception);
+            logger.Log(LogLevel.Error, exception, message);
         }
 
         public static void LogError(this ILog logger, string message)
@@ -46,7 +46,7 @@ namespace iTechArt.Common
 
         public static void LogFatal(this ILog logger, string message, Exception exception)
         {
-            logger.Log(LogLevel.Fatal, message, exception);
+            logger.Log(LogLevel.Fatal, exception, message);
         }
 
         public static void LogFatal(this ILog logger, string message)

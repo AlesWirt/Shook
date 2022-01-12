@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create user</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+</head>
+<body>
+
+    <header>
+        <nav class="navbar" style="background-color: #6aa84f;">
+            <div class="containter">
+                <div>
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
+                    </a>
+                    
+                </div>
+            </div>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+
+    <div>@RenderBody()</div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container text-center">
+            &copy; 2021 - iTechArt -
+        </div>
+    </footer>
+
+    <script src="~/js/validation-scripts.js"></script>
+</body>
+</html>

@@ -6,6 +6,6 @@ namespace iTechArt.Common
     {
         public void Log(LogLevel logLevel, string message);
 
-        public void Log(LogLevel logLevel, string message, Exception exception);
+        public void Log(LogLevel logLevel, Exception exception, string message);
     }
 }

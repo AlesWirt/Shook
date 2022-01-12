@@ -1,41 +1,71 @@
-﻿using iTechArt.Common;
-using iTechArt.Shook.Foundation;
+﻿using iTechArt.Shook.Foundation;
 using iTechArt.Shook.DomainModel.Models;
-using System.Threading.Tasks;
+using iTechArt.Shook.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IClickerService _service;
-        private readonly ILog _logger;
+        private readonly IUserManagementService _userManagementService;
 
-
-        public HomeController(IClickerService service, ILog logger)
+        public HomeController(IUserManagementService service)
         {
-            _service = service;
-            _logger = logger;
+            _userManagementService = service;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            _logger.Log(LogLevel.Info, "Launching Index view.");
-            var clicker = new Clicker();
-            await _service.InsertAsync(clicker);
 
-            return View(clicker);
+        public IActionResult Index()
+        {
+            return View();
         }
 
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> IncreaseClicker()
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(RegisterViewModel model)
         {
-            _logger.LogInformation("Clicker increased");
-            var clicker = await _service.GetClickerAsync(1);
-            ++clicker.Counter;
-            await _service.UpdateAsync(clicker);
-            return View("Index", clicker);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = new User
+            {
+                UserName = model.Name,
+            };
+
+            var result = await _userManagementService.RegisterAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("DisplayUsers", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DisplayUsers()
+        {
+            var collection = await _userManagementService.DisplayAllUsersAsync();
+            return View(collection);
+        }
+
+        [HttpGet]
+        public ViewResult Login()
+        {
+            return View();
         }
     }
 }
