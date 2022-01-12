@@ -28,9 +28,9 @@ namespace iTechArt.Shook.Foundation
         {
             if (user == null)
             {
-                _logger.LogError($"{nameof(User)} cannot be null");
+                _logger.LogError($"User cannot be null");
 
-                throw new ArgumentNullException($"{nameof(User)} cannot be null");
+                throw new ArgumentNullException($"User cannot be null");
             }
 
             var result =  await _userManager.CreateAsync(user);
