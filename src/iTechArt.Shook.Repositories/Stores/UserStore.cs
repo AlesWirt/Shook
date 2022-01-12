@@ -34,9 +34,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{nameof(User)} cannot be null");
+                _logger.LogError($"User cannot be null");
 
-                throw new ArgumentNullException($" cannot be null"); ;
+                throw new ArgumentNullException($"User cannot be null"); ;
             }
 
             await _uow.UserRepository.CreateAsync(user);
@@ -51,9 +51,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{nameof(User)} cannot be null");
+                _logger.LogError($"User does not exist");
 
-                throw new ArgumentNullException($"{nameof(User)} cannot be null"); ;
+                throw new ArgumentNullException($"User does not exist");
             }
 
             _uow.UserRepository.Delete(user);
@@ -70,7 +70,7 @@ namespace iTechArt.Shook.Repositories.Stores
             {
                 _logger.LogError("Invalid identificator value");
 
-                throw new ArgumentNullException("Invalid identificator value"); ;
+                throw new ArgumentNullException("Invalid identificator value");
             }
 
             var user = await _uow.UserRepository.GetByIdAsync(id);
@@ -96,9 +96,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{typeof(User)} is null");
+                _logger.LogError($"User does not exist");
 
-                throw new ArgumentNullException($"{nameof(User)} is null"); ;
+                throw new ArgumentNullException($"User does not exist");
             }
 
             return Task.FromResult(user.Id.ToString());
@@ -110,9 +110,9 @@ namespace iTechArt.Shook.Repositories.Stores
             
             if (user == null)
             {
-                _logger.LogError($"{typeof(User)} is null");
+                _logger.LogError($"User does not exist");
 
-                throw new ArgumentNullException($"{nameof(User)} is null"); ;
+                throw new ArgumentNullException($"User does not exist");
             }
 
             return Task.FromResult(user.UserName);
@@ -124,9 +124,9 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (user == null)
             {
-                _logger.LogError($"{nameof(user)} is null");
+                _logger.LogError($"User does not exist");
 
-                throw new ArgumentNullException($"{typeof(User)} is null"); ;
+                throw new ArgumentNullException($"User does not exist"); ;
             }
 
             _uow.UserRepository.Update(user);
