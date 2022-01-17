@@ -6,6 +6,7 @@ using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.Repositories.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,8 +36,13 @@ namespace iTechArt.Shook.WebApp
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
 
-            var builder = services.AddIdentityCore<User>();
+            var builder = services.AddIdentityCore<User>(options =>
+            {
+            });
             builder.AddUserStore<SurveyUserStore>();
+            builder.AddRoles<UserRole>();
+            builder.AddRoleStore<IRoleStore<RoleStore>>();
+            builder.AddSignInManager<SignInManager<User>>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
         }

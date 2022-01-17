@@ -10,5 +10,10 @@ namespace iTechArt.Shook.WebApp.ViewModels
             ErrorMessage = "Not enough symbols in field")]
         [Display(Name = "User name")]
         public string Name { get; set; }
+
+        [StringLength(User.UserPasswordMaxLength,
+            MinimumLength = User.UserPasswordMinLength,
+            ErrorMessage = "Note enough symbols in your password")]
+        public string Password { get; set; }
     }
 }

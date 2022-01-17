@@ -10,5 +10,7 @@ namespace iTechArt.Shook.Foundation
         public Task<IdentityResult> RegisterAsync(User user);
 
         public Task<IReadOnlyCollection<User>> DisplayAllUsersAsync();
+
+        public Task SignOutAsync();
     }
 }
