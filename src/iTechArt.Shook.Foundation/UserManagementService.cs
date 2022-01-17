@@ -27,7 +27,7 @@ namespace iTechArt.Shook.Foundation
             _signInManager = signInManager;
         }
 
-        public async Task<IdentityResult> RegisterAsync(User user)
+        public async Task<IdentityResult> RegisterAsync(User user, string password)
         {
             if (user == null)
             {
@@ -36,7 +36,7 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"User cannot be null");
             }
 
-            var result =  await _userManager.CreateAsync(user);
+            var result =  await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {

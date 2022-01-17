@@ -40,7 +40,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                 UserName = model.Name,
             };
 
-            var result = await _userManagementService.RegisterAsync(user);
+            var result = await _userManagementService.RegisterAsync(user, model.Password);
 
             if (result.Succeeded)
             {

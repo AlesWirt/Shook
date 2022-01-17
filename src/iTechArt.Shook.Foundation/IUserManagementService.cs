@@ -7,7 +7,7 @@ namespace iTechArt.Shook.Foundation
 {
     public interface IUserManagementService
     {
-        public Task<IdentityResult> RegisterAsync(User user);
+        public Task<IdentityResult> RegisterAsync(User user, string password);
 
         public Task<IReadOnlyCollection<User>> DisplayAllUsersAsync();
 
