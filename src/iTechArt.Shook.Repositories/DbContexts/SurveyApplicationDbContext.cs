@@ -6,7 +6,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
     public class SurveyApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-
+        public DbSet<UserRole> UserRoles { get; set; }
 
         public SurveyApplicationDbContext(DbContextOptions options)
             : base(options)
@@ -20,6 +20,12 @@ namespace iTechArt.Shook.Repositories.DbContexts
             {
                 options.Property(p => p.UserName)
                     .HasMaxLength(User.UserNameMaxLength)
+                    .IsRequired();
+            });
+
+            builder.Entity<UserRole>(options =>
+            {
+                options.Property(p => p.Name)
                     .IsRequired();
             });
         }

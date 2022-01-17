@@ -39,8 +39,8 @@ namespace iTechArt.Shook.WebApp
             var builder = services.AddIdentityCore<User>(options =>
             {
             });
-            builder.AddUserStore<SurveyUserStore>();
             builder.AddRoles<UserRole>();
+            builder.AddUserStore<SurveyUserStore>();
             builder.AddRoleStore<IRoleStore<RoleStore>>();
             builder.AddSignInManager<SignInManager<User>>();
 
