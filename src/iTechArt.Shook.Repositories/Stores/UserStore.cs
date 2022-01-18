@@ -228,7 +228,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
         #region IUserRoleStore
 
-        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -239,7 +239,16 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist");
             }
 
-            return Task.CompletedTask;
+            var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.Name == roleName);
+            
+            user.UserRoles.Add(new UserRole()
+            {
+                Role = role,
+                User = user
+            });
+
+            _uow.UserRepository.Update(user);
+            await _uow.SaveChangesAsync();
         }
 
         public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
