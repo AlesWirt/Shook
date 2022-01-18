@@ -18,8 +18,6 @@ namespace iTechArt.Repositories.Interfaces
 
         void Delete(TEntity entity);
 
-        Task<int> GetEntityQuantity();
-
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
     }
 }

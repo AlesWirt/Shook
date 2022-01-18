@@ -22,11 +22,19 @@ namespace iTechArt.Shook.Repositories.DbContexts
                 options.Property(p => p.UserName)
                     .HasMaxLength(User.UserNameMaxLength)
                     .IsRequired();
+                options.Property(p => p.NormalizedName)
+                    .IsRequired();
+                options.Property(p => p.Email)
+                    .IsRequired();
+                options.Property(p => p.PasswordHash)
+                    .IsRequired();
             });
 
             builder.Entity<Role>(options =>
             {
                 options.Property(p => p.Name)
+                    .IsRequired();
+                options.Property(p => p.NormalizedName)
                     .IsRequired();
             });
 

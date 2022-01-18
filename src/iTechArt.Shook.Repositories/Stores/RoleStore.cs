@@ -139,14 +139,25 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role does not exist");
             }
 
-            role.NormalizedName = role.Name.ToUpper();
+            role.NormalizedName = normalizedName;
 
             return Task.CompletedTask;
         }
 
         public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            role.Name = roleName;
+
+            return Task.CompletedTask;
         }
 
         public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)

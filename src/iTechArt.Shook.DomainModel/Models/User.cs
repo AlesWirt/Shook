@@ -6,7 +6,7 @@ namespace iTechArt.Shook.DomainModel.Models
     {
         public const int UserNameMinLength = 2;
         public const int UserNameMaxLength = 16;
-        public const int UserPasswordMaxLength = 45;
+        public const int UserPasswordMaxLength = 20;
         public const int UserPasswordMinLength = 8;
 
 
@@ -16,8 +16,10 @@ namespace iTechArt.Shook.DomainModel.Models
 
         public string NormalizedName { get; set; }
 
+        public string Email { get; set; }
+
         public string PasswordHash { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public List<UserRole> UserRoles { get; set; }
     }
 }

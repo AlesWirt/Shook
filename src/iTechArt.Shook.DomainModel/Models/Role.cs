@@ -10,6 +10,6 @@ namespace iTechArt.Shook.DomainModel.Models
 
         public string NormalizedName { get; set; }
 
-        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public List<UserRole> UserRoles { get; set; }
     }
 }
