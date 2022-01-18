@@ -1,67 +1,169 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using iTechArt.Common;
 using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.Repositories.UnitsOfWorks;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Repositories.Stores
 {
     [UsedImplicitly]
-    public class RoleStore : IUserStore<UserRole>
+    public class RoleStore : IRoleStore<Role>
     {
+
+        private readonly ILog _logger;
+        private readonly ISurveyUnitOfWork _uow;
+
+
+        public RoleStore(ILog logger, ISurveyUnitOfWork uow)
+        {
+            _logger = logger;
+            _uow = uow;
+        }
+
+
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _uow.Dispose();
         }
 
-        public Task<IdentityResult> CreateAsync(UserRole user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role cannot be null");
+
+                throw new ArgumentNullException($"Role cannot be null"); ;
+            }
+
+            await _uow.RoleRepository.CreateAsync(role);
+            await _uow.SaveChangesAsync();
+
+            return IdentityResult.Success;
         }
 
-        public Task<IdentityResult> DeleteAsync(UserRole user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> DeleteAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role cannot be null");
+
+                throw new ArgumentNullException($"Role cannot be null"); ;
+            }
+
+            _uow.RoleRepository.Delete(role);
+            await _uow.SaveChangesAsync();
+
+            return IdentityResult.Success;
         }
 
-        public Task<UserRole> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public async Task<Role> FindByIdAsync(string roleId, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!int.TryParse(roleId, out var id))
+            {
+                _logger.LogError("Invalid identificator value");
+
+                throw new ArgumentNullException("Invalid identificator value");
+            }
+
+            var role = await _uow.RoleRepository.GetByIdAsync(id);
+
+            return role;
         }
 
-        public Task<UserRole> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<Role> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return await _uow.RoleRepository.FirstOrDefaultAsync(r => r.NormalizedName == normalizedRoleName);
         }
 
-        public Task<string> GetNormalizedUserNameAsync(UserRole user, CancellationToken cancellationToken)
+        public Task<string> GetNormalizedRoleNameAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            return Task.FromResult(role.NormalizedName);
         }
 
-        public Task<string> GetUserIdAsync(UserRole user, CancellationToken cancellationToken)
+        public Task<string> GetRoleIdAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            return Task.FromResult(role.Id.ToString());
         }
 
-        public Task<string> GetUserNameAsync(UserRole user, CancellationToken cancellationToken)
+        public Task<string> GetRoleNameAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            return Task.FromResult(role.Name);
         }
 
-        public Task SetNormalizedUserNameAsync(UserRole user, string normalizedName, CancellationToken cancellationToken)
+        public Task SetNormalizedRoleNameAsync(Role role, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            role.NormalizedName = role.Name.ToUpper();
+
+            return Task.CompletedTask;
         }
 
-        public Task SetUserNameAsync(UserRole user, string userName, CancellationToken cancellationToken)
+        public Task SetRoleNameAsync(Role role, string roleName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Task<IdentityResult> UpdateAsync(UserRole user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> UpdateAsync(Role role, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (role == null)
+            {
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
+            }
+
+            _uow.RoleRepository.Update(role);
+            await _uow.SaveChangesAsync();
+
+            return IdentityResult.Success;
         }
     }
 }

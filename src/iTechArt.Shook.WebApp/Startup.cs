@@ -41,7 +41,7 @@ namespace iTechArt.Shook.WebApp
             });
             builder.AddRoles<UserRole>();
             builder.AddUserStore<SurveyUserStore>();
-            builder.AddRoleStore<IRoleStore<RoleStore>>();
+            builder.AddRoleStore<RoleStore>();
             builder.AddSignInManager<SignInManager<User>>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();

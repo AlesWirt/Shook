@@ -12,19 +12,16 @@ namespace iTechArt.Shook.Foundation
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly AccountService _accountService;
 
 
         public UserManagementService(ILog logger,
             ISurveyUnitOfWork uow,
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            AccountService accountService)
         {
             _logger = logger;
             _uow = uow;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _accountService = accountService;
         }
 
         public async Task<IdentityResult> RegisterAsync(User user, string password)
@@ -36,12 +33,16 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"User cannot be null");
             }
 
-            var result =  await _userManager.CreateAsync(user, password);
+            var result =  await _accountService.SignUp(user, password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, "User");
-                await _signInManager.SignInAsync(user, isPersistent: false);
+                var addToRoleResult = await _accountService.AddToRoleAsync(user, "User");
+
+                if (addToRoleResult.Succeeded)
+                {
+                    await _accountService.SignIn(user);
+                }
             }
 
             return result;
@@ -54,9 +55,9 @@ namespace iTechArt.Shook.Foundation
             return collection;
         }
 
-        public async Task SignOutAsync()
+        public async Task LogOffAsync()
         {
-            _signInManager.SignOutAsync();
+            await _accountService.LogOffAsync();
         }
     }
 }

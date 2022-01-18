@@ -92,7 +92,16 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            return Task.FromResult(user.NormalizedName);
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
@@ -144,7 +153,16 @@ namespace iTechArt.Shook.Repositories.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Task.FromResult<object>(null);
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist"); ;
+            }
+
+            user.NormalizedName = user.UserName.ToUpper();
+
+            return Task.CompletedTask;
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
@@ -203,7 +221,7 @@ namespace iTechArt.Shook.Repositories.Stores
             }
 
             user.PasswordHash = passwordHash;
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -212,7 +230,16 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            return Task.CompletedTask;
         }
 
         public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)

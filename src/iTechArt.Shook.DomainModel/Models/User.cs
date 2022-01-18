@@ -1,4 +1,6 @@
-﻿namespace iTechArt.Shook.DomainModel.Models
+﻿using System.Collections.Generic;
+
+namespace iTechArt.Shook.DomainModel.Models
 {
     public class User
     {
@@ -12,6 +14,10 @@
 
         public string UserName { get; set; }
 
+        public string NormalizedName { get; set; }
+
         public string PasswordHash { get; set; }
+
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }

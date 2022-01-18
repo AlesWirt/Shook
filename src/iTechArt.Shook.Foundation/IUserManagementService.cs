@@ -11,6 +11,6 @@ namespace iTechArt.Shook.Foundation
 
         public Task<IReadOnlyCollection<User>> DisplayAllUsersAsync();
 
-        public Task SignOutAsync();
+        public Task LogOffAsync();
     }
 }
