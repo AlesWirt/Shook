@@ -240,16 +240,20 @@ namespace iTechArt.Shook.Repositories.Stores
             }
 
             var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.Name == roleName);
-            
-            user.UserRoles.Add(new UserRole()
+
+            UserRole userRole = new UserRole()
             {
                 Role = role,
                 RoleId = role.Id,
                 User = user,
                 UserId = user.Id
-            });
+            };
+
+            user.UserRoles.Add(userRole);
+            role.UserRoles.Add(userRole);
 
             _uow.UserRepository.Update(user);
+            _uow.RoleRepository.Update(role);
             await _uow.SaveChangesAsync();
         }
 
