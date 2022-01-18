@@ -244,7 +244,9 @@ namespace iTechArt.Shook.Repositories.Stores
             user.UserRoles.Add(new UserRole()
             {
                 Role = role,
-                User = user
+                RoleId = role.Id,
+                User = user,
+                UserId = user.Id
             });
 
             _uow.UserRepository.Update(user);
