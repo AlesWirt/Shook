@@ -38,6 +38,7 @@ namespace iTechArt.Shook.WebApp.Controllers
             var user = new User
             {
                 UserName = model.Name,
+                Email = model.Email
             };
 
             var result = await _userManagementService.RegisterAsync(user, model.Password);

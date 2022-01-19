@@ -18,6 +18,8 @@ namespace iTechArt.Shook.DomainModel.Models
 
         public string PasswordHash { get; set; }
 
+        public string Email { get; set; }
+
         public List<UserRole> UserRoles { get; set; }
     }
 }

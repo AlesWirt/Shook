@@ -45,6 +45,9 @@ namespace iTechArt.Shook.Repositories.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

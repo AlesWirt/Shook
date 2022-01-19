@@ -11,9 +11,19 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [Display(Name = "User name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Wrong email.")]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [DataType(DataType.Password)]
         [StringLength(User.UserPasswordMaxLength,
             MinimumLength = User.UserPasswordMinLength,
             ErrorMessage = "Note enough symbols in your password")]
         public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and the confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }
