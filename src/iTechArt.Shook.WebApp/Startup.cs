@@ -1,9 +1,11 @@
+using System;
 using iTechArt.Common;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.Repositories.Stores;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -35,9 +37,15 @@ namespace iTechArt.Shook.WebApp
             services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
-            services.AddAuthentication();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            }).AddIdentityCookies();
+            
 
             var builder = services.AddIdentityCore<User>(options =>
             {
@@ -46,15 +54,12 @@ namespace iTechArt.Shook.WebApp
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
             });
-            builder.AddRoles<Role>();
-            builder.AddRoleStore<RoleStore>();
             builder.AddUserStore<SurveyUserStore>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 

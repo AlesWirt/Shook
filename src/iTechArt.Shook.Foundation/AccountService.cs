@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using iTechArt.Shook.DomainModel.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
@@ -28,13 +32,6 @@ namespace iTechArt.Shook.Foundation
         public async Task SignIn(User user)
         {
             await _signInManager.SignInAsync(user, isPersistent: false);
-        }
-
-        public async Task<IdentityResult> AddToRoleAsync(User user, string role)
-        {
-            var result = await _userManager.AddToRoleAsync(user, role);
-
-            return result;
         }
 
         public async Task LogOffAsync()

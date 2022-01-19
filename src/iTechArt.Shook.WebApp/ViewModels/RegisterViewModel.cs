@@ -15,6 +15,7 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "This field required password.")]
         [DataType(DataType.Password)]
         [StringLength(User.UserPasswordMaxLength,
             MinimumLength = User.UserPasswordMinLength,

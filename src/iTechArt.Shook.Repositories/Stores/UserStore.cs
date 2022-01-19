@@ -12,8 +12,7 @@ namespace iTechArt.Shook.Repositories.Stores
 {
     [UsedImplicitly]
     public class SurveyUserStore : IUserStore<User>,
-        IUserPasswordStore<User>,
-        IUserRoleStore<User>
+        IUserPasswordStore<User>
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
@@ -172,6 +171,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
         #endregion
 
+
         #region IUserPasswordStore
 
         public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
@@ -221,104 +221,6 @@ namespace iTechArt.Shook.Repositories.Stores
             }
 
             user.PasswordHash = passwordHash;
-            return Task.CompletedTask;
-        }
-
-        #endregion
-
-        #region IUserRoleStore
-
-        public async Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (user == null)
-            {
-                _logger.LogError($"User does not exist");
-
-                throw new ArgumentNullException($"User does not exist");
-            }
-
-            if (string.IsNullOrWhiteSpace(roleName))
-            {
-                _logger.LogError($"Role name does not exist");
-
-                throw new ArgumentNullException($"Role name does not exist");
-            }
-
-            var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.Name == roleName);
-
-            var userRole = new UserRole()
-            {
-                RoleId = role.Id,
-                UserId = user.Id
-            };
-
-            await _uow.GetRepository<UserRole>().CreateAsync(userRole);
-            await _uow.SaveChangesAsync();
-        }
-
-        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (user == null)
-            {
-                _logger.LogError($"User does not exist");
-
-                throw new ArgumentNullException($"User does not exist");
-            }
-
-            var userRoles = user.UserRoles;
-            var roleNames = new List<string>();
-
-            foreach (var userRole in userRoles)
-            {
-                var roleName = userRole.Role.Name;
-                roleNames.Add(roleName);
-            }
-
-            return await Task.FromResult(roleNames);
-        }
-
-        public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
-        {
-            var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.Name == roleName);
-
-            var userRoles = role.UserRoles;
-
-            var users = new List<User>();
-
-            foreach (var userRole in userRoles)
-            {
-                users.Add(userRole.User);
-            }
-
-            return await Task.FromResult(users);
-        }
-
-        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            var isInRole = false;
-
-            foreach (var userRole in user.UserRoles)
-            {
-                isInRole = userRole.Role.Name == roleName;
-            }
-
-            return Task.FromResult(isInRole);
-        }
-
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            foreach (var userRole in user.UserRoles)
-            {
-                if (userRole.Role.Name == roleName)
-                {
-                    user.UserRoles.Remove(userRole);
-                }
-            }
-
             return Task.CompletedTask;
         }
 

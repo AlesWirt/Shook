@@ -1,7 +1,6 @@
 ﻿using System;
 using iTechArt.Common;
 using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.DomainModel.Utility;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
@@ -38,12 +37,7 @@ namespace iTechArt.Shook.Foundation
 
             if (result.Succeeded)
             {
-                var addToRoleResult = await _accountService.AddToRoleAsync(user, Helper.User);
-
-                if (addToRoleResult.Succeeded)
-                {
-                    await _accountService.SignIn(user);
-                }
+                await _accountService.SignIn(user);
             }
 
             return result;

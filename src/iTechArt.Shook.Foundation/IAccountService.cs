@@ -8,7 +8,6 @@ namespace iTechArt.Shook.Foundation
     {
         public Task<IdentityResult> SignUp(User user, string password);
         public Task SignIn(User user);
-        public Task<IdentityResult> AddToRoleAsync(User user, string role);
         public Task LogOffAsync();
     }
 }

@@ -16,14 +16,18 @@
                     <a asp-controller="Home" asp-action="Index">
                         <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
                     </a>
-                    
+                        
                 </div>
             </div>
             <partial name="_LoginPartial" />
         </nav>
     </header>
 
-    <div>@RenderBody()</div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
