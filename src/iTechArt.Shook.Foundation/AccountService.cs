@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -30,9 +30,9 @@ namespace iTechArt.Shook.Foundation
             await _signInManager.SignInAsync(user, isPersistent: false);
         }
 
-        public Task<IdentityResult> AddToRoleAsync(User user, string role)
+        public async Task<IdentityResult> AddToRoleAsync(User user, string role)
         {
-            var result = _userManager.AddToRoleAsync(user, role);
+            var result = await _userManager.AddToRoleAsync(user, role);
 
             return result;
         }

@@ -24,8 +24,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     .IsRequired();
                 options.Property(p => p.NormalizedName)
                     .IsRequired();
-                options.Property(p => p.Email)
-                    .IsRequired();
                 options.Property(p => p.PasswordHash)
                     .IsRequired();
             });
@@ -41,9 +39,11 @@ namespace iTechArt.Shook.Repositories.DbContexts
             builder.Entity<UserRole>(options =>
             {
                 options.HasKey(ck => new {ck.UserId, ck.RoleId});
+
                 options.HasOne(ur => ur.User)
                     .WithMany(u => u.UserRoles)
                     .HasForeignKey(ur => ur.UserId);
+
                 options.HasOne(ur => ur.Role)
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.RoleId);

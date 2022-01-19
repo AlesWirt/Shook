@@ -70,7 +70,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> LogOff()
         {
-            await _userManagementService.SignOutAsync();
+            await _userManagementService.LogOffAsync();
             
             return RedirectToAction("Register", "Account");
         }

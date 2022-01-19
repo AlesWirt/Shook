@@ -35,16 +35,23 @@ namespace iTechArt.Shook.WebApp
             services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
+            services.AddAuthentication();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
 
             var builder = services.AddIdentityCore<User>(options =>
             {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
             });
-            builder.AddRoles<UserRole>();
-            builder.AddUserStore<SurveyUserStore>();
+            builder.AddRoles<Role>();
             builder.AddRoleStore<RoleStore>();
+            builder.AddUserStore<SurveyUserStore>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            services.AddScoped<IUserManagementService, UserManagementService>();
+            
         }
 
         
@@ -59,6 +66,8 @@ namespace iTechArt.Shook.WebApp
             app.UseSerilogRequestLogging();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

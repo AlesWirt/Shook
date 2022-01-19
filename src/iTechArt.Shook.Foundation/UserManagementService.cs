@@ -1,6 +1,7 @@
 ﻿using System;
 using iTechArt.Common;
 using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.DomainModel.Utility;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
@@ -12,12 +13,12 @@ namespace iTechArt.Shook.Foundation
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
 
 
         public UserManagementService(ILog logger,
             ISurveyUnitOfWork uow,
-            AccountService accountService)
+            IAccountService accountService)
         {
             _logger = logger;
             _uow = uow;
@@ -37,7 +38,7 @@ namespace iTechArt.Shook.Foundation
 
             if (result.Succeeded)
             {
-                var addToRoleResult = await _accountService.AddToRoleAsync(user, "User");
+                var addToRoleResult = await _accountService.AddToRoleAsync(user, Helper.User);
 
                 if (addToRoleResult.Succeeded)
                 {
