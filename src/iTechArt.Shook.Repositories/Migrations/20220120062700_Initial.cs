@@ -15,7 +15,7 @@ namespace iTechArt.Shook.Repositories.Migrations
                     UserName = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {

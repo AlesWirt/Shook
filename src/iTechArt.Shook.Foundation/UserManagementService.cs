@@ -1,10 +1,8 @@
-﻿using System;
-using iTechArt.Common;
+﻿using iTechArt.Common;
 using iTechArt.Shook.DomainModel.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
-using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
 {

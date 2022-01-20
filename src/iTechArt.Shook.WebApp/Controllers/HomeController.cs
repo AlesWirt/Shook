@@ -1,6 +1,4 @@
 ﻿using iTechArt.Shook.Foundation;
-using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 

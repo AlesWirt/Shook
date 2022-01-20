@@ -5,25 +5,26 @@ using iTechArt.Shook.WebApp.ViewModels;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    public class SignInController : Controller
+    public class LogInController : Controller
     {
         private readonly IAccountService _accountService;
 
 
-        public SignInController(IAccountService accountService)
+        public LogInController(IAccountService accountService)
         {
             _accountService = accountService;
         }
 
+
         [HttpGet]
-        public IActionResult SignIn()
+        public IActionResult LogIn()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(SignInViewModel model)
+        public async Task<IActionResult> LogIn(LogInViewModel model)
         {
             if (!ModelState.IsValid)
             {

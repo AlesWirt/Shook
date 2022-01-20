@@ -1,7 +1,6 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using iTechArt.Common;

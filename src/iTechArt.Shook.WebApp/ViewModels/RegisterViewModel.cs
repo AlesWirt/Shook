@@ -8,11 +8,12 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [StringLength(maximumLength: User.UserNameMaxLength, 
             MinimumLength = User.UserNameMinLength, 
             ErrorMessage = "Not enough symbols in field")]
+        [DataType(DataType.Text)]
         [Display(Name = "User name")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Wrong email.")]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         [RegularExpression(@"(\w{2,8}\d{0,4})@([a-z]{2,8}).(\w{2,4})")]
         public string Email { get; set; }
 

@@ -1,41 +1,57 @@
 ﻿@model iTechArt.Shook.WebApp.ViewModels.RegisterViewModel
 
-<form class="needs-validation" method="post" asp-action="Register" asp-controller="Account" novalidate>
-    
-    <div asp-validation-summary="All"></div>
+<div class="align-items-center h-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-11 col-lg-7 col-xl-6">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-5">
 
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Name"></label>
-        <div class="col-md-5">
-            <input type="text" class="form-control" asp-for="Name"/>
-            <small class="form-text text-muted">Allowed number of characters: 16.</small>
+                        <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+
+                        <form class="needs-validation" method="post" asp-action="Register" asp-controller="Account" novalidate>
+
+                            <div asp-validation-summary="All"></div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-md-3" asp-for="Name"></label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" asp-for="Name"/>
+                                    <small class="form-text text-muted">Allowed number of characters: 16.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-md-3" asp-for="Email"></label>
+                                <div class="col-md-6">
+                                    <input asp-for="Email" class="form-control"/>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-md-3" asp-for="Password"></label>
+                                <div class="col-md-6">
+                                    <input asp-for="Password" class="form-control"/>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-4">
+                                <label class="col-md-3" asp-for="ConfirmPassword"></label>
+                                <div class="col-md-6">
+                                    <input asp-for="ConfirmPassword" class="form-control"/>
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <input type="submit" value="Create" class="btn btn-success"/>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Email"></label>
-        <div class="col-md-5">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Password"></label>
-        <div class="col-md-5">
-            <input asp-for="Password" class="form-control"/>
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="ConfirmPassword"></label>
-        <div class="col-md-5">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-
-    <input type="submit" value="Create" class="btn btn-success"/>
-
-</form>
+</div>
