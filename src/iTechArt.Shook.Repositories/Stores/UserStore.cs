@@ -199,7 +199,7 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist");
             }
 
-            return Task.FromResult<bool>(!string.IsNullOrEmpty(user.PasswordHash));
+            return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
         }
 
         public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)

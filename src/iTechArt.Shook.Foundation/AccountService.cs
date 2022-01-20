@@ -1,35 +1,54 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System;
+using iTechArt.Common;
 using System.Threading.Tasks;
 using iTechArt.Shook.DomainModel.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
 {
     public class AccountService : IAccountService
     {
+        private readonly ILog _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
 
-        public AccountService(UserManager<User> userManager,
+        public AccountService(ILog logger, UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
 
-        public async Task<IdentityResult> SignUp(User user, string password)
+        public async Task<IdentityResult> RegisterAsync(User user, string password)
         {
+            if (user == null)
+            {
+                _logger.LogError($"User cannot be null");
+
+                throw new ArgumentNullException($"User cannot be null");
+            }
+
             var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                await SignInAsync(user);
+            }
 
             return result;
         }
 
-        public async Task SignIn(User user)
+        public async Task<SignInResult> SignInAsync(string userName, string password, bool rememberMe = false)
+        {
+            var result = await _signInManager.PasswordSignInAsync(userName, password, rememberMe, false);
+
+            return result;
+        }
+
+        public async Task SignInAsync(User user)
         {
             await _signInManager.SignInAsync(user, isPersistent: false);
         }
@@ -37,6 +56,13 @@ namespace iTechArt.Shook.Foundation
         public async Task LogOffAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<User> FindByNameAsync(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            return user;
         }
     }
 }

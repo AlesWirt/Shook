@@ -1,61 +1,56 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.WebApp.ViewModels;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    public class AccountController : Controller
+    public class SignInController : Controller
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+
+        public SignInController(IAccountService accountService)
         {
             _accountService = accountService;
         }
 
         [HttpGet]
-        public ViewResult Register()
+        public IActionResult SignIn()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View();
             }
 
-            var user = new User
-            {
-                UserName = model.Name,
-                Email = model.Email
-            };
-
-            var result = await _accountService.RegisterAsync(user, model.Password);
+            var result = await _accountService.SignInAsync(model.Name, model.Password);
 
             if (result.Succeeded)
             {
+                var user = _accountService.FindByNameAsync(model.Name);
+
                 return RedirectToAction("DisplayUsers", "Home");
             }
-
-            foreach (var error in result.Errors)
+            else
             {
-                ModelState.AddModelError("", error.Description);
+                ModelState.AddModelError("", "Invalid login attempt");
             }
 
             return View(model);
         }
-        
 
-        [HttpGet]
-        public ViewResult Login()
+        [HttpPost]
+        public async Task<IActionResult> LogOff()
         {
-            return View();
+            await _accountService.LogOffAsync();
+            return RedirectToAction("Register", "Account");
         }
     }
 }

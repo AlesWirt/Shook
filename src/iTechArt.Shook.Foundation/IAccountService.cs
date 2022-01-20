@@ -6,8 +6,10 @@ namespace iTechArt.Shook.Foundation
 {
     public interface IAccountService
     {
-        public Task<IdentityResult> SignUp(User user, string password);
-        public Task SignIn(User user);
+        public Task<IdentityResult> RegisterAsync(User user, string password);
+        public Task<SignInResult> SignInAsync(string userName, string password, bool rememberMe = false);
+        public Task SignInAsync(User user);
         public Task LogOffAsync();
+        public Task<User> FindByNameAsync(string userName);
     }
 }

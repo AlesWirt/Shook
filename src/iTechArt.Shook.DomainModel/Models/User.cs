@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace iTechArt.Shook.DomainModel.Models
 {
@@ -8,6 +8,8 @@ namespace iTechArt.Shook.DomainModel.Models
         public const int UserNameMaxLength = 16;
         public const int UserPasswordMaxLength = 20;
         public const int UserPasswordMinLength = 8;
+        public const int UserEmailMaxLength = 25;
+        public const int UserEmailMinLength = 12;
 
 
         public int Id { get; set; }
@@ -18,6 +20,7 @@ namespace iTechArt.Shook.DomainModel.Models
 
         public string PasswordHash { get; set; }
 
+        [RegularExpression(@"(\w{2,8}\d{0,4})@([a-z]{2,8}).(\w{2,4})")]
         public string Email { get; set; }
     }
 }

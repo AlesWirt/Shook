@@ -24,35 +24,11 @@ namespace iTechArt.Shook.Foundation
             _accountService = accountService;
         }
 
-        public async Task<IdentityResult> RegisterAsync(User user, string password)
-        {
-            if (user == null)
-            {
-                _logger.LogError($"User cannot be null");
-
-                throw new ArgumentNullException($"User cannot be null");
-            }
-
-            var result =  await _accountService.SignUp(user, password);
-
-            if (result.Succeeded)
-            {
-                await _accountService.SignIn(user);
-            }
-
-            return result;
-        }
-
         public async Task<IReadOnlyCollection<User>> DisplayAllUsersAsync()
         {
             var collection = await _uow.UserRepository.GetAllAsync();
 
             return collection;
-        }
-
-        public async Task LogOffAsync()
-        {
-            await _accountService.LogOffAsync();
         }
     }
 }

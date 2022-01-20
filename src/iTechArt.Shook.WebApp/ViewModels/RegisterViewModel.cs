@@ -13,6 +13,7 @@ namespace iTechArt.Shook.WebApp.ViewModels
 
         [Required(ErrorMessage = "Wrong email.")]
         [EmailAddress]
+        [RegularExpression(@"(\w{2,8}\d{0,4})@([a-z]{2,8}).(\w{2,4})")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "This field required password.")]
