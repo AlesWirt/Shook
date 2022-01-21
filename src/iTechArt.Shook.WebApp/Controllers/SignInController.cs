@@ -8,11 +8,13 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class SignInController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IUserManagementService _userManagementService;
 
-
-        public SignInController(IAccountService accountService)
+        public SignInController(IAccountService accountService,
+            IUserManagementService userManagementService)
         {
             _accountService = accountService;
+            _userManagementService = userManagementService;
         }
 
 
@@ -31,11 +33,16 @@ namespace iTechArt.Shook.WebApp.Controllers
                 return View();
             }
 
-            var result = await _accountService.SignInAsync(model.Name, model.Password);
+            var user = await _userManagementService.GetUserByName(model.Name);
 
-            if (result.Succeeded)
+            if (user == null)
             {
-                return RedirectToAction("DisplayUsers", "Home");
+                var result = await _accountService.SignInAsync(model.Name, model.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("DisplayUsers", "Home");
+                }
             }
             else
             {

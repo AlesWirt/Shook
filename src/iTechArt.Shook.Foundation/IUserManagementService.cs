@@ -7,5 +7,6 @@ namespace iTechArt.Shook.Foundation
     public interface IUserManagementService
     {
         public Task<IReadOnlyCollection<User>> GetAllUsersAsync();
+        public Task<User> GetUserByName(string userName);
     }
 }

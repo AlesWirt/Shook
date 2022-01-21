@@ -66,7 +66,7 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"User name cannot be null");
             }
 
-            if (password == null)
+            if (string.IsNullOrEmpty(password))
             {
                 _logger.LogError($"User password cannot be null");
 
@@ -82,20 +82,6 @@ namespace iTechArt.Shook.Foundation
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
-        }
-
-        public async Task<User> FindByNameAsync(string userName)
-        {
-            if (userName == null)
-            {
-                _logger.LogError($"User name cannot be null");
-
-                throw new ArgumentNullException($"User name cannot be null");
-            }
-
-            var user = await _userManager.FindByNameAsync(userName);
-
-            return user;
         }
     }
 }
