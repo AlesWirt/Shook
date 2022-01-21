@@ -40,7 +40,12 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("DisplayUsers", "Home");
+                var signInResult = await _accountService.SignInAsync(user, model.Password);
+
+                if (signInResult.Succeeded)
+                {
+                    return RedirectToAction("DisplayUsers", "Home");
+                }
             }
 
             foreach (var error in result.Errors)
@@ -49,13 +54,6 @@ namespace iTechArt.Shook.WebApp.Controllers
             }
 
             return View(model);
-        }
-        
-
-        [HttpGet]
-        public ViewResult Login()
-        {
-            return View();
         }
     }
 }

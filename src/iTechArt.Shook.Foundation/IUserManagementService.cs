@@ -6,6 +6,6 @@ namespace iTechArt.Shook.Foundation
 {
     public interface IUserManagementService
     {
-        public Task<IReadOnlyCollection<User>> DisplayAllUsersAsync();
+        public Task<IReadOnlyCollection<User>> GetAllUsersAsync();
     }
 }

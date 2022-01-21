@@ -5,26 +5,26 @@ using iTechArt.Shook.WebApp.ViewModels;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    public class LogInController : Controller
+    public class SignInController : Controller
     {
         private readonly IAccountService _accountService;
 
 
-        public LogInController(IAccountService accountService)
+        public SignInController(IAccountService accountService)
         {
             _accountService = accountService;
         }
 
 
         [HttpGet]
-        public IActionResult LogIn()
+        public IActionResult SignIn()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogIn(LogInViewModel model)
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -35,8 +35,6 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                var user = _accountService.FindByNameAsync(model.Name);
-
                 return RedirectToAction("DisplayUsers", "Home");
             }
             else
@@ -48,9 +46,9 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> SignOut()
         {
-            await _accountService.LogOffAsync();
+            await _accountService.SignOutAsync();
             return RedirectToAction("Register", "Account");
         }
     }

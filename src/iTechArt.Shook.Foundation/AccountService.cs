@@ -33,10 +33,26 @@ namespace iTechArt.Shook.Foundation
 
             var result = await _userManager.CreateAsync(user, password);
 
-            if (result.Succeeded)
+            return result;
+        }
+
+        public async Task<SignInResult> SignInAsync(User user, string password, bool rememberMe = false)
+        {
+            if (user == null)
             {
-                await SignInAsync(user);
+                _logger.LogError($"User cannot be null");
+
+                throw new ArgumentNullException($"User cannot be null");
             }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                _logger.LogError($"User password cannot be null");
+
+                throw new ArgumentNullException($"User password cannot be null");
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, false);
 
             return result;
         }
@@ -62,19 +78,8 @@ namespace iTechArt.Shook.Foundation
             return result;
         }
 
-        public async Task SignInAsync(User user)
-        {
-            if (user == null)
-            {
-                _logger.LogError($"User cannot be null");
 
-                throw new ArgumentNullException($"User cannot be null");
-            }
-
-            await _signInManager.SignInAsync(user, isPersistent: false);
-        }
-
-        public async Task LogOffAsync()
+        public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
         }

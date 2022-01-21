@@ -22,7 +22,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         public async Task<IActionResult> DisplayUsers()
         {
-            var collection = await _userManagementService.DisplayAllUsersAsync();
+            var collection = await _userManagementService.GetAllUsersAsync();
             return View(collection);
         }
     }

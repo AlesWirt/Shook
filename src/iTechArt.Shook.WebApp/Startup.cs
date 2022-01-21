@@ -1,11 +1,9 @@
-using System;
 using iTechArt.Common;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.Repositories.Stores;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

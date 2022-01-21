@@ -8,6 +8,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public const int UserNameMaxLength = 16;
         public const int UserPasswordMaxLength = 20;
         public const int UserPasswordMinLength = 8;
+        public const int UserEmailMinLength = 8;
         public const int UserEmailMaxLength = 25;
 
 

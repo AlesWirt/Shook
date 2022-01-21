@@ -158,14 +158,31 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist"); ;
             }
 
-            user.NormalizedName = user.UserName.ToUpper();
+            user.NormalizedName = normalizedName;
 
             return Task.CompletedTask;
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                _logger.LogError($"Password does not exist");
+
+                throw new ArgumentNullException($"Password does not exist");
+            }
+
+            user.UserName = userName;
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -212,7 +229,7 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist");
             }
 
-            if (passwordHash == null)
+            if (string.IsNullOrEmpty(passwordHash))
             {
                 _logger.LogError($"Password does not exist");
 

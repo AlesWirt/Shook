@@ -8,21 +8,15 @@ namespace iTechArt.Shook.Foundation
 {
     public class UserManagementService : IUserManagementService
     {
-        private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
-        private readonly IAccountService _accountService;
 
 
-        public UserManagementService(ILog logger,
-            ISurveyUnitOfWork uow,
-            IAccountService accountService)
+        public UserManagementService(ISurveyUnitOfWork uow)
         {
-            _logger = logger;
             _uow = uow;
-            _accountService = accountService;
         }
 
-        public async Task<IReadOnlyCollection<User>> DisplayAllUsersAsync()
+        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
             var collection = await _uow.UserRepository.GetAllAsync();
 
