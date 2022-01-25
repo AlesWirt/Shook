@@ -4,6 +4,7 @@ using iTechArt.Shook.DomainModel.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
+using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
 {
@@ -11,12 +12,15 @@ namespace iTechArt.Shook.Foundation
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
+        private readonly UserManager<User> _userManager;
 
 
-        public UserManagementService(ILog logger, ISurveyUnitOfWork uow)
+        public UserManagementService(ILog logger, ISurveyUnitOfWork uow,
+            UserManager<User> userManager)
         {
             _logger = logger;
             _uow = uow;
+            _userManager = userManager;
         }
 
 
@@ -27,7 +31,7 @@ namespace iTechArt.Shook.Foundation
             return collection;
         }
 
-        public async Task<User> GetUserByName(string userName)
+        public async Task<User> GetUserByUserNameAsync(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {
@@ -36,7 +40,7 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"User name cannot be null");
             }
 
-            var user = await _uow.UserRepository.FirstOrDefaultAsync(u => u.UserName == userName);
+            var user = await _userManager.FindByNameAsync(userName);
 
             return user;
         }

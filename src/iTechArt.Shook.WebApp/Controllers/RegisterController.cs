@@ -6,11 +6,11 @@ using iTechArt.Shook.WebApp.ViewModels;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    public class AccountController : Controller
+    public class RegisterController : Controller
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public RegisterController(IAccountService accountService)
         {
             _accountService = accountService;
         }

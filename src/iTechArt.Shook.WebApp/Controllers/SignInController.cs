@@ -33,11 +33,11 @@ namespace iTechArt.Shook.WebApp.Controllers
                 return View();
             }
 
-            var user = await _userManagementService.GetUserByName(model.Name);
+            var user = await _userManagementService.GetUserByUserNameAsync(model.Name);
 
-            if (user == null)
+            if (user != null)
             {
-                var result = await _accountService.SignInAsync(model.Name, model.Password);
+                var result = await _accountService.SignInAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -56,7 +56,13 @@ namespace iTechArt.Shook.WebApp.Controllers
         public async Task<IActionResult> SignOut()
         {
             await _accountService.SignOutAsync();
-            return RedirectToAction("Register", "Account");
+            return RedirectToAction("Register", "Register");
+        }
+
+        [HttpGet]
+        public IActionResult LogIn()
+        {
+            return View();
         }
     }
 }

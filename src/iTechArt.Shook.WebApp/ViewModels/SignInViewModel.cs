@@ -11,5 +11,7 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [Required(ErrorMessage = "Wrong password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }

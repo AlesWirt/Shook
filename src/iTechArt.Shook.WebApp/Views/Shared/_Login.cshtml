@@ -1,0 +1,32 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <a class="navbar-brand pt-0 pb-0 mr-0 mr-md-2" asp-controller="Home" asp-action="DisplayUsers">
+        <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
+    </a>
+    <div class="navbar-collapse flex-sm-row-reverse">
+        <form method="post" id="logoutForm" asp-action="SignOut" asp-controller="SignIn">
+            <ul class="nav navbar-nav">
+                <li class="nav-item text-white nav-link">Hello, @User.Identity.Name!</li>
+                <li class="nav-item"><button class="btn btn-link" type="submit" asp-controller="SignIn" asp-action="SignOut">Sign Out</button></li>
+            </ul>
+        </form>
+    </div>
+}
+else
+{
+    <a class="navbar-brand pt-0 pb-0 mr-0 mr-md-2" asp-controller="Home" asp-action="Index">
+        <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
+    </a>
+    <div class="navbar-collapse flex-sm-row-reverse">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link text-white" id="registerLink" asp-controller="Register" asp-action="Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" id="loginLink" asp-controller="SignIn" asp-action="SignIn">Sign In</a>
+            </li>
+        </ul>
+    </div>
+}
