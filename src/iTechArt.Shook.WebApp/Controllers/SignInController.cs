@@ -39,7 +39,6 @@ namespace iTechArt.Shook.WebApp.Controllers
             if (user == null)
             {
                 ModelState.AddModelError("", "Invalid login attempt");
-                
             }
 
             var result = await _accountService.SignInAsync(user, logInModel.Password);
@@ -48,6 +47,8 @@ namespace iTechArt.Shook.WebApp.Controllers
             {
                 return RedirectToAction("DisplayUsers", "Home");
             }
+
+            ModelState.AddModelError("", "Invalid password");
 
             return View(logInModel);
         }
