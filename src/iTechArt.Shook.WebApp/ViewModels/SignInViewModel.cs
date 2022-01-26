@@ -2,16 +2,15 @@
 
 namespace iTechArt.Shook.WebApp.ViewModels
 {
-    public class SignInViewModel
+    public class LogInViewModel
     {
         [Required(ErrorMessage = "Wrong name.")]
         [DataType(DataType.Text)]
-        public string Name { get; set; }
+        [Display(Name = "Login")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Wrong password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        public bool RememberMe { get; set; }
     }
 }

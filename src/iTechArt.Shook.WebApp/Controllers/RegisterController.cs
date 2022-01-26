@@ -10,10 +10,12 @@ namespace iTechArt.Shook.WebApp.Controllers
     {
         private readonly IAccountService _accountService;
 
+
         public RegisterController(IAccountService accountService)
         {
             _accountService = accountService;
         }
+
 
         [HttpGet]
         public ViewResult Register()
@@ -23,24 +25,24 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel registerModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(registerModel);
             }
 
             var user = new User
             {
-                UserName = model.Name,
-                Email = model.Email
+                UserName = registerModel.Login,
+                Email = registerModel.Email
             };
 
-            var result = await _accountService.RegisterAsync(user, model.Password);
+            var result = await _accountService.RegisterAsync(user, registerModel.Password);
 
             if (result.Succeeded)
             {
-                var signInResult = await _accountService.SignInAsync(user, model.Password);
+                var signInResult = await _accountService.SignInAsync(user, registerModel.Password);
 
                 if (signInResult.Succeeded)
                 {
@@ -53,7 +55,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View(model);
+            return View(registerModel);
         }
     }
 }

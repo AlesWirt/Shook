@@ -10,8 +10,8 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [StringLength(maximumLength: User.UserNameMaxLength,
             MinimumLength = User.UserNameMinLength,
             ErrorMessage = "Not enough symbols in field")]
-        [Display(Name = "User name")]
-        public string Name { get; set; }
+        [Display(Name = "Login")]
+        public string Login { get; set; }
 
 
         [Required(ErrorMessage = "Wrong email.")]

@@ -10,6 +10,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         private readonly IAccountService _accountService;
         private readonly IUserManagementService _userManagementService;
 
+
         public SignInController(IAccountService accountService,
             IUserManagementService userManagementService)
         {
@@ -26,43 +27,36 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SignIn(SignInViewModel model)
+        public async Task<IActionResult> SignIn(LogInViewModel logInModel)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var user = await _userManagementService.GetUserByUserNameAsync(model.Name);
+            var user = await _userManagementService.GetUserByUserNameAsync(logInModel.UserName);
 
-            if (user != null)
-            {
-                var result = await _accountService.SignInAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("DisplayUsers", "Home");
-                }
-            }
-            else
+            if (user == null)
             {
                 ModelState.AddModelError("", "Invalid login attempt");
+                
             }
 
-            return View(model);
+            var result = await _accountService.SignInAsync(user, logInModel.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("DisplayUsers", "Home");
+            }
+
+            return View(logInModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> SignOut()
         {
             await _accountService.SignOutAsync();
-            return RedirectToAction("Register", "Register");
-        }
-
-        [HttpGet]
-        public IActionResult LogIn()
-        {
-            return View();
+            return RedirectToAction("SignIn", "SignIn");
         }
     }
 }
