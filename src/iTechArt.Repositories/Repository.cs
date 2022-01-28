@@ -52,11 +52,6 @@ namespace iTechArt.Repositories
             DbContext.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<int> GetEntityQuantity()
-        {
-            return await DbContext.Set<TEntity>().CountAsync();
-        }
-
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);

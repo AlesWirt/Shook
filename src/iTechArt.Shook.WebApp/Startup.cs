@@ -6,6 +6,7 @@ using iTechArt.Shook.Repositories.UnitsOfWorks;
 using iTechArt.Shook.Repositories.Stores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,14 +35,27 @@ namespace iTechArt.Shook.WebApp
             services.AddControllersWithViews();
             services.AddSingleton<ILog, Logger>();
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
-
-            var builder = services.AddIdentityCore<User>();
-            builder.AddUserStore<SurveyUserStore>();
-
+            services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            }).AddIdentityCookies();
+            
+
+            var builder = services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequiredLength = 8;
+            });
+            builder.AddUserStore<SurveyUserStore>();
+            builder.AddSignInManager<SignInManager<User>>();
+
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
@@ -53,6 +67,8 @@ namespace iTechArt.Shook.WebApp
             app.UseSerilogRequestLogging();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

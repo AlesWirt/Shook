@@ -3,34 +3,33 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Create user</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" />
     <link rel="stylesheet" href="~/css/styles.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 </head>
 <body>
+<header class="mb-5">
+    <nav class="navbar navbar-expand flex-column flex-md-row bd-navbar pt-0 pb-0" style="background-color: #6aa84f;">
+        <partial name="_Login" />
+    </nav>
+</header>
 
-    <header>
-        <nav class="navbar" style="background-color: #6aa84f;">
-            <div class="containter">
-                <div>
-                    <a asp-controller="Home" asp-action="Index">
-                        <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
-                    </a>
-                    
-                </div>
-            </div>
-            <partial name="_LoginPartial" />
-        </nav>
-    </header>
-
-    <div>@RenderBody()</div>
+    <div>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
-            &copy; 2021 - iTechArt -
+            &copy; 2022 - iTechArt -
         </div>
     </footer>
 
     <script src="~/js/validation-scripts.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

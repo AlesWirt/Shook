@@ -10,7 +10,6 @@ namespace iTechArt.Shook.Repositories.UnitsOfWorks
     {
         public IUserRepository UserRepository => (IUserRepository)GetRepository<User>();
 
-
         public SurveyUnitOfWork(ILog logger, SurveyApplicationDbContext context)
             : base(logger, context)
         {

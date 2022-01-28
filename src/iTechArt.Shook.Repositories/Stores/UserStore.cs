@@ -10,7 +10,8 @@ using JetBrains.Annotations;
 namespace iTechArt.Shook.Repositories.Stores
 {
     [UsedImplicitly]
-    public class SurveyUserStore : IUserStore<User>
+    public class SurveyUserStore : IUserStore<User>,
+        IUserPasswordStore<User>
     {
         private readonly ILog _logger;
         private readonly ISurveyUnitOfWork _uow;
@@ -21,6 +22,8 @@ namespace iTechArt.Shook.Repositories.Stores
             _logger = logger;
             _uow = uow;
         }
+
+        #region IUserStore
 
         public void Dispose()
         {
@@ -87,7 +90,16 @@ namespace iTechArt.Shook.Repositories.Stores
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            return Task.FromResult(user.NormalizedName);
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
@@ -139,12 +151,95 @@ namespace iTechArt.Shook.Repositories.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Task.FromResult<object>(null);
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist"); ;
+            }
+
+            user.NormalizedName = normalizedName;
+
+            return Task.CompletedTask;
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                _logger.LogError($"Password does not exist");
+
+                throw new ArgumentNullException($"Password does not exist");
+            }
+
+            user.UserName = userName;
+            return Task.CompletedTask;
         }
+
+        #endregion
+
+
+        #region IUserPasswordStore
+
+        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            return Task.FromResult(user.PasswordHash);
+        }
+
+        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            return Task.FromResult(!string.IsNullOrEmpty(user.PasswordHash));
+        }
+
+        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (user == null)
+            {
+                _logger.LogError($"User does not exist");
+
+                throw new ArgumentNullException($"User does not exist");
+            }
+
+            if (string.IsNullOrEmpty(passwordHash))
+            {
+                _logger.LogError($"Password does not exist");
+
+                throw new ArgumentNullException($"Password does not exist");
+            }
+
+            user.PasswordHash = passwordHash;
+            return Task.CompletedTask;
+        }
+
+        #endregion
     }
 }

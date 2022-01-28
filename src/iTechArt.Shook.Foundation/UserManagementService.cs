@@ -15,8 +15,7 @@ namespace iTechArt.Shook.Foundation
         private readonly UserManager<User> _userManager;
 
 
-        public UserManagementService(ILog logger,
-            ISurveyUnitOfWork uow,
+        public UserManagementService(ILog logger, ISurveyUnitOfWork uow,
             UserManager<User> userManager)
         {
             _logger = logger;
@@ -24,25 +23,26 @@ namespace iTechArt.Shook.Foundation
             _userManager = userManager;
         }
 
-        public async Task<IdentityResult> RegisterAsync(User user)
-        {
-            if (user == null)
-            {
-                _logger.LogError($"User cannot be null");
 
-                throw new ArgumentNullException($"User cannot be null");
-            }
-
-            var result =  await _userManager.CreateAsync(user);
-
-            return result;
-        }
-
-        public async Task<IReadOnlyCollection<User>> DisplayAllUsersAsync()
+        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
             var collection = await _uow.UserRepository.GetAllAsync();
 
             return collection;
+        }
+
+        public async Task<User> GetUserByUserNameAsync(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                _logger.LogError($"User name cannot be null");
+
+                throw new ArgumentNullException($"User name cannot be null");
+            }
+
+            var user = await _userManager.FindByNameAsync(userName);
+
+            return user;
         }
     }
 }

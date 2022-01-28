@@ -1,6 +1,4 @@
 ﻿using iTechArt.Shook.Foundation;
-using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,9 +8,10 @@ namespace iTechArt.Shook.WebApp.Controllers
     {
         private readonly IUserManagementService _userManagementService;
 
-        public HomeController(IUserManagementService service)
+
+        public HomeController(IUserManagementService userManagementService)
         {
-            _userManagementService = service;
+            _userManagementService = userManagementService;
         }
 
 
@@ -21,51 +20,10 @@ namespace iTechArt.Shook.WebApp.Controllers
             return View();
         }
 
-        [HttpGet]
-        public ViewResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(RegisterViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var user = new User
-            {
-                UserName = model.Name,
-            };
-
-            var result = await _userManagementService.RegisterAsync(user);
-
-            if (result.Succeeded)
-            {
-                return RedirectToAction("DisplayUsers", "Home");
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-
-            return View(model);
-        }
-
         public async Task<IActionResult> DisplayUsers()
         {
-            var collection = await _userManagementService.DisplayAllUsersAsync();
+            var collection = await _userManagementService.GetAllUsersAsync();
             return View(collection);
-        }
-
-        [HttpGet]
-        public ViewResult Login()
-        {
-            return View();
         }
     }
 }
