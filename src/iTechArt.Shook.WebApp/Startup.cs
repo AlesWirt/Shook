@@ -50,8 +50,6 @@ namespace iTechArt.Shook.WebApp
             {
                 options.Password.RequiredLength = 8;
             });
-            builder.AddRoles<Role>();
-            builder.AddRoleStore<RoleStore>();
             builder.AddUserStore<SurveyUserStore>();
             builder.AddSignInManager<SignInManager<User>>();
 
