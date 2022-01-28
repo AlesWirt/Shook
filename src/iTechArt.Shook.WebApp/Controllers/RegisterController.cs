@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using iTechArt.Shook.DomainModel.Models;
+using iTechArt.Shook.DomainModel.Utility;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.WebApp.ViewModels;
 
@@ -42,12 +43,15 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
+                
                 var signInResult = await _accountService.SignInAsync(user, registerModel.Password);
 
                 if (signInResult.Succeeded)
                 {
                     return RedirectToAction("DisplayUsers", "Home");
                 }
+                
+                ModelState.AddModelError("", "Invalid login attempt");
             }
 
             foreach (var error in result.Errors)
