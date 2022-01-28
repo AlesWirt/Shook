@@ -37,6 +37,7 @@ namespace iTechArt.Shook.WebApp
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
@@ -47,11 +48,10 @@ namespace iTechArt.Shook.WebApp
 
             var builder = services.AddIdentityCore<User>(options =>
             {
-                options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = true;
             });
+            builder.AddRoles<Role>();
+            builder.AddRoleStore<RoleStore>();
             builder.AddUserStore<SurveyUserStore>();
             builder.AddSignInManager<SignInManager<User>>();
 
