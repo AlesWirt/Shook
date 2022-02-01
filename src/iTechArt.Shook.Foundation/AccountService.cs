@@ -61,5 +61,26 @@ namespace iTechArt.Shook.Foundation
         {
             await _signInManager.SignOutAsync();
         }
+
+        public async Task<IdentityResult> AddToRoleAsync(User user, string role)
+        {
+            if (user == null)
+            {
+                _logger.LogError($"User cannot be null");
+
+                throw new ArgumentNullException($"User cannot be null");
+            }
+
+            if (string.IsNullOrEmpty(role))
+            {
+                _logger.LogError($"User role cannot be null");
+
+                throw new ArgumentNullException($"User role cannot be null");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, role);
+
+            return result;
+        }
     }
 }

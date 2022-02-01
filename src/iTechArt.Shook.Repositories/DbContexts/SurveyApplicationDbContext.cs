@@ -1,4 +1,5 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.Shook.Repositories.DbContexts
@@ -6,9 +7,14 @@ namespace iTechArt.Shook.Repositories.DbContexts
     public class SurveyApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+
+
         public SurveyApplicationDbContext(DbContextOptions options)
             : base(options)
         {
+
         }
 
 
@@ -23,9 +29,70 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     .IsRequired();
                 options.Property(p => p.PasswordHash)
                     .IsRequired();
-                options.Property(p => p.Email)
-                    .HasMaxLength(User.UserEmailMaxLength)
+
+                var passwordHasher = new PasswordHasher<User>();
+
+                options.HasData(
+                    new User
+                    {
+                        Id = 1,
+                        UserName = "Steve",
+                        NormalizedName = "Steve".ToUpper(),
+                        Email = "wirt94@mail.ru",
+                        PasswordHash = passwordHasher.HashPassword(null, "12345678")
+
+                    });
+            });
+
+            builder.Entity<Role>(options =>
+            {
+                options.Property(p => p.Name)
                     .IsRequired();
+                options.Property(p => p.NormalizedName)
+                    .IsRequired();
+                
+                options.HasData(
+                    new Role
+                    {
+                        Id = 1,
+                        Name = "Admin",
+                        NormalizedName = "Admin".ToUpper()
+                    });
+
+                options.HasData(
+                    new Role
+                    {
+                        Id = 2,
+                        Name = "User",
+                        NormalizedName = "User".ToUpper()
+                    });
+            });
+
+            builder.Entity<UserRole>(options =>
+            {
+                options.HasKey(ck => new { ck.UserId, ck.RoleId });
+
+                options.HasOne(ur => ur.User)
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey(ur => ur.UserId);
+
+                options.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId);
+
+                options.HasData(
+                    new UserRole
+                    {
+                        RoleId = 1,
+                        UserId = 1
+                    });
+
+                options.HasData(
+                    new UserRole
+                    {
+                        RoleId = 2,
+                        UserId = 1
+                    });
             });
         }
     }

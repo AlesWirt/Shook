@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace iTechArt.Shook.DomainModel.Models
 {
@@ -21,5 +21,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public string PasswordHash { get; set; }
 
         public string Email { get; set; }
+
+        public List<UserRole> UserRoles { get; set; }
     }
 }

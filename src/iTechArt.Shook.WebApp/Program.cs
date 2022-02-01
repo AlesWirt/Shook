@@ -19,7 +19,9 @@ namespace iTechArt.Shook.WebApp
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
 
-                await dbContext.Database.MigrateAsync(); 
+                await dbContext.Database.MigrateAsync();
+
+                
             }
 
             await host.RunAsync();
