@@ -48,8 +48,15 @@ namespace iTechArt.Shook.WebApp
 
             var builder = services.AddIdentityCore<User>(options =>
             {
-                options.Password.RequiredLength = 8;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             });
+            builder.AddRoles<Role>();
+            builder.AddRoleStore<RoleStore>();
             builder.AddUserStore<SurveyUserStore>();
             builder.AddSignInManager<SignInManager<User>>();
 

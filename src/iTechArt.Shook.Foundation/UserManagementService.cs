@@ -44,5 +44,26 @@ namespace iTechArt.Shook.Foundation
 
             return user;
         }
+
+        public async Task<IList<string>> GetRolesAsync(User user)
+        {
+            if(user == null)
+            {
+                _logger.LogError($"User cannot be null");
+
+                throw new ArgumentNullException($"User cannot be null");
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if(roles == null)
+            {
+                _logger.LogError($"User does not contain roles");
+
+                throw new ArgumentNullException($"User does not contain roles");
+            }
+
+            return roles;
+        }
     }
 }

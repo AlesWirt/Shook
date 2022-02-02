@@ -9,5 +9,7 @@ namespace iTechArt.Shook.Foundation
         public Task<IReadOnlyCollection<User>> GetAllUsersAsync();
 
         public Task<User> GetUserByUserNameAsync(string userName);
+
+        public Task<IList<string>> GetRolesAsync(User user);
     }
 }

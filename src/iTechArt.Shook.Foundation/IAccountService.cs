@@ -11,5 +11,7 @@ namespace iTechArt.Shook.Foundation
         public Task<SignInResult> SignInAsync(User user, string password);
 
         public Task SignOutAsync();
+
+        public Task<IdentityResult> AddToRoleAsync(User user, string role);
     }
 }

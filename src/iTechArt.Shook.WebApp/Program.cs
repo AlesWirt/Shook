@@ -1,3 +1,4 @@
+using iTechArt.Common;
 using iTechArt.Shook.Repositories.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
+using System;
+using iTechArt.Shook.Repositories.Data;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -17,9 +20,21 @@ namespace iTechArt.Shook.WebApp
 
             using(var scope = host.Services.CreateScope())
             {
-                var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
+                var services = scope.ServiceProvider;
 
-                await dbContext.Database.MigrateAsync(); 
+                try
+                {
+                    var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
+
+                    await dbContext.Database.MigrateAsync();
+
+                    SeedData.Initialize(services, "123456").Wait();
+                }
+                catch(Exception ex)
+                {
+                    var logger = services.GetService<ILog>();
+                    logger.LogError("An error occured seeding the DB", ex);
+                }
             }
 
             await host.RunAsync();

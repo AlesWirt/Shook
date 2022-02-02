@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace iTechArt.Shook.DomainModel.Models
 {
@@ -7,7 +7,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public const int UserNameMinLength = 2;
         public const int UserNameMaxLength = 16;
         public const int UserPasswordMaxLength = 20;
-        public const int UserPasswordMinLength = 8;
+        public const int UserPasswordMinLength = 6;
         public const int UserEmailMinLength = 8;
         public const int UserEmailMaxLength = 25;
 
@@ -21,5 +21,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public string PasswordHash { get; set; }
 
         public string Email { get; set; }
+
+        public List<UserRole> UserRoles { get; set; }
     }
 }
