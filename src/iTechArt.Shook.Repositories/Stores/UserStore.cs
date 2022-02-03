@@ -11,7 +11,7 @@ using JetBrains.Annotations;
 namespace iTechArt.Shook.Repositories.Stores
 {
     [UsedImplicitly]
-    public class SurveyUserStore : IUserStore<User>,
+    public class UserStore : IUserStore<User>,
         IUserPasswordStore<User>,
         IUserRoleStore<User>
     {
@@ -19,7 +19,7 @@ namespace iTechArt.Shook.Repositories.Stores
         private readonly ISurveyUnitOfWork _uow;
 
 
-        public SurveyUserStore(ILog logger, ISurveyUnitOfWork uow)
+        public UserStore(ILog logger, ISurveyUnitOfWork uow)
         {
             _logger = logger;
             _uow = uow;
@@ -66,7 +66,6 @@ namespace iTechArt.Shook.Repositories.Stores
 
             return IdentityResult.Success;
         }
-
 
         public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
@@ -259,12 +258,19 @@ namespace iTechArt.Shook.Repositories.Stores
 
             if (string.IsNullOrWhiteSpace(roleName))
             {
+                _logger.LogError($"Argument roleName is empty");
+
+                throw new ArgumentNullException($"Argument roleName is empty");
+            }
+
+            var role = await _uow.RoleRepository.GetRoleByNameAsync(roleName);
+
+            if(role == null)
+            {
                 _logger.LogError($"Role name does not exist");
 
                 throw new ArgumentNullException($"Role name does not exist");
             }
-
-            var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.Name == roleName);
 
             var userRole = new UserRole()
             {
@@ -287,24 +293,16 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist");
             }
 
-            var userRoleCollection = await _uow.GetRepository<UserRole>().GetAllAsync();
+            var roleNameCollection = await _uow.UserRepository.GetUserRolesAsync(user);
 
-            var namesOfRoles = new List<string>();
-
-            if (userRoleCollection.Count != 0)
+            if(roleNameCollection == null)
             {
-                foreach (var userRole in userRoleCollection)
-                {
-                    if (user.Id == userRole.UserId)
-                    {
-                        var role = await _uow.RoleRepository.GetByIdAsync(userRole.RoleId);
+                _logger.LogError($"Role collection is empty");
 
-                        namesOfRoles.Add(role.Name);
-                    }
-                }
+                throw new ArgumentNullException($"Role collection is empty");
             }
 
-            return await Task.FromResult(namesOfRoles);
+            return await Task.FromResult(roleNameCollection);
         }
 
         public async Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
@@ -318,24 +316,7 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role name does not exist");
             }
 
-            var role = _uow.RoleRepository.FirstOrDefaultAsync(r => r.NormalizedName == roleName);
-            
-            var users = new List<User>();
-            
-            var userRoleCollection = await _uow.GetRepository<UserRole>().GetAllAsync();
-
-            if (userRoleCollection.Count != 0)
-            {
-                foreach (var userRole in userRoleCollection)
-                {
-                    if (role.Id == userRole.RoleId)
-                    {
-                        var user = await _uow.UserRepository.GetByIdAsync(userRole.UserId);
-
-                        users.Add(user);
-                    }
-                }
-            }
+            var users = await _uow.RoleRepository.GetUsersInRoleAsync(roleName);
 
             return await Task.FromResult(users);
         }
@@ -358,30 +339,22 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role name does not exist");
             }
 
-            var isInRole = false;
+            var role = await _uow.RoleRepository.GetRoleByNameAsync(roleName);
 
-            var role = await _uow.RoleRepository.FirstOrDefaultAsync(r => r.NormalizedName == roleName);
-
-            var userRoleCollection = await _uow.GetRepository<UserRole>().GetAllAsync();
-
-            if(userRoleCollection.Count != 0)
+            if (role == null)
             {
-                foreach (var userRole in userRoleCollection)
-                {
-                    if (user.Id == userRole.UserId)
-                    {
-                        if (role.Id == userRole.RoleId)
-                        {
-                            isInRole = true;
-                        }
-                    }
-                }
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
             }
 
-            return await Task.FromResult(isInRole);
+            var userRole = await _uow.UserRepository.GetUserRoleByIdAsync(user.Id, role.Id);
+
+
+            return await Task.FromResult(userRole != null);
         }
 
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -399,15 +372,25 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role name does not exist");
             }
 
-            foreach (var userRole in user.UserRoles)
+            var role = await _uow.RoleRepository.GetRoleByNameAsync(roleName);
+
+            if(role == null)
             {
-                if (userRole.Role.Name == roleName)
-                {
-                    user.UserRoles.Remove(userRole);
-                }
+                _logger.LogError($"Role does not exist");
+
+                throw new ArgumentNullException($"Role does not exist");
             }
 
-            return Task.CompletedTask;
+            var userRole = await _uow.UserRepository.GetUserRoleByIdAsync(user.Id, role.Id);
+
+            if(userRole == null)
+            {
+                _logger.LogError($"UserRole table does not contain such relation");
+
+                throw new ArgumentNullException($"UserRole table does not contain such relation");
+            }
+
+            _uow.GetRepository<UserRole>().Delete(userRole);
         }
 
         #endregion

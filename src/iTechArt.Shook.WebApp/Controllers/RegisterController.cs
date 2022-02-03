@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.WebApp.ViewModels;
-using iTechArt.Shook.DomainModel.Utility;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
@@ -43,13 +42,6 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                var addToRoleResult = await _accountService.AddToRoleAsync(user, Helper.User);
-
-                if (!addToRoleResult.Succeeded)
-                {
-                    ModelState.AddModelError("", "Wrong role");
-                }
-
                 var signInResult = await _accountService.SignInAsync(user, registerModel.Password);
 
                 if (signInResult.Succeeded)

@@ -1,8 +1,7 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.DomainModel.Utility;
+using iTechArt.Shook.DomainModel;
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,14 +12,14 @@ namespace iTechArt.Shook.Repositories.Data
         public static async Task Initialize(IServiceProvider provider, string userPassword)
         {
             var adminId = await EnsureUser(provider, "123456", "Steve", "wirt94@mail.ru");
-            var result = await EnsureRole(provider, adminId, Helper.Admin);
+            var result = await EnsureRole(provider, adminId, RoleNames.Admin);
             
             if (!result.Succeeded)
             {
                 throw new Exception("Something went wrong, after add role attempt.");
             }
 
-            result = await EnsureRole(provider, adminId, Helper.User);
+            result = await EnsureRole(provider, adminId, RoleNames.User);
 
             if (!result.Succeeded)
             {

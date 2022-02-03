@@ -1,6 +1,6 @@
-﻿namespace iTechArt.Shook.DomainModel.Utility
+﻿namespace iTechArt.Shook.DomainModel
 {
-    public class Helper
+    public static class RoleNames
     {
         public const string Admin = "Admin";
         public const string User = "User";

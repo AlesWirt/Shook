@@ -1,6 +1,5 @@
 ﻿@model iTechArt.Shook.WebApp.ViewModels.DisplayUsersViewModel
 @inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
-@inject Microsoft.AspNetCore.Identity.UserManager<iTechArt.Shook.DomainModel.Models.User> userManager
 
 <div class="container text-center p-2">
     <h2>Here is a list of registered names in project</h2>
@@ -33,17 +32,14 @@
                         }
                     </td>
                     <td>
-                        @if (signInManager.IsSignedIn(User))
+                        @if (await signInManager.UserManager.IsInRoleAsync(
+                            await signInManager.UserManager.GetUserAsync(User),
+                            @iTechArt.Shook.DomainModel.RoleNames.Admin))
                         {
-                            @if (await signInManager.UserManager.IsInRoleAsync(
-                              await signInManager.UserManager.GetUserAsync(User),
-                              @iTechArt.Shook.DomainModel.Utility.Helper.Admin))
-                            {
-                                <a>Remove</a>
-                                <text> | </text>
-                                <a>Update</a>
-                                <text> | </text>
-                            }
+                            <a>Remove</a>
+                            <text> | </text>
+                            <a>Update</a>
+                            <text> | </text>
                         }
                         <a>Details</a>
                     </td>

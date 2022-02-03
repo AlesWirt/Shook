@@ -1,6 +1,5 @@
 ﻿using iTechArt.Shook.DomainModel.Models;
-using iTechArt.Shook.DomainModel.Utility;
-using Microsoft.AspNetCore.Identity;
+using iTechArt.Shook.DomainModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace iTechArt.Shook.Repositories.DbContexts
@@ -43,16 +42,16 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     new Role
                     {
                         Id = 1,
-                        Name = Helper.Admin,
-                        NormalizedName = Helper.Admin.ToUpper()
+                        Name = RoleNames.Admin,
+                        NormalizedName = RoleNames.Admin.ToUpper()
                     });
 
                 options.HasData(
                     new Role
                     {
                         Id = 2,
-                        Name = Helper.User,
-                        NormalizedName = Helper.User.ToUpper()
+                        Name = RoleNames.User,
+                        NormalizedName = RoleNames.User.ToUpper()
                     });
             });
 
