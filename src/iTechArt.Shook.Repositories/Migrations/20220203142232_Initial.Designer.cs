@@ -9,7 +9,7 @@ using iTechArt.Shook.Repositories.DbContexts;
 namespace iTechArt.Shook.Repositories.Migrations
 {
     [DbContext(typeof(SurveyApplicationDbContext))]
-    [Migration("20220201121951_Initial")]
+    [Migration("20220203142232_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -62,6 +62,7 @@ namespace iTechArt.Shook.Repositories.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
@@ -79,7 +80,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.UserRole", b =>
@@ -94,7 +95,7 @@ namespace iTechArt.Shook.Repositories.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.UserRole", b =>

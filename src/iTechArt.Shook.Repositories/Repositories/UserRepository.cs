@@ -19,18 +19,15 @@ namespace iTechArt.Shook.Repositories.Repositories
 
         }
 
-        public async Task<IList<string>> GetUserRolesAsync(User user)
+        public async Task<IReadOnlyCollection<string>> GetUserRolesAsync(User user)
         {
-            var roleIdCollection = DbContext.Set<UserRole>()
+            var roleNameCollection = await DbContext.Set<UserRole>()
                 .Where(userRole => userRole.UserId == user.Id)
-                .Select(userRole => userRole.RoleId);
+                .Select(userRole => userRole.Role)
+                .Select(role => role.Name)
+                .ToListAsync();
 
-            var roleNameCollection = await roleIdCollection
-                .SelectMany(roleId => DbContext.Set<Role>()
-                .Where(role => role.Id == roleId)
-                .Select(role => role.Name)).ToListAsync();
-
-            return roleNameCollection;
+            return roleNameCollection.AsReadOnly();
         }
 
         public async Task<UserRole> GetUserRoleByIdAsync(int userId, int roleId)

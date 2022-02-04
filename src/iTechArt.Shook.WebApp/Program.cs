@@ -1,14 +1,15 @@
-using iTechArt.Common;
+using iTechArt.Shook.Repositories.Data;
+using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
-using System;
-using iTechArt.Shook.Repositories.Data;
+using iTechArt.Shook.DomainModel;
 
 namespace iTechArt.Shook.WebApp
 {
@@ -18,23 +19,17 @@ namespace iTechArt.Shook.WebApp
         {
             var host = CreateHostBuilder(args).Build();
 
-            using(var scope = host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
-                try
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
 
-                    await dbContext.Database.MigrateAsync();
+                await dbContext.Database.MigrateAsync();
 
-                    SeedData.Initialize(services, "123456").Wait();
-                }
-                catch(Exception ex)
-                {
-                    var logger = services.GetService<ILog>();
-                    logger.LogError("An error occured seeding the DB", ex);
-                }
+                var userManager = services.GetService<UserManager<User>>();
+
+                await AddInitialDataAsync(userManager, "Steve", "wirt94@mail.ru", "123456");
             }
 
             await host.RunAsync();
@@ -42,7 +37,7 @@ namespace iTechArt.Shook.WebApp
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            .UseSerilog((hostingContext, loggerConfiguration) => 
+            .UseSerilog((hostingContext, loggerConfiguration) =>
             {
                 loggerConfiguration.ReadFrom.Configuration(
                     new ConfigurationBuilder()
@@ -53,5 +48,33 @@ namespace iTechArt.Shook.WebApp
             {
                 webBuilder.UseStartup<Startup>();
             });
+
+
+        private async static Task AddInitialDataAsync(UserManager<User> userManager, string userName, string email, string password)
+        {
+            var user = await userManager.FindByNameAsync("Steve");
+            if (user == null)
+            {
+                var passwordHasher = new PasswordHasher<User>();
+
+                var passwordHash = passwordHasher.HashPassword(user, password);
+
+                user = new User()
+                {
+                    UserName = userName,
+                    NormalizedName = userName.ToUpper(),
+                    Email = email,
+                    PasswordHash = passwordHash
+                };
+
+                var identityResult = await userManager.CreateAsync(user);
+
+                if (identityResult.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, RoleNames.Admin);
+                    await userManager.AddToRoleAsync(user, RoleNames.User);
+                }
+            }
+        }
     }
 }

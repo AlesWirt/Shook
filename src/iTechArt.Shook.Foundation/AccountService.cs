@@ -34,13 +34,9 @@ namespace iTechArt.Shook.Foundation
 
             var result = await _userManager.CreateAsync(user, password);
             
-            var addToRoleResult = await _userManager.AddToRoleAsync(user, RoleNames.User);
-
-            if (!addToRoleResult.Succeeded)
+            if (result.Succeeded)
             {
-                _logger.LogError($"Wrong role adding attempt");
-
-                throw new ArgumentNullException($"Wrong role adding attempt");
+                var addToRoleResult = await _userManager.AddToRoleAsync(user, RoleNames.User);
             }
 
             return result;

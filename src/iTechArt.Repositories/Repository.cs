@@ -52,9 +52,9 @@ namespace iTechArt.Repositories
             DbContext.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await DbContext.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            return await DbContext.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
     }
 }

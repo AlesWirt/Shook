@@ -6,11 +6,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
 {
     public class SurveyApplicationDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-
-
         public SurveyApplicationDbContext(DbContextOptions options)
             : base(options)
         {
@@ -29,7 +24,10 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     .IsRequired();
                 options.Property(p => p.PasswordHash)
                     .IsRequired();
+                options.Property(p => p.Email)
+                    .IsRequired();
             });
+
 
             builder.Entity<Role>(options =>
             {

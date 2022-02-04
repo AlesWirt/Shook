@@ -7,8 +7,8 @@ namespace iTechArt.Shook.Repositories.Repositories
 {
     public interface IRoleRepository : IRepository<Role>
     {
-        public Task<Role> GetRoleByNameAsync(string roleName);
+        public Task<Role> GetRoleByNameAsync(string roleNormalizedName);
 
-        public Task<IList<User>> GetUsersInRoleAsync(string roleName);
+        public Task<IReadOnlyCollection<User>> GetUsersInRoleAsync(int roleId);
     }
 }
