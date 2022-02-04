@@ -1,4 +1,3 @@
-using iTechArt.Shook.Repositories.Data;
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
 using Microsoft.EntityFrameworkCore;
