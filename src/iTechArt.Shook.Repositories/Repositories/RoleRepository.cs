@@ -30,7 +30,7 @@ namespace iTechArt.Shook.Repositories.Repositories
                 .Where(userRole => userRole.RoleId == roleId)
                 .Select(userRole => userRole.User).ToListAsync();
 
-            return users.AsReadOnly();
+            return users;
         }
     }
 }

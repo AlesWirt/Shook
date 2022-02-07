@@ -25,6 +25,7 @@ namespace iTechArt.Shook.Repositories.DbContexts
                 options.Property(p => p.PasswordHash)
                     .IsRequired();
                 options.Property(p => p.Email)
+                .HasMaxLength(User.UserEmailMaxLength)
                     .IsRequired();
             });
 

@@ -1,5 +1,4 @@
 ﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.DomainModel.Models.User>
-@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
 
 <div class="container text-center p-2">
     <div class="form-group row mb-3">
@@ -38,15 +37,10 @@
                         }
                     </td>
                     <td>
-                        @if (await signInManager.UserManager.IsInRoleAsync(
-                           await signInManager.UserManager.GetUserAsync(User),
-                           @iTechArt.Shook.DomainModel.RoleNames.Admin))
-                        {
-                            <a>Remove</a>
-                            <text> | </text>
-                            <a>Update</a>
-                            <text> | </text>
-                        }
+                        <a>Remove</a>
+                        <text> | </text>
+                        <a>Update</a>
+                        <text> | </text>
                         <a>Details</a>
                     </td>
                 </tr>

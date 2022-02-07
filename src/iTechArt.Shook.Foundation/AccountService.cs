@@ -36,7 +36,7 @@ namespace iTechArt.Shook.Foundation
             
             if (result.Succeeded)
             {
-                var addToRoleResult = await _userManager.AddToRoleAsync(user, RoleNames.User);
+                result = await _userManager.AddToRoleAsync(user, RoleNames.User);
             }
 
             return result;
@@ -66,6 +66,14 @@ namespace iTechArt.Shook.Foundation
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task<bool> IsInRoleAsync(User user, string roleName)
+        {
+            var result = await _userManager.IsInRoleAsync(user, roleName);
+
+            return result;
+
         }
     }
 }

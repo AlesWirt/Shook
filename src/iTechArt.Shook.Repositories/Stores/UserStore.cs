@@ -293,7 +293,7 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"User does not exist");
             }
 
-            var roleNameCollection = await _uow.UserRepository.GetUserRolesAsync(user);
+            var roleNameCollection = await _uow.UserRepository.GetUserRolesAsync(user.Id);
 
             return await Task.FromResult((IList<string>)roleNameCollection);
         }
@@ -351,7 +351,7 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role does not exist");
             }
 
-            var userRole = await _uow.UserRepository.GetUserRoleByIdAsync(user.Id, role.Id);
+            var userRole = await _uow.GetRepository<UserRole>().GetByIdAsync(user.Id, role.Id);
 
             return await Task.FromResult(userRole != null);
         }

@@ -26,7 +26,7 @@ namespace iTechArt.Shook.Foundation
 
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
-            var collection = await _uow.UserRepository.GetAllAsync();
+            var collection = await _uow.UserRepository.GetAllUsersWithRolesAsync();
 
             return collection;
         }
@@ -43,27 +43,6 @@ namespace iTechArt.Shook.Foundation
             var user = await _userManager.FindByNameAsync(userName);
 
             return user;
-        }
-
-        public async Task<IList<string>> GetRolesAsync(User user)
-        {
-            if(user == null)
-            {
-                _logger.LogError($"User cannot be null");
-
-                throw new ArgumentNullException($"User cannot be null");
-            }
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            if(roles == null)
-            {
-                _logger.LogError($"User does not contain roles");
-
-                throw new ArgumentNullException($"User does not contain roles");
-            }
-
-            return roles;
         }
     }
 }

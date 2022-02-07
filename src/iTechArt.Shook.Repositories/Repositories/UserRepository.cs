@@ -19,15 +19,15 @@ namespace iTechArt.Shook.Repositories.Repositories
 
         }
 
-        public async Task<IReadOnlyCollection<string>> GetUserRolesAsync(User user)
+        public async Task<IReadOnlyCollection<string>> GetUserRolesAsync(int userId)
         {
             var roleNameCollection = await DbContext.Set<UserRole>()
-                .Where(userRole => userRole.UserId == user.Id)
+                .Where(userRole => userRole.UserId == userId)
                 .Select(userRole => userRole.Role)
                 .Select(role => role.Name)
                 .ToListAsync();
 
-            return roleNameCollection.AsReadOnly();
+            return roleNameCollection;
         }
 
         public async Task<UserRole> GetUserRoleByIdAsync(int userId, int roleId)
@@ -35,6 +35,17 @@ namespace iTechArt.Shook.Repositories.Repositories
             var userRole = await DbContext.Set<UserRole>().SingleOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
 
             return userRole;
+        }
+
+        public async Task<IReadOnlyCollection<User>> GetAllUsersWithRolesAsync()
+        {
+            var users = await DbContext.Set<User>()
+                .Include(user => user.UserRoles)
+                .ThenInclude(userRole => userRole.Role)
+                .ThenInclude(role => role.UserRoles)
+                .ToListAsync();
+
+            return users;
         }
     }
 }

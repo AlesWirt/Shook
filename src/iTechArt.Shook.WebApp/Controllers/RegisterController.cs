@@ -46,7 +46,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
                 if (signInResult.Succeeded)
                 {
-                    return RedirectToAction("DisplayUsers", "Home");
+                    return RedirectToAction("DisplayUserStartPage", "User");
                 }
                 
                 ModelState.AddModelError("", "Invalid login attempt");

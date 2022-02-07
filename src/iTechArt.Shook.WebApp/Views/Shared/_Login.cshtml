@@ -2,7 +2,7 @@
 
 @if (signInManager.IsSignedIn(User))
 {
-    <a class="navbar-brand pt-0 pb-0 mr-0 mr-md-2" asp-controller="Home" asp-action="DisplayUsers">
+    <a class="navbar-brand pt-0 pb-0 mr-0 mr-md-2" asp-controller="User" asp-action="CheckUserRoles">
         <img src="~/images/iTechArt_logo.png" alt="iTechArt logo" width="80" height="80" />
     </a>
     <div class="navbar-collapse flex-sm-row-reverse">
