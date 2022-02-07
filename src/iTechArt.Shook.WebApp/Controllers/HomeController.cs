@@ -1,5 +1,4 @@
-﻿using iTechArt.Shook.Foundation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
