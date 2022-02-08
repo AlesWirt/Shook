@@ -29,7 +29,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     .IsRequired();
             });
 
-
             builder.Entity<Role>(options =>
             {
                 options.Property(p => p.Name)

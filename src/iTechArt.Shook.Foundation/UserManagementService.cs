@@ -26,7 +26,7 @@ namespace iTechArt.Shook.Foundation
 
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
-            var collection = await _uow.UserRepository.GetAllUsersWithRolesAsync();
+            var collection = await _uow.UserRepository.GetAllUsersAsync();
 
             return collection;
         }

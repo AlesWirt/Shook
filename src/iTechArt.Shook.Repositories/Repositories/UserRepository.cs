@@ -30,7 +30,7 @@ namespace iTechArt.Shook.Repositories.Repositories
             return roleNameCollection;
         }
 
-        public async Task<IReadOnlyCollection<User>> GetAllUsersWithRolesAsync()
+        public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
             var users = await DbContext.Set<User>()
                 .Include(user => user.UserRoles)
