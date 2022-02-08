@@ -48,14 +48,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                if(await _accountService.IsInRoleAsync(user, RoleNames.Admin))
-                {
-                    return RedirectToAction("DisplayAdminStartPage", "User");
-                }
-                else
-                {
-                    return RedirectToAction("DisplayUserStartPage", "User");
-                }
+                return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError("", "Invalid password");

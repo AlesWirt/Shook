@@ -67,13 +67,5 @@ namespace iTechArt.Shook.Foundation
         {
             await _signInManager.SignOutAsync();
         }
-
-        public async Task<bool> IsInRoleAsync(User user, string roleName)
-        {
-            var result = await _userManager.IsInRoleAsync(user, roleName);
-
-            return result;
-
-        }
     }
 }

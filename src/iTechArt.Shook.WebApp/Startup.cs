@@ -44,9 +44,14 @@ namespace iTechArt.Shook.WebApp
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
-            
 
-            var builder = services.AddIdentityCore<User>(options =>
+            services.ConfigureApplicationCookie(configure =>
+            {
+                configure.AccessDeniedPath = "/HttpStatus/AccessDenied";
+            });
+
+
+        var builder = services.AddIdentityCore<User>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;

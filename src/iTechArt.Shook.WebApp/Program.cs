@@ -20,15 +20,13 @@ namespace iTechArt.Shook.WebApp
 
             using (var scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
-
                 var dbContext = scope.ServiceProvider.GetRequiredService<SurveyApplicationDbContext>();
 
                 await dbContext.Database.MigrateAsync();
 
-                var userManager = services.GetService<UserManager<User>>();
+                var userManager = scope.ServiceProvider.GetService<UserManager<User>>();
 
-                await AddInitialDataAsync(userManager, "Steve", "wirt94@mail.ru", "123456");
+                await AddInitialDataAsync(userManager);
             }
 
             await host.RunAsync();
@@ -49,30 +47,19 @@ namespace iTechArt.Shook.WebApp
             });
 
 
-        private async static Task AddInitialDataAsync(UserManager<User> userManager, string userName, string email, string password)
+        private async static Task AddInitialDataAsync(UserManager<User> userManager)
         {
-            var user = await userManager.FindByNameAsync("Steve");
-            if (user == null)
+            var user = new User()
             {
-                var passwordHasher = new PasswordHasher<User>();
+                UserName = "Steve",
+                Email = "wirt94@mail.ru"
+            };
 
-                var passwordHash = passwordHasher.HashPassword(user, password);
+            var identityResult = await userManager.CreateAsync(user, "123456");
 
-                user = new User()
-                {
-                    UserName = userName,
-                    NormalizedName = userName.ToUpper(),
-                    Email = email,
-                    PasswordHash = passwordHash
-                };
-
-                var identityResult = await userManager.CreateAsync(user);
-
-                if (identityResult.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(user, RoleNames.Admin);
-                    await userManager.AddToRoleAsync(user, RoleNames.User);
-                }
+            if (identityResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, RoleNames.Admin);
             }
         }
     }

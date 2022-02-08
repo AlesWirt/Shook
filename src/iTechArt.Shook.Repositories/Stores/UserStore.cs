@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using iTechArt.Common;
 using Microsoft.AspNetCore.Identity;
 using JetBrains.Annotations;
+using System.Linq;
 
 namespace iTechArt.Shook.Repositories.Stores
 {
@@ -87,7 +88,7 @@ namespace iTechArt.Shook.Repositories.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return await _uow.UserRepository.SingleOrDefaultAsync(u => u.UserName == userName);
+            return await _uow.UserRepository.FindByNameAsync(userName);
         }
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
@@ -295,7 +296,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
             var roleNameCollection = await _uow.UserRepository.GetUserRolesAsync(user.Id);
 
-            return await Task.FromResult((IList<string>)roleNameCollection);
+            return roleNameCollection.ToList();
         }
 
         public async Task<IList<User>> GetUsersInRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
@@ -320,8 +321,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
             var users = await _uow.RoleRepository.GetUsersInRoleAsync(role.Id);
 
-
-            return await Task.FromResult((IList<User>)users);
+            return users.ToList();
         }
 
         public async Task<bool> IsInRoleAsync(User user, string normalizedRoleName, CancellationToken cancellationToken)
@@ -353,7 +353,7 @@ namespace iTechArt.Shook.Repositories.Stores
 
             var userRole = await _uow.GetRepository<UserRole>().GetByIdAsync(user.Id, role.Id);
 
-            return await Task.FromResult(userRole != null);
+            return userRole != null;
         }
 
         public async Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
@@ -383,8 +383,8 @@ namespace iTechArt.Shook.Repositories.Stores
                 throw new ArgumentNullException($"Role does not exist");
             }
 
-            //var userRole = await _uow.UserRepository.GetUserRoleByIdAsync(user.Id, role.Id);
             var userRole = await _uow.GetRepository<UserRole>().GetByIdAsync(user.Id, role.Id);
+
             if(userRole == null)
             {
                 _logger.LogError($"UserRole table does not contain such relation");
@@ -393,6 +393,7 @@ namespace iTechArt.Shook.Repositories.Stores
             }
 
             _uow.GetRepository<UserRole>().Delete(userRole);
+            await _uow.SaveChangesAsync();
         }
 
         #endregion

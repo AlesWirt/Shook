@@ -1,6 +1,7 @@
-﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.DomainModel.Models.User>
+﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.WebApp.ViewModels.UserViewModel>
 
 <div class="container text-center p-2">
+    
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label">Users</label>
         <div class="col-sm-5 align-items-md-end">
@@ -23,15 +24,15 @@
                 <tr>
                     <td>@user.UserName</td>
                     <td>
-                        @for (int i = 0; i < user.UserRoles.Count(); i++)
+                        @for (int i = 0; i < user.Roles.Count(); i++)
                         {
-                            @if (i == (user.UserRoles.Count() - 1))
+                            @if (i == (user.Roles.Count() - 1))
                             {
-                                @user.UserRoles[i].Role.Name
+                                @user.Roles[i]
                             }
                             else
                             {
-                                @user.UserRoles[i].Role.Name
+                                @user.Roles[i]
                                 <text> | </text>
                             }
                         }

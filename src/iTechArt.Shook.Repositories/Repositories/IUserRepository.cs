@@ -10,5 +10,7 @@ namespace iTechArt.Shook.Repositories.Repositories
         public Task<IReadOnlyCollection<string>> GetUserRolesAsync(int userId);
 
         public Task<IReadOnlyCollection<User>> GetAllUsersWithRolesAsync();
+
+        public Task<User> FindByNameAsync(string userName);
     }
 }
