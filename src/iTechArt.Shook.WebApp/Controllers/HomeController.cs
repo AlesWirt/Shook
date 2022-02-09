@@ -1,29 +1,19 @@
-﻿using iTechArt.Shook.Foundation;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserManagementService _userManagementService;
-
-
-        public HomeController(IUserManagementService userManagementService)
-        {
-            _userManagementService = userManagementService;
-        }
-
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public async Task<IActionResult> DisplayUsers()
+        [HttpGet]
+        public IActionResult AccessDenied()
         {
-            var collection = await _userManagementService.GetAllUsersAsync();
-            return View(collection);
+            return View();
         }
     }
 }

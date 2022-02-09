@@ -1,3 +1,14 @@
-﻿<div class="text-center pt-5">
-    <h1 class="display-4">Welcome to iTechArt</h1>
-</div>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div class="container text-center pt-5">
+        <h1 class="display-4">Welcome to iTechArt, @User.Identity.Name!</h1>
+    </div>
+}
+else
+{
+    <div class="text-center pt-5">
+        <h1 class="display-4">Welcome to iTechArt</h1>
+    </div>
+}

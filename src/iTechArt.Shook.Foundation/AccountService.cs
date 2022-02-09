@@ -1,7 +1,8 @@
-﻿using System;
-using iTechArt.Common;
-using System.Threading.Tasks;
+﻿using iTechArt.Common;
+using iTechArt.Shook.DomainModel;
 using iTechArt.Shook.DomainModel.Models;
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace iTechArt.Shook.Foundation
@@ -32,6 +33,11 @@ namespace iTechArt.Shook.Foundation
             }
 
             var result = await _userManager.CreateAsync(user, password);
+            
+            if (result.Succeeded)
+            {
+                result = await _userManager.AddToRoleAsync(user, RoleNames.User);
+            }
 
             return result;
         }

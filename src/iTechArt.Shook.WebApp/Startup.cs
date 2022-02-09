@@ -44,15 +44,26 @@ namespace iTechArt.Shook.WebApp
                 options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
                 options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             }).AddIdentityCookies();
-            
+
+            services.ConfigureApplicationCookie(configure =>
+            {
+                configure.AccessDeniedPath = "/Home/AccessDenied";
+            });
 
             var builder = services.AddIdentityCore<User>(options =>
             {
-                options.Password.RequiredLength = 8;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
             });
-            builder.AddUserStore<SurveyUserStore>();
-            builder.AddSignInManager<SignInManager<User>>();
 
+            builder.AddRoles<Role>();
+            builder.AddRoleStore<RoleStore>();
+            builder.AddUserStore<UserStore>();
+            builder.AddSignInManager<SignInManager<User>>();
         }
 
 

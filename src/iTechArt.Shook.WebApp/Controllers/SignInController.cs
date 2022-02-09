@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using iTechArt.Shook.Foundation;
 using iTechArt.Shook.WebApp.ViewModels;
+using iTechArt.Shook.DomainModel;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
@@ -31,7 +32,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(logInModel);
             }
 
             var user = await _userManagementService.GetUserByUserNameAsync(logInModel.UserName);
@@ -47,7 +48,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("DisplayUsers", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError("", "Invalid password");
