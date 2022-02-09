@@ -28,7 +28,8 @@ namespace iTechArt.Shook.Repositories.Repositories
         {
             var users = await DbContext.Set<UserRole>()
                 .Where(userRole => userRole.RoleId == roleId)
-                .Select(userRole => userRole.User).ToListAsync();
+                .Select(userRole => userRole.User)
+                .ToListAsync();
 
             return users;
         }

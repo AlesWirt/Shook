@@ -51,10 +51,5 @@ namespace iTechArt.Repositories
             _logger.LogInformation($"Delete entity. The entity name: {typeof(TEntity).Name}.");
             DbContext.Set<TEntity>().Remove(entity);
         }
-
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await DbContext.Set<TEntity>().SingleOrDefaultAsync(predicate);
-        }
     }
 }

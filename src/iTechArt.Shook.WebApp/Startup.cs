@@ -47,11 +47,10 @@ namespace iTechArt.Shook.WebApp
 
             services.ConfigureApplicationCookie(configure =>
             {
-                configure.AccessDeniedPath = "/HttpStatus/AccessDenied";
+                configure.AccessDeniedPath = "/Home/AccessDenied";
             });
 
-
-        var builder = services.AddIdentityCore<User>(options =>
+            var builder = services.AddIdentityCore<User>(options =>
             {
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = true;
@@ -60,11 +59,11 @@ namespace iTechArt.Shook.WebApp
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             });
+
             builder.AddRoles<Role>();
             builder.AddRoleStore<RoleStore>();
             builder.AddUserStore<UserStore>();
             builder.AddSignInManager<SignInManager<User>>();
-
         }
 
 

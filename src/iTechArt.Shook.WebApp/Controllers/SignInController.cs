@@ -32,7 +32,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(logInModel);
             }
 
             var user = await _userManagementService.GetUserByUserNameAsync(logInModel.UserName);

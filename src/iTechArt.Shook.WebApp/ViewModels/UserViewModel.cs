@@ -1,5 +1,4 @@
-﻿using iTechArt.Shook.DomainModel.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace iTechArt.Shook.WebApp.ViewModels
 {
@@ -7,6 +6,6 @@ namespace iTechArt.Shook.WebApp.ViewModels
     {
         public string UserName { get; set; }
 
-        public IList<string> Roles { get; set; }
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }
