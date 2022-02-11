@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using iTechArt.Shook.DomainModel.Models;
+using System.Collections.Generic;
 
 namespace iTechArt.Shook.WebApp.ViewModels
 {
     public class UserViewModel
     {
-        public string UserName { get; set; }
+        public User User { get; set; }
 
-        public IReadOnlyCollection<string> Roles { get; set; }
+        public IReadOnlyCollection<Role> Roles { get; set; }
     }
 }

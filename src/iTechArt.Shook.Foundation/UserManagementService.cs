@@ -22,7 +22,7 @@ namespace iTechArt.Shook.Foundation
             _uow = uow;
             _userManager = userManager;
         }
-
+        
 
         public async Task<IReadOnlyCollection<User>> GetAllUsersAsync()
         {
@@ -43,6 +43,20 @@ namespace iTechArt.Shook.Foundation
             var user = await _userManager.FindByNameAsync(userName);
 
             return user;
+        }
+
+        public async Task<IdentityResult> DeleteUserAsync(User user)
+        {
+            if(user == null)
+            {
+                _logger.LogError($"Invalid user");
+
+                throw new ArgumentNullException($"Invalid user");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+
+            return result;
         }
     }
 }
