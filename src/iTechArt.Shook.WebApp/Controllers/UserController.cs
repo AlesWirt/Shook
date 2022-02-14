@@ -28,7 +28,8 @@ namespace iTechArt.Shook.WebApp.Controllers
             var userViewModel = result.Select(user =>
                 new UserViewModel
                 {
-                    User = user,
+                    Id = user.Id,
+                    UserName = user.UserName,
                     Roles = user.UserRoles.Select(userRole => userRole.Role).ToList()
                 }).ToList();
 
@@ -36,14 +37,54 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(string userName)
+        public async Task<IActionResult> Update(int? userId)
         {
-            if (userName == null)
+            if (userId == null || userId == 0)
             {
                 return NotFound();
             }
 
-            var user = await _userManagementService.GetUserByUserNameAsync(userName);
+            var user = await _userManagementService.GetUserByUserIdAsync(userId);
+
+            var updateUserViewModel = new UpdateUserViewModel
+            {
+                Id = user.Id,
+                UserName = user.UserName
+            };
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(updateUserViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(UpdateUserViewModel userViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userViewModel);
+            }
+
+            var user = await _userManagementService.GetUserByUserIdAsync(userViewModel.Id);
+            user.UserName = userViewModel.UserName;
+            await _userManagementService.UpdateUserAsync(user);
+
+            return RedirectToAction("Index", "User");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? userId)
+        {
+            if (userId == null || userId == 0)
+            {
+                return NotFound();
+            }
+
+            var user = await _userManagementService.GetUserByUserIdAsync(userId);
 
             if(user == null)
             {
@@ -54,14 +95,15 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeletePost(string userName)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int? id)
         {
-            if (userName == null)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var user = await _userManagementService.GetUserByUserNameAsync(userName);
+            var user = await _userManagementService.GetUserByUserIdAsync(id);
 
             if (user == null)
             {

@@ -45,6 +45,33 @@ namespace iTechArt.Shook.Foundation
             return user;
         }
 
+        public async Task<User> GetUserByUserIdAsync(int? userId)
+        {
+            if (userId == null || userId == 0)
+            {
+                _logger.LogError($"User id cannot be empty or null");
+
+                throw new ArgumentNullException($"User id cannot be empty or null");
+            }
+
+            var user = await _uow.UserRepository.GetByIdAsync(userId);
+
+            return user;
+        }
+
+        public async Task UpdateUserAsync(User user)
+        {
+            if (user == null)
+            {
+                _logger.LogError($"Invalid user");
+
+                throw new ArgumentNullException($"Invalid user");
+            }
+
+            _uow.UserRepository.Update(user);
+            await _uow.SaveChangesAsync();
+        }
+
         public async Task<IdentityResult> DeleteUserAsync(User user)
         {
             if(user == null)

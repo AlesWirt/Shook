@@ -5,7 +5,9 @@ namespace iTechArt.Shook.WebApp.ViewModels
 {
     public class UserViewModel
     {
-        public User User { get; set; }
+        public int Id { get; set; }
+
+        public string UserName { get; set; }
 
         public IReadOnlyCollection<Role> Roles { get; set; }
     }

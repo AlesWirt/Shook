@@ -1,5 +1,5 @@
 ﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.WebApp.ViewModels.UserViewModel>
-
+@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
 <div class="container text-center p-2">
     
     <table class="table table-hover table-dark">
@@ -12,12 +12,12 @@
         </thead>
         @if (Model.Count > 0)
         {
-            @foreach (var vm in Model)
+            @foreach (var user in Model)
             {
                 <tr>
-                    <td>@vm.User.UserName</td>
+                    <td>@user.UserName</td>
                     <td>
-                        @foreach (var role in vm.Roles)
+                        @foreach (var role in user.Roles)
                         {
                             <text> | </text>
                             @role.Name
@@ -25,9 +25,12 @@
                         }
                     </td>
                     <td>
-                        <a asp-controller="User" asp-action="Delete" asp-route-UserName="@vm.User.UserName">Delete</a>
-                        <text> | </text>
-                        <a>Update</a>
+                        @if (!(user.UserName == User.Identity.Name))
+                        {
+                            <a asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id">Delete</a>
+                            <text> | </text>
+                        }
+                        <a asp-controller="User" asp-action="Update" asp-route-userId="@user.Id">Update</a>
                         <text> | </text>
                         <a>Details</a>
                     </td>

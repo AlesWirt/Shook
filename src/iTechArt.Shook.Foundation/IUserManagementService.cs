@@ -11,6 +11,10 @@ namespace iTechArt.Shook.Foundation
 
         public Task<User> GetUserByUserNameAsync(string userName);
 
+        public Task<User> GetUserByUserIdAsync(int? userId);
+
+        public Task UpdateUserAsync(User user);
+
         public Task<IdentityResult> DeleteUserAsync(User user);
     }
 }
