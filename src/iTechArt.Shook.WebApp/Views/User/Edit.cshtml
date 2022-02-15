@@ -1,6 +1,6 @@
 ﻿@model iTechArt.Shook.WebApp.ViewModels.UpdateUserViewModel
 
-<form class="needs-validation" method="post" asp-action="Update">
+<form class="needs-validation" method="post" asp-action="Edit">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -32,7 +32,7 @@
                 <div class="form-group row">
                     <div class="col-8 offset-2 row">
                         <div class="col">
-                            <input type="submit" class="btn btn-danger w-75" value="Update" />
+                            <input type="submit" class="btn btn-danger w-75" value="Edit" />
                         </div>
                         <div class="col">
                             <a asp-controller="User" asp-action="Index" class="btn btn-success w-75">Back</a>

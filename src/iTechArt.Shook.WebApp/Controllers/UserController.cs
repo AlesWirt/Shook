@@ -39,7 +39,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(int userId)
+        public async Task<IActionResult> Edit(int userId)
         {
             var user = await _userManagementService.GetUserByIdAsync(userId);
 
@@ -55,7 +55,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(UpdateUserViewModel userModel)
+        public async Task<IActionResult> Edit(UpdateUserViewModel userModel)
         {
             if (!ModelState.IsValid)
             {
