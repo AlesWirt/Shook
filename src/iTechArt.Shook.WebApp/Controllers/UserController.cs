@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
 using iTechArt.Shook.WebApp.ViewModels;
+using iTechArt.Shook.DomainModel.Models;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
@@ -12,11 +13,14 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserManagementService _userManagementService;
+        private readonly IAccountService _accountService;
 
 
-        public UserController(IUserManagementService userManagementService)
+        public UserController(IUserManagementService userManagementService,
+            IAccountService accountService)
         {
             _userManagementService = userManagementService;
+            _accountService = accountService;
         }
 
 
@@ -30,6 +34,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                 {
                     Id = user.Id,
                     UserName = user.UserName,
+                    Email = user.Email,
                     Roles = user.UserRoles.Select(userRole => userRole.Role).ToList()
                 }).ToList();
 
@@ -37,78 +42,60 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(int? userId)
+        public async Task<IActionResult> Update(int userId)
         {
-            if (userId == null || userId == 0)
-            {
-                return NotFound();
-            }
+            var user = await _userManagementService.GetUserByIdAsync(userId);
 
-            var user = await _userManagementService.GetUserByUserIdAsync(userId);
-
-            var updateUserViewModel = new UpdateUserViewModel
+            var userVM = new UpdateUserViewModel
             {
                 Id = user.Id,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Email = user.Email
             };
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(updateUserViewModel);
+            return View(userVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(UpdateUserViewModel userViewModel)
+        public async Task<IActionResult> Update(UpdateUserViewModel userVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(userViewModel);
+                return View(userVM);
             }
 
-            var user = await _userManagementService.GetUserByUserIdAsync(userViewModel.Id);
-            user.UserName = userViewModel.UserName;
-            await _userManagementService.UpdateUserAsync(user);
+            var newUser = new User
+            {
+                Id = userVM.Id,
+                UserName = userVM.UserName,
+                Email = userVM.Email
+            };
 
-            return RedirectToAction("Index", "User");
+            //var user = await _userManagementService.GetUserByIdAsync(userVM.Id);
+
+            //await _userManagementService.UpdateUserAsync(user, newUser);
+
+            var result = await _accountService.UpdateAsync(newUser);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "User");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(userVM);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int? userId)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int userId)
         {
-            if (userId == null || userId == 0)
-            {
-                return NotFound();
-            }
-
-            var user = await _userManagementService.GetUserByUserIdAsync(userId);
-
-            if(user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var user = await _userManagementService.GetUserByUserIdAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = await _userManagementService.GetUserByIdAsync(userId);
 
             var result = await _userManagementService.DeleteUserAsync(user);
 

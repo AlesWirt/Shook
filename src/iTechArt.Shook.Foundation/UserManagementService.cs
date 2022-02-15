@@ -45,9 +45,9 @@ namespace iTechArt.Shook.Foundation
             return user;
         }
 
-        public async Task<User> GetUserByUserIdAsync(int? userId)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
-            if (userId == null || userId == 0)
+            if (userId == 0)
             {
                 _logger.LogError($"User id cannot be empty or null");
 
@@ -69,6 +69,46 @@ namespace iTechArt.Shook.Foundation
             }
 
             _uow.UserRepository.Update(user);
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task UpdateUserAsync(User fromUser, User toUser)
+        {
+            if (fromUser == null || toUser == null)
+            {
+                _logger.LogError($"Invalid user");
+
+                throw new ArgumentNullException($"Invalid user");
+            }
+
+            if(fromUser.Id != toUser.Id)
+            {
+                _logger.LogError($"Invalid attempt of updating user");
+
+                throw new ArgumentException($"Invalid attempt of updating user");
+            }
+
+            if(toUser.UserName != null)
+            {
+                fromUser.UserName = toUser.UserName;
+            }
+
+            if(toUser.Email != null)
+            {
+                fromUser.Email = toUser.Email;
+            }
+
+            if(toUser.PasswordHash != null)
+            {
+                fromUser.PasswordHash = toUser.PasswordHash;
+            }
+
+            if(toUser.UserRoles != null)
+            {
+                fromUser.UserRoles = toUser.UserRoles;
+            }
+
+            _uow.UserRepository.Update(fromUser);
             await _uow.SaveChangesAsync();
         }
 

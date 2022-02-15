@@ -10,6 +10,8 @@ namespace iTechArt.Shook.Foundation
 
         public Task<SignInResult> SignInAsync(User user, string password);
 
+        public Task<IdentityResult> UpdateAsync(User user);
+
         public Task SignOutAsync();
     }
 }
