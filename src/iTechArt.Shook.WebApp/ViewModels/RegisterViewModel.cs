@@ -19,7 +19,7 @@ namespace iTechArt.Shook.WebApp.ViewModels
         [StringLength(User.UserEmailMaxLength,
             MinimumLength = User.UserEmailMinLength,
             ErrorMessage = "Note enough symbols in your email")]
-        [RegularExpression(@"(\w{2,8}\d{0,4})@([a-z]{2,8}).(\w{2,4})",
+        [RegularExpression(@"((\w{2,8}\d{0,4})_?.?-?)+@([a-z]{2,8}).(\w{2,4})",
             ErrorMessage = "Wrong email pattern")]
         public string Email { get; set; }
 

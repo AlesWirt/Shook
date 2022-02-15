@@ -63,20 +63,6 @@ namespace iTechArt.Shook.Foundation
             return result;
         }
 
-        public async Task<IdentityResult> UpdateAsync(User user)
-        {
-            if (user == null)
-            {
-                _logger.LogError($"User cannot be null");
-
-                throw new ArgumentNullException($"User cannot be null");
-            }
-
-            var result = await _userManager.UpdateAsync(user);
-
-            return result;
-        }
-
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();

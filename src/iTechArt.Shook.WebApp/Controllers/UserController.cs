@@ -13,14 +13,11 @@ namespace iTechArt.Shook.WebApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserManagementService _userManagementService;
-        private readonly IAccountService _accountService;
 
 
-        public UserController(IUserManagementService userManagementService,
-            IAccountService accountService)
+        public UserController(IUserManagementService userManagementService)
         {
             _userManagementService = userManagementService;
-            _accountService = accountService;
         }
 
 
@@ -58,25 +55,23 @@ namespace iTechArt.Shook.WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(UpdateUserViewModel userVM)
+        public async Task<IActionResult> Update(UpdateUserViewModel userModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(userVM);
+                return View(userModel);
             }
 
-            var newUser = new User
+            var userEdit = new User
             {
-                Id = userVM.Id,
-                UserName = userVM.UserName,
-                Email = userVM.Email
+                Id = userModel.Id,
+                UserName = userModel.UserName,
+                Email = userModel.Email
             };
 
-            //var user = await _userManagementService.GetUserByIdAsync(userVM.Id);
+            var user = await _userManagementService.GetUserByIdAsync(userEdit.Id);
 
-            //await _userManagementService.UpdateUserAsync(user, newUser);
-
-            var result = await _accountService.UpdateAsync(newUser);
+            var result = await _userManagementService.UpdateUserAsync(user, userEdit);
 
             if (result.Succeeded)
             {
@@ -88,7 +83,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View(userVM);
+            return View(userModel);
         }
 
         [HttpGet]

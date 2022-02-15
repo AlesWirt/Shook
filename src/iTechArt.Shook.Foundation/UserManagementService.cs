@@ -59,57 +59,21 @@ namespace iTechArt.Shook.Foundation
             return user;
         }
 
-        public async Task UpdateUserAsync(User user)
-        {
-            if (user == null)
-            {
-                _logger.LogError($"Invalid user");
-
-                throw new ArgumentNullException($"Invalid user");
-            }
-
-            _uow.UserRepository.Update(user);
-            await _uow.SaveChangesAsync();
-        }
-
-        public async Task UpdateUserAsync(User fromUser, User toUser)
+        public async Task<IdentityResult> UpdateUserAsync(User fromUser, User toUser)
         {
             if (fromUser == null || toUser == null)
             {
-                _logger.LogError($"Invalid user");
+                _logger.LogError($"User cannot be null");
 
-                throw new ArgumentNullException($"Invalid user");
+                throw new ArgumentNullException($"User cannot be null");
             }
 
-            if(fromUser.Id != toUser.Id)
-            {
-                _logger.LogError($"Invalid attempt of updating user");
+            fromUser.UserName = toUser.UserName;
+            fromUser.Email = toUser.Email;
 
-                throw new ArgumentException($"Invalid attempt of updating user");
-            }
+            var result = await _userManager.UpdateAsync(fromUser);
 
-            if(toUser.UserName != null)
-            {
-                fromUser.UserName = toUser.UserName;
-            }
-
-            if(toUser.Email != null)
-            {
-                fromUser.Email = toUser.Email;
-            }
-
-            if(toUser.PasswordHash != null)
-            {
-                fromUser.PasswordHash = toUser.PasswordHash;
-            }
-
-            if(toUser.UserRoles != null)
-            {
-                fromUser.UserRoles = toUser.UserRoles;
-            }
-
-            _uow.UserRepository.Update(fromUser);
-            await _uow.SaveChangesAsync();
+            return result;
         }
 
         public async Task<IdentityResult> DeleteUserAsync(User user)
