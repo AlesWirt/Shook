@@ -32,7 +32,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Roles = user.UserRoles.Select(userRole => userRole.Role).ToList()
+                    Roles = user.UserRoles.Select(userRole => userRole.Role.Name).ToList()
                 }).ToList();
 
             return View(userViewModel);
@@ -87,7 +87,6 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpGet]
-        [HttpDelete]
         public async Task<IActionResult> Delete(int userId)
         {
             var user = await _userManagementService.GetUserByIdAsync(userId);

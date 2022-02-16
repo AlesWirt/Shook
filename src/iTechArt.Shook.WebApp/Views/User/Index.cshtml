@@ -22,14 +22,14 @@
                         @foreach (var role in user.Roles)
                         {
                             <text> | </text>
-                            @role.Name
+                            @role
                             <text> | </text>
                         }
                     </td>
                     <td>
                         @if (!(user.UserName == User.Identity.Name))
                         {
-                            <a asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id">Delete</a>
+                            <a asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id" type="submit" class="btn btn-link">Delete</a>
                             <text> | </text>
                         }
                         <a asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>

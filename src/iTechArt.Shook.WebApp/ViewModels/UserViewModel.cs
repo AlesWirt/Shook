@@ -11,6 +11,6 @@ namespace iTechArt.Shook.WebApp.ViewModels
 
         public string Email { get; set; }
 
-        public IReadOnlyCollection<Role> Roles { get; set; }
+        public IReadOnlyCollection<string> Roles { get; set; }
     }
 }
