@@ -1,0 +1,25 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
+
+@if (signInManager.IsSignedIn(User))
+{
+    <div id="categories" class="col-2">
+
+        <div class="pb-2">
+            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">New survey</a>
+        </div>
+        <div class="pb-2">
+            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">My surveys</a>
+        </div>
+        <div class="pb-2">
+            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">Survey templates</a>
+        </div>
+
+        @if (User.IsInRole(iTechArt.Shook.DomainModel.RoleNames.Admin)) 
+        {
+            <div class="pb-2">
+                <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="User">Users</a>
+            </div>
+        }
+
+    </div>
+}

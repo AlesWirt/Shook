@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq.Expressions;
 
 namespace iTechArt.Repositories.Interfaces
 {
@@ -17,7 +15,5 @@ namespace iTechArt.Repositories.Interfaces
         Task CreateAsync(TEntity entity);
 
         void Delete(TEntity entity);
-
-        
     }
 }

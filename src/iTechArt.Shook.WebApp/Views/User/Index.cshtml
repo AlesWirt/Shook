@@ -1,0 +1,49 @@
+﻿@model System.Collections.Generic.IReadOnlyCollection<iTechArt.Shook.WebApp.ViewModels.UserViewModel>
+@inject Microsoft.AspNetCore.Identity.SignInManager<iTechArt.Shook.DomainModel.Models.User> signInManager
+<div class="container text-center p-2">
+    
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @if (Model.Count > 0)
+        {
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @foreach (var role in user.Roles)
+                        {
+                            <text> | </text>
+                            @role
+                            <text> | </text>
+                        }
+                    </td>
+                    <td>
+                        @if (!(user.UserName == User.Identity.Name))
+                        {
+                            <a asp-controller="User" asp-action="Delete" asp-route-userId="@user.Id" type="submit" class="btn btn-link">Delete</a>
+                            <text> | </text>
+                        }
+                        <a asp-controller="User" asp-action="Edit" asp-route-userId="@user.Id">Edit</a>
+                        <text> | </text>
+                        <a>Details</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>No users created yet.</td>
+            </tr>
+        }
+    </table>
+</div>
