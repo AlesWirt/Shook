@@ -37,7 +37,8 @@ namespace iTechArt.Shook.WebApp
             services.AddScoped<ISurveyUnitOfWork, SurveyUnitOfWork>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUserManagementService, UserManagementService>();
-            
+            services.AddScoped<ISurveyManagementService, SurveyManagementService>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;

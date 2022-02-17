@@ -29,6 +29,13 @@ namespace iTechArt.Shook.Repositories.DbContexts
                     .IsRequired();
             });
 
+            builder.Entity<Survey>(options =>
+            {
+                options.Property(p => p.Name)
+                .HasMaxLength(Survey.SurveyMaxLength)
+                .IsRequired();
+            });
+
             builder.Entity<Role>(options =>
             {
                 options.Property(p => p.Name)

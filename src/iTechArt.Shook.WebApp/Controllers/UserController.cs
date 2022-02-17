@@ -43,14 +43,14 @@ namespace iTechArt.Shook.WebApp.Controllers
         {
             var user = await _userManagementService.GetUserByIdAsync(userId);
 
-            var userVM = new UpdateUserViewModel
+            var userViewModel = new UpdateUserViewModel
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email
             };
 
-            return View(userVM);
+            return View(userViewModel);
         }
 
         [HttpPost]
