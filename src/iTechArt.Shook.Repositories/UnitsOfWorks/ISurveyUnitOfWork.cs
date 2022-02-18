@@ -6,6 +6,9 @@ namespace iTechArt.Shook.Repositories.UnitsOfWorks
     public interface ISurveyUnitOfWork : IUnitOfWork
     {
         public IUserRepository UserRepository { get; }
+        
         public IRoleRepository RoleRepository { get; }
+        
+        public ISurveyRepository SurveyRepository { get; }
     }
 }

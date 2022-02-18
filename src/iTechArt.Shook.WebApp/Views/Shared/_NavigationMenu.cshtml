@@ -5,10 +5,7 @@
     <div id="categories" class="col-2">
 
         <div class="pb-2">
-            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">New survey</a>
-        </div>
-        <div class="pb-2">
-            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">My surveys</a>
+            <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">Surveys</a>
         </div>
         <div class="pb-2">
             <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="Survey">Survey templates</a>
@@ -16,6 +13,9 @@
 
         @if (User.IsInRole(iTechArt.Shook.DomainModel.RoleNames.Admin)) 
         {
+            <div class="pb-2">
+                <a class="btn btn-block btn-outline-secondary" asp-action="Create" asp-controller="Survey">New survey</a>
+            </div>
             <div class="pb-2">
                 <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="User">Users</a>
             </div>
