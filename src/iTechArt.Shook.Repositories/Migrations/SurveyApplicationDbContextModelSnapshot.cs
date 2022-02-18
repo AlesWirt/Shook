@@ -18,6 +18,28 @@ namespace iTechArt.Shook.Repositories.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("QuestionBody")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("Question");
+                });
+
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -114,6 +136,17 @@ namespace iTechArt.Shook.Repositories.Migrations
                     b.ToTable("UserRole");
                 });
 
+            modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.Question", b =>
+                {
+                    b.HasOne("iTechArt.Shook.DomainModel.Models.Survey", "Survey")
+                        .WithMany("Questions")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.UserRole", b =>
                 {
                     b.HasOne("iTechArt.Shook.DomainModel.Models.Role", "Role")
@@ -136,6 +169,11 @@ namespace iTechArt.Shook.Repositories.Migrations
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.Role", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.Survey", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("iTechArt.Shook.DomainModel.Models.User", b =>

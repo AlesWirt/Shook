@@ -26,7 +26,8 @@ namespace iTechArt.Shook.WebApp.Controllers
             new SurveyViewModel
             {
                 Id = survey.Id,
-                Name = survey.Name
+                Name = survey.Name,
+                Questions = survey.Questions.Select(q => q.QuestionBody).ToList()
             }).ToList();
 
             return View(surveyViewModel);

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Threading.Tasks;
 using iTechArt.Shook.DomainModel;
+using iTechArt.Shook.Foundation;
 
 namespace iTechArt.Shook.WebApp
 {
