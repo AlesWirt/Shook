@@ -10,5 +10,7 @@ namespace iTechArt.Shook.Repositories.UnitsOfWorks
         public IRoleRepository RoleRepository { get; }
         
         public ISurveyRepository SurveyRepository { get; }
+
+        public IQuestionRepository QuestionRepository { get; }
     }
 }
