@@ -23,5 +23,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public string Email { get; set; }
 
         public List<UserRole> UserRoles { get; set; }
+
+        public List<Survey> Surveys { get; set; }
     }
 }

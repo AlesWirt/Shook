@@ -12,6 +12,10 @@ namespace iTechArt.Shook.Foundation
 
         public Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync();
 
+        public Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId);
+
         public Task CreateSurveyAsync(Survey survey);
+
+        public Task CreateSurveyAsync(Survey survey, IEnumerable<Question> questions);
     }
 }

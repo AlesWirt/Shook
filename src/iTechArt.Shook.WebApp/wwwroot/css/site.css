@@ -172,3 +172,11 @@ body {
 .radio-container input:checked ~ .checkmark:after {
     display: block;
 }
+
+.fa-plus {
+    color: #00ff01
+}
+
+.fa-trash-can {
+    color: #cc0000
+}

@@ -31,7 +31,11 @@ namespace iTechArt.Shook.Repositories.DbContexts
 
             builder.Entity<Survey>(options =>
             {
-                options.Property(p => p.Name)
+                options.HasOne(s => s.Owner)
+                .WithMany(o => o.Surveys)
+                .HasForeignKey(s => s.OwnerId);
+
+                options.Property(p => p.Title)
                 .HasMaxLength(Survey.SurveyMaxLength)
                 .IsRequired();
             });
@@ -39,10 +43,9 @@ namespace iTechArt.Shook.Repositories.DbContexts
             builder.Entity<Question>(options =>
             {
                 options.HasOne(q => q.Survey)
-                .WithMany(s => s.Questions)
-                .HasForeignKey(q => q.SurveyId);
+                .WithMany(s => s.Questions);
 
-                options.Property(p => p.QuestionBody)
+                options.Property(p => p.Title)
                 .HasMaxLength(Question.QuestionMaxLength)
                 .IsRequired();
             });

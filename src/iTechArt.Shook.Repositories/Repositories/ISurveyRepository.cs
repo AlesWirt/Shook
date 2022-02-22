@@ -9,6 +9,8 @@ namespace iTechArt.Shook.Repositories.Repositories
     {
         public Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync();
 
+        public Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId);
+
         public Task<IReadOnlyCollection<Question>> GetQuestionsBySurveyIdAsync(int surveyId);
     }
 }

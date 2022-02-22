@@ -1,0 +1,40 @@
+﻿@model iTechArt.Shook.WebApp.ViewModels.TestViewModel
+
+<button id="addRow" type="button" class="btn btn-dark"><i class="fa-solid fa-plus fa-2x"></i></button>
+
+<form method="post" asp-controller="Home" asp-action="TestPost">
+
+    <div id="newRow">
+        <input type="hidden" id="total" value="0" />
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Save" />
+</form>
+
+@section Scripts
+ {
+    <script>
+         $("#addRow").click(function ()
+         {
+             var rowCount = parseInt($("#total").val());
+             rowCount++;
+             $("#total").val(rowCount);
+             var html = '';
+             html += '<div id="inputRow">';
+             html += '<input type="text" name="[' + (rowCount - 1) + '].Name"  />';
+             html += '<input type="number" name="[' + (rowCount - 1) + '].Age"  />';
+             //add more inputs here...
+             html += '<button id="removeRow" type="button" class="btn btn-dark"><i class="fa-solid fa-trash-can fa-2x"></i></button>';
+             html += '</div>';
+
+             $('#newRow').append(html);
+         });
+         $(document).on('click', '#removeRow', function ()
+         {
+             var rowCount = parseInt($("#total").val());
+             rowCount--;
+             $("#total").val(rowCount);
+             $(this).closest('#inputRow').remove();
+         });
+    </script>
+}

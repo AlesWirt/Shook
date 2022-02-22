@@ -33,6 +33,20 @@ namespace iTechArt.Shook.Foundation
             await _uow.SaveChangesAsync();
         }
 
+        public async Task CreateSurveyAsync(Survey survey, IEnumerable<Question> questions) 
+        {
+            if (survey == null)
+            {
+                _logger.LogError($"Survey entity can not be null");
+
+                throw new ArgumentNullException($"Survey entity can not be null");
+            }
+
+            await _uow.QuestionRepository.CreateRangeAsync(questions);
+            await _uow.SurveyRepository.CreateAsync(survey);
+            await _uow.SaveChangesAsync();
+        }
+
         public async Task<Survey> GetSurveyByIdAsync(int id)
         {
             if (id == 0)
@@ -54,6 +68,13 @@ namespace iTechArt.Shook.Foundation
             return collection;
         }
 
+        public async Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId)
+        {
+            var collection = await _uow.SurveyRepository.GetUserSurveysAsync(userId);
+
+            return collection;
+        }
+
         public async Task UpdateSurveyAsync(Survey fromSurvey, Survey toSurvey)
         {
             if (fromSurvey == null || toSurvey == null)
@@ -63,7 +84,7 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"Surveys entities can not be null");
             }
 
-            fromSurvey.Name = toSurvey.Name;
+            fromSurvey.Title = toSurvey.Title;
 
             _uow.SurveyRepository.Update(fromSurvey);
             await _uow.SaveChangesAsync();

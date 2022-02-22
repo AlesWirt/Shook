@@ -2,6 +2,8 @@
 using iTechArt.Repositories;
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.DbContexts;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace iTechArt.Shook.Repositories.Repositories
 {
@@ -11,6 +13,11 @@ namespace iTechArt.Shook.Repositories.Repositories
             : base(logger, context)
         {
 
+        }
+
+        public async Task CreateRangeAsync(IEnumerable<Question> collection)
+        {
+            await DbContext.Set<Question>().AddRangeAsync(collection);
         }
     }
 }

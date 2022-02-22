@@ -7,9 +7,7 @@
 
         public int Id { get; set; }
 
-        public string QuestionBody { get; set; }
-
-        public int SurveyId { get; set; }
+        public string Title { get; set; }
 
         public Survey Survey { get; set; }
     }

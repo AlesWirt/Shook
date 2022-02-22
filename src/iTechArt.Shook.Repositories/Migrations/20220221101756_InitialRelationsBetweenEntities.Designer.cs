@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using iTechArt.Shook.Repositories.DbContexts;
 
 namespace iTechArt.Shook.Repositories.Migrations
 {
     [DbContext(typeof(SurveyApplicationDbContext))]
-    partial class SurveyApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220221101756_InitialRelationsBetweenEntities")]
+    partial class InitialRelationsBetweenEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
