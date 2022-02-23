@@ -1,6 +1,5 @@
 ﻿using iTechArt.Shook.WebApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
@@ -19,13 +18,14 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult TestGet()
+        public ActionResult Create()
         {
-            return View();
+            var surveyViewModel = new SurveyViewModel();
+            return PartialView("_Survey", surveyViewModel);
         }
-
+        
         [HttpPost]
-        public IActionResult TestPost(List<TestViewModel> testModel)
+        public ActionResult PostAddMore(SurveyViewModel model)
         {
             return View();
         }

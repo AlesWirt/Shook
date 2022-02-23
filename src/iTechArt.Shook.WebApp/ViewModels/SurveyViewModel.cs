@@ -8,6 +8,6 @@ namespace iTechArt.Shook.WebApp.ViewModels
 
         public string Name { get; set; }
 
-        public List<string> Questions { get; set; }
+        public List<QuestionViewModel> Questions { get; set; }
     }
 }

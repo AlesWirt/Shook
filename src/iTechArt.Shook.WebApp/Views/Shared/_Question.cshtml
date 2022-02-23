@@ -1,3 +1,11 @@
-﻿@model System.Collections.Generic.List<iTechArt.Shook.DomainModel.Models.Question>
+﻿@model iTechArt.Shook.WebApp.ViewModels.QuestionViewModel
 
 <input type="hidden" id="total" value="0" />
+
+@section Scripts{ 
+    <script>
+        $(".removeDiv").click(function () {
+            $(this).parents("#removeAddMoreDiv").remove();
+        });
+    </script>
+}

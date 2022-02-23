@@ -36,7 +36,6 @@ namespace iTechArt.Shook.WebApp.Controllers
             {
                 Id = survey.Id,
                 Name = survey.Title,
-                Questions = survey.Questions.Select(q => q.Title).ToList()
             }).ToList();
 
             return View(surveyViewModel);
@@ -45,7 +44,15 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new SurveyViewModel();
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult CreateQuestion()
+        {
+            var model = new QuestionViewModel();
+            return View(model);
         }
 
         [HttpPost]
@@ -72,7 +79,6 @@ namespace iTechArt.Shook.WebApp.Controllers
             {
                 questions.Add(new Question
                 {
-                    Title = questionModel,
                     Survey = survey
                 });
             }

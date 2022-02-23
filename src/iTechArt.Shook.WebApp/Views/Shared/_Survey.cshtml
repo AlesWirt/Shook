@@ -1,0 +1,37 @@
+﻿@model iTechArt.Shook.WebApp.ViewModels.SurveyViewModel
+
+<div class="form-group row">
+    <div class="input-group col-10 mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="survey-title">Title</span>
+        </div>
+        <input type="text" asp-for="Name" class="form-control" placeholder="Survey title" aria-label="Title" aria-describedby="survey-title">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="col-2">
+        <button id="addRow" type="button" class="btn btn-dark"><i class="fa-solid fa-plus fa-2x"></i></button>
+    </div>
+</div>
+
+<div id="newRow">
+    <partial name="_Question" for="Questions" />
+</div>
+
+@section Scripts
+ {
+    <script>
+        $('#addRow').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("CreateQuestion", "Survey")',
+                type: 'GET',
+                data: {
+                },
+                success: function (result) {
+                    $('#newRow').append(result);
+                },
+                error: function () {
+                }
+            });
+        });
+    </script>
+}
