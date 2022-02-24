@@ -2,6 +2,7 @@
 using iTechArt.Shook.DomainModel.Models;
 using iTechArt.Shook.Repositories.UnitsOfWorks;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,33 +21,6 @@ namespace iTechArt.Shook.Foundation
         }
 
 
-        public async Task CreateSurveyAsync(Survey survey)
-        {
-            if (survey == null)
-            {
-                _logger.LogError($"Survey entity can not be null");
-
-                throw new ArgumentNullException($"Survey entity can not be null");
-            }
-
-            await _uow.SurveyRepository.CreateAsync(survey);
-            await _uow.SaveChangesAsync();
-        }
-
-        public async Task CreateSurveyAsync(Survey survey, IEnumerable<Question> questions) 
-        {
-            if (survey == null)
-            {
-                _logger.LogError($"Survey entity can not be null");
-
-                throw new ArgumentNullException($"Survey entity can not be null");
-            }
-
-            await _uow.QuestionRepository.CreateRangeAsync(questions);
-            await _uow.SurveyRepository.CreateAsync(survey);
-            await _uow.SaveChangesAsync();
-        }
-
         public async Task<Survey> GetSurveyByIdAsync(int id)
         {
             if (id == 0)
@@ -61,18 +35,24 @@ namespace iTechArt.Shook.Foundation
             return survey;
         }
 
-        public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync()
+        public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync(int userId)
         {
-            var collection = await _uow.SurveyRepository.GetAllSurveysAsync();
+            var collection = await _uow.SurveyRepository.GetAllSurveysAsync(userId);
 
             return collection;
         }
 
-        public async Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId)
+        public async Task CreateSurveyAsync(Survey survey)
         {
-            var collection = await _uow.SurveyRepository.GetUserSurveysAsync(userId);
+            if (survey == null)
+            {
+                _logger.LogError($"Survey entity can not be null");
 
-            return collection;
+                throw new ArgumentNullException($"Survey entity can not be null");
+            }
+
+            await _uow.SurveyRepository.CreateAsync(survey);
+            await _uow.SaveChangesAsync();
         }
 
         public async Task UpdateSurveyAsync(Survey fromSurvey, Survey toSurvey)
@@ -84,10 +64,55 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"Surveys entities can not be null");
             }
 
-            fromSurvey.Title = toSurvey.Title;
+            foreach(var question in await _uow.SurveyRepository.GetQuestionsBySurveyIdAsync(toSurvey.Id))
+            {
+                if(!HasQuestion(fromSurvey.Questions, question.Id))
+                {
+                    _uow.GetRepository<Question>().Delete(question);
+                }
+                else
+                {
+                    question.Title = toSurvey.Questions.Find(q => q.Id == question.Id).Title;
+                    _uow.GetRepository<Question>().Update(question);
+                }
+            }
+
+            foreach(var question in fromSurvey.Questions)
+            {
+                if(!HasQuestion(await _uow.SurveyRepository.GetQuestionsBySurveyIdAsync(toSurvey.Id), question.Id))
+                {
+                    await _uow.GetRepository<Question>().CreateAsync(question);
+                }
+            }
 
             _uow.SurveyRepository.Update(fromSurvey);
             await _uow.SaveChangesAsync();
+        }
+
+        public async Task DeleteSurveyAsync(Survey survey)
+        {
+            if (survey == null)
+            {
+                _logger.LogError($"Survey entity can not be null");
+
+                throw new ArgumentNullException($"Survey entity can not be null");
+            }
+
+            _uow.SurveyRepository.Delete(survey);
+            await _uow.SaveChangesAsync();
+        }
+
+        private bool HasQuestion(IEnumerable<Question> questions, int questionId)
+        {
+            foreach(var question in questions)
+            {
+                if(question.Id == questionId)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

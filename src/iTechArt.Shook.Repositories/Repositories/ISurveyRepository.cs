@@ -7,9 +7,7 @@ namespace iTechArt.Shook.Repositories.Repositories
 {
     public interface ISurveyRepository : IRepository<Survey>
     {
-        public Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync();
-
-        public Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId);
+        public Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync(int userId);
 
         public Task<IReadOnlyCollection<Question>> GetQuestionsBySurveyIdAsync(int surveyId);
     }

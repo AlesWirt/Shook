@@ -20,20 +20,9 @@ namespace iTechArt.Shook.Repositories.Repositories
         }
 
 
-        public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync()
+        public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync(int userId)
         {
             var collection = await DbContext.Set<Survey>()
-                .Include(s => s.Questions)
-                .ToListAsync();
-
-            return collection;
-        }
-
-        public async Task<IReadOnlyCollection<Survey>> GetUserSurveysAsync(int userId)
-        {
-            var collection = await DbContext.Set<Survey>()
-                .Include(s => s.Owner)
-                .Include(s => s.Questions)
                 .Where(s => s.OwnerId == userId)
                 .ToListAsync();
 
@@ -42,7 +31,10 @@ namespace iTechArt.Shook.Repositories.Repositories
 
         public async Task<IReadOnlyCollection<Question>> GetQuestionsBySurveyIdAsync(int surveyId)
         {
-            var collection= await DbContext.Set<Question>().Include(q => q.Survey).Where(s => s.Id == surveyId).ToListAsync();
+            var collection= await DbContext.Set<Question>()
+                .Include(q => q.Survey)
+                .Where(s => s.Id == surveyId)
+                .ToListAsync();
 
             return collection;
         }

@@ -1,17 +1,16 @@
 ﻿using iTechArt.Shook.Foundation;
+using iTechArt.Shook.WebApp.Helpers;
 using iTechArt.Shook.WebApp.ViewModels;
 using iTechArt.Shook.DomainModel.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using iTechArt.Shook.DomainModel;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    [Authorize(Roles =RoleNames.User)]
+    [Authorize]
     public class SurveyController : Controller
     {
         private readonly ISurveyManagementService _surveyManagementService;
@@ -25,11 +24,9 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = Helper.GetUserIdClaimsPrincipal(User);
 
-            var isConverted = int.TryParse(userIdClaim, out var userId);
-
-            var surveys = await _surveyManagementService.GetUserSurveysAsync(userId);
+            var surveys = await _surveyManagementService.GetAllSurveysAsync(userId);
 
             var surveyViewModel = surveys.Select(survey =>
             new SurveyViewModel
@@ -56,6 +53,7 @@ namespace iTechArt.Shook.WebApp.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SurveyViewModel surveyViewModel)
         {
             if (!ModelState.IsValid)
@@ -63,9 +61,7 @@ namespace iTechArt.Shook.WebApp.Controllers
                 return View(surveyViewModel);
             }
 
-            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var isConverted = int.TryParse(userIdClaim, out var userId);
+            var userId = Helper.GetUserIdClaimsPrincipal(User);
 
             var questions = new List<Question>();
 
@@ -73,6 +69,12 @@ namespace iTechArt.Shook.WebApp.Controllers
             {
                 OwnerId = userId,
                 Title = surveyViewModel.Name,
+                Questions = surveyViewModel.Questions
+                    .Select(q => new Question
+                    {
+                        Id = q.Id,
+                        Title = q.Title
+                    }).ToList()
             };
 
             foreach (var questionModel in surveyViewModel.Questions)
@@ -113,7 +115,12 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             var surveyEdit = new Survey
             {
-                Title = surveyViewModel.Name
+                Title = surveyViewModel.Name,
+                Questions = surveyViewModel.Questions.Select(q => new Question
+                {
+                    Id = q.Id,
+                    Title = q.Title
+                }).ToList()
             };
 
             var survey = await _surveyManagementService.GetSurveyByIdAsync(surveyViewModel.Id);
