@@ -32,7 +32,7 @@ namespace iTechArt.Shook.WebApp.Controllers
             new SurveyViewModel
             {
                 Id = survey.Id,
-                Name = survey.Title,
+                Title = survey.Title,
             }).ToList();
 
             return View(surveyViewModel);
@@ -68,7 +68,7 @@ namespace iTechArt.Shook.WebApp.Controllers
             var survey = new Survey
             {
                 OwnerId = userId,
-                Title = surveyViewModel.Name,
+                Title = surveyViewModel.Title,
                 Questions = surveyViewModel.Questions
                     .Select(q => new Question
                     {
@@ -98,7 +98,7 @@ namespace iTechArt.Shook.WebApp.Controllers
             var surveyViewModel = new SurveyViewModel
             {
                 Id = survey.Id,
-                Name = survey.Title
+                Title = survey.Title
             };
 
             return View(surveyViewModel);
@@ -115,7 +115,7 @@ namespace iTechArt.Shook.WebApp.Controllers
 
             var surveyEdit = new Survey
             {
-                Title = surveyViewModel.Name,
+                Title = surveyViewModel.Title,
                 Questions = surveyViewModel.Questions.Select(q => new Question
                 {
                     Id = q.Id,

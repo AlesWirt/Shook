@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System;
 
 namespace iTechArt.Shook.WebApp.Helpers
 {
@@ -8,7 +9,10 @@ namespace iTechArt.Shook.WebApp.Helpers
         {
             var userIdClaim = userClaimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var isConverted = int.TryParse(userIdClaim, out var userId);
+            if(!int.TryParse(userIdClaim, out var userId))
+            {
+                throw new ArgumentException("Wrong id.");
+            }
 
             return userId;
         }

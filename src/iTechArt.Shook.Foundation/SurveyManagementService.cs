@@ -23,14 +23,14 @@ namespace iTechArt.Shook.Foundation
 
         public async Task<Survey> GetSurveyByIdAsync(int id)
         {
-            if (id == 0)
-            {
-                _logger.LogError($"Identificator can not be null");
-
-                throw new ArgumentNullException($"Identificator can not be null");
-            }
-
             var survey = await _uow.SurveyRepository.GetByIdAsync(id);
+
+            if (survey == null)
+            {
+                _logger.LogError($"Survey does not exist with th given id");
+
+                throw new ArgumentNullException($"Survey does not exist with th given id");
+            }
 
             return survey;
         }
@@ -38,6 +38,13 @@ namespace iTechArt.Shook.Foundation
         public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync(int userId)
         {
             var collection = await _uow.SurveyRepository.GetAllSurveysAsync(userId);
+
+            if (collection == null)
+            {
+                _logger.LogError($"User does not have surveys");
+
+                throw new ArgumentNullException($"User does not have surveys");
+            }
 
             return collection;
         }
@@ -64,26 +71,34 @@ namespace iTechArt.Shook.Foundation
                 throw new ArgumentNullException($"Surveys entities can not be null");
             }
 
-            foreach(var question in await _uow.SurveyRepository.GetQuestionsBySurveyIdAsync(toSurvey.Id))
+            var newQuestions = new List<Question>();
+
+            foreach(var question in toSurvey.Questions)
             {
-                if(!HasQuestion(fromSurvey.Questions, question.Id))
+                var existQuestion = fromSurvey.Questions.SingleOrDefault(q => q.Id == question.Id);
+
+                if(existQuestion != null)
                 {
-                    _uow.GetRepository<Question>().Delete(question);
+                    existQuestion.Title = question.Title;
+                    _uow.GetRepository<Question>().Update(existQuestion);
                 }
                 else
                 {
-                    question.Title = toSurvey.Questions.Find(q => q.Id == question.Id).Title;
-                    _uow.GetRepository<Question>().Update(question);
+                    newQuestions.Add(question);
                 }
             }
 
             foreach(var question in fromSurvey.Questions)
             {
-                if(!HasQuestion(await _uow.SurveyRepository.GetQuestionsBySurveyIdAsync(toSurvey.Id), question.Id))
+                var existedQuestion = toSurvey.Questions.SingleOrDefault(q => q.Id == question.Id);
+
+                if(existedQuestion == null)
                 {
-                    await _uow.GetRepository<Question>().CreateAsync(question);
+                    _uow.GetRepository<Question>().Delete(question);
                 }
             }
+
+            fromSurvey.Questions.AddRange(newQuestions);
 
             _uow.SurveyRepository.Update(fromSurvey);
             await _uow.SaveChangesAsync();
@@ -100,19 +115,6 @@ namespace iTechArt.Shook.Foundation
 
             _uow.SurveyRepository.Delete(survey);
             await _uow.SaveChangesAsync();
-        }
-
-        private bool HasQuestion(IEnumerable<Question> questions, int questionId)
-        {
-            foreach(var question in questions)
-            {
-                if(question.Id == questionId)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

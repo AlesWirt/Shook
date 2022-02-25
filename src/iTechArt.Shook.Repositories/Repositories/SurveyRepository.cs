@@ -20,6 +20,16 @@ namespace iTechArt.Shook.Repositories.Repositories
         }
 
 
+        public async Task<Survey> GetSurveyByIdAsync(int id)
+        {
+            var result = await DbContext.Set<Survey>()
+                    .Include(s => s.Questions)
+                    .SingleOrDefaultAsync(s => s.Id == id);
+
+            return result;
+        }
+
+
         public async Task<IReadOnlyCollection<Survey>> GetAllSurveysAsync(int userId)
         {
             var collection = await DbContext.Set<Survey>()

@@ -27,10 +27,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
                 options.Property(p => p.Email)
                 .HasMaxLength(User.UserEmailMaxLength)
                     .IsRequired();
-
-                options.HasMany(u => u.Surveys)
-                    .WithOne(s => s.Owner)
-                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<Survey>(options =>
@@ -40,10 +36,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(s => s.OwnerId);
 
-                options.HasMany(s => s.Questions)
-                    .WithOne(q => q.Survey)
-                    .OnDelete(DeleteBehavior.Cascade);
-
                 options.Property(p => p.Title)
                 .HasMaxLength(Survey.SurveyMaxLength)
                 .IsRequired();
@@ -51,11 +43,6 @@ namespace iTechArt.Shook.Repositories.DbContexts
 
             builder.Entity<Question>(options =>
             {
-                options.HasOne(q => q.Survey)
-                    .WithMany(s => s.Questions)
-                    .OnDelete(DeleteBehavior.SetNull);
-                
-
                 options.Property(p => p.Title)
                 .HasMaxLength(Question.QuestionMaxLength)
                 .IsRequired();

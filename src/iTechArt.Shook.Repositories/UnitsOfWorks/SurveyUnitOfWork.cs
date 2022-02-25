@@ -11,8 +11,6 @@ namespace iTechArt.Shook.Repositories.UnitsOfWorks
         public IUserRepository UserRepository => (IUserRepository)GetRepository<User>();
         public IRoleRepository RoleRepository => (IRoleRepository)GetRepository<Role>();
         public ISurveyRepository SurveyRepository => (ISurveyRepository)GetRepository<Survey>();
-        public IQuestionRepository QuestionRepository => (IQuestionRepository)GetRepository<Question>();
-
 
 
         public SurveyUnitOfWork(ILog logger, SurveyApplicationDbContext context)
@@ -21,7 +19,6 @@ namespace iTechArt.Shook.Repositories.UnitsOfWorks
             RegisterRepository<User, UserRepository>();
             RegisterRepository<Role, RoleRepository>();
             RegisterRepository<Survey, SurveyRepository>();
-            RegisterRepository<Question, QuestionRepository>();
         }
     }
 }
