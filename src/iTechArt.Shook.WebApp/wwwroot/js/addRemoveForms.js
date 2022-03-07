@@ -1,13 +1,17 @@
-﻿function DynamicText() {
-    var division = document.createElement('DIV');
-    division.innerHTML = DynamictextBox("");
-    document.getElementById("newRow").appendChild(division);
-}
+﻿'use strict';
 
-function DynamictextBox(value) {
-    return '<div><input type="text" name="dyntxt" /><input type="button" onclick="ReTextBox(this)" value="Remove"/></div>';
-}
+const container = document.querySelector('#questionContainer');
+const template = document.querySelector('#template');
+const addQuestionButton = document.querySelector('#addRow');
+const deleteQuestionButtons = document.querySelectorAll("#deleteQuestion");
 
-function ReTextBox(div) {
-    document.getElementById("firstdiv").removeChild(div.parentNode.parentNode);
-}
+addQuestionButton.addEventListener('click', () => {
+    const clone = template.content.cloneNode(true);
+
+    container.appendChild(clone);
+    document.querySelectorAll("#deleteQuestion").forEach((btn, i) => {
+        btn.addEventListener('click', () => {
+            btn.parentElement.parentElement.remove();
+        });
+    });
+});

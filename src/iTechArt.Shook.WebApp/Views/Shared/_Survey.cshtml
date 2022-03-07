@@ -15,33 +15,16 @@
             <button id="addRow" type="button" class="btn btn-dark"><i class="fa-solid fa-plus fa-2x"></i></button>
         </div>
     </div>
+    <div id="questionContainer">
 
-    <div>
-        <partial name="_Question" for="Questions" />
     </div>
-
 </form>
 
-<template id="question">
-    <fieldset>
-        @await Html.PartialAsync("_Question", new QuestionViewModel()) 
-    </fieldset>
+<template id="template">
+    <form id="questionForm" method="get" asp-controller="Survey" asp-action="Create">
+        <fieldset>
+            @await Html.PartialAsync("_Question", new QuestionViewModel())
+        </fieldset>
+    </form>
 </template>
 
-@section Scripts{ 
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            $(".add-more").click(function () {
-                var html = $(".copy").html();
-                $(".after-add-more").after(html);
-            });
-
-            $("body").on("click", ".remove", function () {
-                $(this).parents(".control-group").remove();
-            });
-
-        });
-    </script>
-}

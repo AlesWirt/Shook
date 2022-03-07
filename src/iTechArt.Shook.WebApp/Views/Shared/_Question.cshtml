@@ -1,12 +1,15 @@
 ﻿@model iTechArt.Shook.WebApp.ViewModels.QuestionViewModel
 
-<form method="post" asp-controller="Survey" asp-action="Create">
+
+<div class="border p-3 m-3">
 
     <input asp-for="Id" hidden />
-
+    <div>
+        <span>1.</span>
+    </div>
     <div class="form-group row">
 
-        <div class="input-group col-10 mb-3">
+        <div class="input-group col-5 mb-3">
 
             <div class="input-group-prepend">
 
@@ -20,6 +23,27 @@
 
         </div>
 
+
+
     </div>
 
-</form>
+    <div class="form-group row">
+
+        <div class="input-group col-5 mb-3">
+
+            <div class="input-group-prepend">
+
+                <span class="input-group-text" id="survey-title">Content</span>
+
+            </div>
+
+            <input type="text" asp-for="Content" class="form-control" placeholder="Question content" aria-label="Title" aria-describedby="question-title">
+
+            <span asp-validation-for="Content" class="text-danger"></span>
+
+        </div>
+    </div>
+
+    <button id="deleteQuestion" type="button">Delete</button>
+
+</div>
