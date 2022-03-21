@@ -1,49 +1,19 @@
-﻿@model iTechArt.Shook.WebApp.ViewModels.QuestionViewModel
+﻿@model iTechArt.Shook.WebApp.ViewModels.SurveyViewModel
 
+<fieldset>
+    <div class="col-12 border m-3 p-3 questionBody">
+        <input asp-for="Id" hidden />
+        <div class="form-group row">
+            <div id="counter" class="col-auto"></div>
 
-<div class="border p-3 m-3">
-
-    <input asp-for="Id" hidden />
-    <div>
-        <span>1.</span>
-    </div>
-    <div class="form-group row">
-
-        <div class="input-group col-5 mb-3">
-
-            <div class="input-group-prepend">
-
-                <span class="input-group-text" id="survey-title">Title</span>
-
+            <div class="col-10">
+                <input type="text" class="form-control questionTitle" placeholder="Question title" aria-label="Title" aria-describedby="question-title">
             </div>
 
-            <input type="text" asp-for="Title" class="form-control" placeholder="Question title" aria-label="Title" aria-describedby="question-title">
-
-            <span asp-validation-for="Title" class="text-danger"></span>
-
-        </div>
-
-
-
-    </div>
-
-    <div class="form-group row">
-
-        <div class="input-group col-5 mb-3">
-
-            <div class="input-group-prepend">
-
-                <span class="input-group-text" id="survey-title">Content</span>
-
+            <div class="col-auto">
+                <button class="deleteButton" type="button">Delete</button>
             </div>
-
-            <input type="text" asp-for="Content" class="form-control" placeholder="Question content" aria-label="Title" aria-describedby="question-title">
-
-            <span asp-validation-for="Content" class="text-danger"></span>
-
         </div>
+
     </div>
-
-    <button id="deleteQuestion" type="button">Delete</button>
-
-</div>
+</fieldset>

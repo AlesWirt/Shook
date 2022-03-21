@@ -1,16 +1,8 @@
 ﻿$(function () {
-    $('#toggle-password').on('change',
-        function (e) {
-            var toggle = $(this);
-
-            if (toggle.is(':checked')) {
-                $('#password').attr({
-                    'type': 'text'
-                });
-            } else {
-                $('#password').attr({
-                    'type': 'password'
-                });
-            }
-        })
+    $('#toggle_btn').click(function () {
+        var icon = $('#toggle_eye');
+        icon.toggleClass('fa-eye-slash fa-eye');
+        var attrType = icon.hasClass('fa-eye') ? 'text' : 'password';
+        $('#toggle_fld').attr('type', attrType);
+    })
 });

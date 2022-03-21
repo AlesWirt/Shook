@@ -2,29 +2,18 @@
 @model iTechArt.Shook.WebApp.ViewModels.SurveyViewModel
 
 
-<form method="post" asp-controller="Survey" asp-action="Create">
-    <div class="form-group row">
-        <div class="input-group col-10 mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="survey-title">Title</span>
-            </div>
-            <input type="text" asp-for="Title" class="form-control" placeholder="Survey title" aria-label="Title" aria-describedby="survey-title">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-        <div id="newRow" class="col-2">
-            <button id="addRow" type="button" class="btn btn-dark"><i class="fa-solid fa-plus fa-2x"></i></button>
-        </div>
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="surveyTitle">Title</label>
+        <input type="text" asp-for="Title" id="surveyTitle" class="form-control" placeholder="Survey title">
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div id="questionContainer">
-
+    
+    <div class="row questionsContainer">
     </div>
-</form>
-
+</div>
+    
 <template id="template">
-    <form id="questionForm" method="get" asp-controller="Survey" asp-action="Create">
-        <fieldset>
-            @await Html.PartialAsync("_Question", new QuestionViewModel())
-        </fieldset>
-    </form>
+        @await Html.PartialAsync("_Question", new SurveyViewModel()) 
 </template>
 

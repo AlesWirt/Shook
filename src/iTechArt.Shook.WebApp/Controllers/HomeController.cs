@@ -16,18 +16,5 @@ namespace iTechArt.Shook.WebApp.Controllers
         {
             return View();
         }
-
-        [HttpGet]
-        public ActionResult Create()
-        {
-            var surveyViewModel = new SurveyViewModel();
-            return PartialView("_Survey", surveyViewModel);
-        }
-        
-        [HttpPost]
-        public ActionResult PostAddMore(SurveyViewModel model)
-        {
-            return View();
-        }
     }
 }

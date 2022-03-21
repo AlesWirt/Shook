@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class SurveyController : Controller
     {
         private readonly ISurveyManagementService _surveyManagementService;
@@ -41,15 +41,8 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var model = new SurveyViewModel();
-            return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult CreateQuestion()
-        {
-            var model = new QuestionViewModel();
-            return View(model);
+            var surveyViewModel = new SurveyViewModel();
+            return View(surveyViewModel);
         }
 
         [HttpPost]
@@ -72,19 +65,10 @@ namespace iTechArt.Shook.WebApp.Controllers
                 Questions = surveyViewModel.Questions
                     .Select(q => new Question
                     {
-                        Id = q.Id,
                         Title = q.Title
                     }).ToList()
             };
 
-            foreach (var questionModel in surveyViewModel.Questions)
-            {
-                questions.Add(new Question
-                {
-                    Survey = survey
-                });
-            }
-            
             await _surveyManagementService.CreateSurveyAsync(survey);
 
             return RedirectToAction("Index", "Survey");
