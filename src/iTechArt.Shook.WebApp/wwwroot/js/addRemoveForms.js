@@ -2,17 +2,30 @@
 
     const questionContainer = document.querySelector('.questionsContainer'),
         surveyForm = document.querySelector('form#surveyForm');
-    questionsList = Array.from(surveyForm.querySelectorAll('fieldset'));
+        //questionsList = Array.from(surveyForm.querySelectorAll('fieldset'));
     document.querySelector('#addRow').addEventListener('click', addQuestionForm);
 
-    let counter = 0;
+    document.querySelectorAll('.deleteButton').forEach(button => {
+        button.addEventListener('click', function () {
+            const questionId = parseInt(button.closest('fieldset').getAttribute('id'), 10);
+            button.closest('fieldset').remove();
+            --counter;
+            refreshQuestionsList(Array.from(surveyForm.querySelectorAll('fieldset')), questionId);
+        });
+    });
+
+    //let counter = questionsList.length;
+    let counter = surveyForm.querySelectorAll('fieldset').length;
+    refreshQuestionsList(Array.from(surveyForm.querySelectorAll('fieldset')), 0);
 
     function addQuestionForm() {
         const clone = document.querySelector('#template').content.cloneNode(true),
             questionFieldset = clone.querySelector('fieldset'),
+            questionId = clone.querySelector('#questionId');
             questionTitle = clone.querySelector('.questionTitle');
         
         setAttributeToObject(questionFieldset, 'id', `${counter}`);
+        setAttributeToObject(questionId, 'name', `Questions[${counter}].Title`);
         setAttributeToObject(questionTitle, 'name', `Questions[${counter}].Title`);
         questionFieldset.querySelector('#counter').textContent = `${counter + 1}`;
 
@@ -24,16 +37,10 @@
                 const questionId = parseInt(questionFieldset.getAttribute('id'), 10);
                 questionFieldset.remove();
                 --counter;
-                console.log(`Question with index ${questionId} was deleted!`);
                 refreshQuestionsList(Array.from(surveyForm.querySelectorAll('fieldset')), questionId);
             });
 
         questionContainer.appendChild(clone);
-        let lastIndex = surveyForm.querySelectorAll('fieldset').length - 1;
-        const lastFieldset = surveyForm.querySelectorAll('fieldset')[lastIndex];
-        questionsList.push(lastFieldset);
-        console.log('New question added:');
-        showItems(questionsList);
     }
 
     function setAttributeToObject(obj, attr, val) {
@@ -41,35 +48,22 @@
     }
 
     function refreshQuestionsList(arrayObj, deleteItemIndex) {
-        //for (let i = startIndex; i < arrayObj.length; i++) {
-        //    const fieldset = arrayObj[i].querySelector('fieldset'),
-        //        title = arrayObj[i].querySelector('.questionTitle'),
-        //        counter = arrayObj[i].querySelector('#counter');
-            
-        //    counter.textContent = `${i + 1}`;
-        //    setAttributeToObject(fieldset, 'id', `${i}`);
-        //    setAttributeToObject(title, 'name', `Questions[${i}].Title`);
-        //}
-        console.log(arrayObj);
         
-        const sortedArr = arrayObj.sort((item1, item2) => {
-            const fieldsetCounter1 = item1.querySelector('#counter');
-            const fieldsetCounter2 = item2.querySelector('#counter');
+        //const sortedArr = arrayObj.sort((item1, item2) => {
+        //    const fieldsetCounter1 = item1.querySelector('#counter');
+        //    const fieldsetCounter2 = item2.querySelector('#counter');
+        //    return fieldsetCounter1 - fieldsetCounter2;
+        //});
 
-            return fieldsetCounter1 - fieldsetCounter2;
-        });
-
-        sortedArr.forEach((item, index) => {
-            title = item.querySelector('.questionTitle'),
-            counter = item.querySelector('#counter');
+        arrayObj.forEach((fieldset, index) => {
+            const id = fieldset.querySelector('#questionId'),
+                title = fieldset.querySelector('.questionTitle'),
+                counter = fieldset.querySelector('#counter');
 
             counter.textContent = `${index + 1}`;
-            setAttributeToObject(item, 'id', `${index}`);
+            setAttributeToObject(fieldset, 'id', `${index}`);
+            setAttributeToObject(id, 'name', `Questions[${index}].Id`);
             setAttributeToObject(title, 'name', `Questions[${index}].Title`);
         })
-    }
-
-    function showItems(...arrayObj) {
-        arrayObj.forEach(element => console.log(element));
     }
 });

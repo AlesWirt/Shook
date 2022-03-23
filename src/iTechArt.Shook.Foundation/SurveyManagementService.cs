@@ -23,7 +23,7 @@ namespace iTechArt.Shook.Foundation
 
         public async Task<Survey> GetSurveyByIdAsync(int id)
         {
-            var survey = await _uow.SurveyRepository.GetByIdAsync(id);
+            var survey = await _uow.SurveyRepository.GetSurveyByIdAsync(id);
 
             if (survey == null)
             {

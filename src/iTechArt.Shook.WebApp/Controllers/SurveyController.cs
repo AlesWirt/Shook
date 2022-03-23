@@ -3,14 +3,14 @@ using iTechArt.Shook.WebApp.Helpers;
 using iTechArt.Shook.WebApp.ViewModels;
 using iTechArt.Shook.DomainModel.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace iTechArt.Shook.WebApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class SurveyController : Controller
     {
         private readonly ISurveyManagementService _surveyManagementService;
@@ -24,16 +24,22 @@ namespace iTechArt.Shook.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = Helper.GetUserIdClaimsPrincipal(User);
+            var userId = User.GetUserId();
 
             var surveys = await _surveyManagementService.GetAllSurveysAsync(userId);
-
+            
             var surveyViewModel = surveys.Select(survey =>
-            new SurveyViewModel
-            {
-                Id = survey.Id,
-                Title = survey.Title,
-            }).ToList();
+                new SurveyViewModel
+                {
+                    Id = survey.Id,
+                    Title = survey.Title,
+                    Questions = survey.Questions.Select(q => 
+                        new QuestionViewModel()
+                        {
+                            Id = q.Id,
+                            Title =q.Title
+                        }).ToList()
+                }).ToList();
 
             return View(surveyViewModel);
         }
@@ -49,43 +55,83 @@ namespace iTechArt.Shook.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SurveyViewModel surveyViewModel)
         {
+
             if (!ModelState.IsValid)
             {
                 return View(surveyViewModel);
             }
-
-            var userId = Helper.GetUserIdClaimsPrincipal(User);
-
-            var questions = new List<Question>();
-
-            var survey = new Survey
+            
+            if(surveyViewModel.Id != 0)
             {
-                OwnerId = userId,
-                Title = surveyViewModel.Title,
-                Questions = surveyViewModel.Questions
-                    .Select(q => new Question
+                var surveyTopical = new Survey()
+                {
+                    Id = surveyViewModel.Id,
+                    Title = surveyViewModel.Title,
+                    Questions = surveyViewModel.Questions.Select(q =>
+                    new Question()
                     {
+                        Id = q.Id,
                         Title = q.Title
                     }).ToList()
-            };
+                };
 
-            await _surveyManagementService.CreateSurveyAsync(survey);
+                var surveyOutdated = await _surveyManagementService.GetSurveyByIdAsync(surveyViewModel.Id);
+
+                await _surveyManagementService.UpdateSurveyAsync(surveyOutdated, surveyTopical);
+            }
+            else
+            {
+                var userId = User.GetUserId();
+
+                var survey = new Survey
+                {
+                    OwnerId = userId,
+                    Title = surveyViewModel.Title,
+                    Questions = surveyViewModel.Questions
+                        .Select(q => new Question
+                        {
+                            Title = q.Title
+                        }).ToList()
+                };
+
+                await _surveyManagementService.CreateSurveyAsync(survey);
+            }
 
             return RedirectToAction("Index", "Survey");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int roleId)
+        public async Task<IActionResult> Edit(int surveyId)
         {
-            var survey = await _surveyManagementService.GetSurveyByIdAsync(roleId);
 
-            var surveyViewModel = new SurveyViewModel
+            if(surveyId != 0)
             {
-                Id = survey.Id,
-                Title = survey.Title
-            };
+                var survey = await _surveyManagementService.GetSurveyByIdAsync(surveyId);
+                var userId = User.GetUserId();
 
-            return View(surveyViewModel);
+                if (userId != survey.OwnerId)
+                {
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+                else
+                {
+                    var surveyViewModel = new SurveyViewModel
+                    {
+                        Id = survey.Id,
+                        Title = survey.Title,
+                        Questions = survey.Questions.Select(q => 
+                            new QuestionViewModel()
+                            {
+                                Id = q.Id,
+                                Title = q.Title
+                            }).ToList()
+                    };
+
+                    return View("Editor", surveyViewModel);
+                }
+            }
+
+            return View("Editor", new SurveyViewModel());
         }
 
         [HttpPost]

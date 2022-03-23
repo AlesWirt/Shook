@@ -1,23 +1,33 @@
 ﻿@model iTechArt.Shook.WebApp.ViewModels.SurveyViewModel
 
-<form id="surveyForm" method="post" asp-controller="Survey" asp-action="Create">
+<form id="surveyForm" method="post" asp-controller="Survey" asp-action="Edit">
     <div class="border p-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="d-flex">
+            <h2 class="text-black-50 mr-auto p-2">Create survey</h2>
             <div id="newRow" class="p-2">
                 <button id="addRow" type="button" class="btn btn-dark"><i class="fa-solid fa-plus fa-2x"></i></button>
             </div>
         </div>
-        
+
         <div class="container">
-            <partial name="_Survey" />
+            <partial name="_SurveyEditor" />
         </div>
 
         <div class="form-group">
             <div class="col-8 offset-2 row">
-                <div class="col">
-                    <input type="submit" class="btn btn-info w-75" value="Create" />
-                </div>
+                @if (Model.Id != 0)
+                {
+                    <div class="col">
+                        <input type="submit" class="btn btn-info w-75" value="Edit" />
+                    </div>
+                }
+                else
+                {
+                    <div class="col">
+                        <input type="submit" class="btn btn-info w-75" value="Create" />
+                    </div>
+                }
                 <div class="col">
                     <a asp-controller="Survey" asp-action="Index" class="btn btn-danger w-75">Back</a>
                 </div>

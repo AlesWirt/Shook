@@ -1,0 +1,19 @@
+﻿@model iTechArt.Shook.WebApp.ViewModels.QuestionViewModel
+
+<fieldset>
+    <div class="col-12 border m-3 p-3 questionBody">
+        <input id="questionId" asp-for="Id" hidden />
+        <div class="form-group row">
+            <div id="counter" class="col-auto"></div>
+
+            <div class="col-10">
+                <input asp-for="Title" type="text" class="form-control questionTitle" placeholder="Question title" aria-label="Title" aria-describedby="question-title">
+            </div>
+
+            <div class="col-auto">
+                <button class="deleteButton" type="button">Delete</button>
+            </div>
+        </div>
+
+    </div>
+</fieldset>

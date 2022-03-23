@@ -1,7 +1,14 @@
 ﻿@using iTechArt.Shook.WebApp.ViewModels
 @model iTechArt.Shook.WebApp.ViewModels.SurveyViewModel
 
+@if (Model.Id != 0)
+{
+    <div class="form-group">
+        <h2>Edit survey #@Model.Id</h2>
+    </div>
+}
 <div class="form-row">
+    <input asp-for="Id" hidden />
     <div class="form-group col-md-6">
         <label for="surveyTitle">Title</label>
         <input type="text" asp-for="Title" id="surveyTitle" class="form-control" placeholder="Survey title">
@@ -9,11 +16,16 @@
     </div>
 
     <div class="row questionsContainer">
-
+        @if (Model.Questions != null)
+        {
+            @foreach (var question in Model.Questions)
+            {
+                @await Html.PartialAsync("_QuestionEditor", question)
+            }
+        }
     </div>
 </div>
 
 <template id="template">
-    @await Html.PartialAsync("_Question", new SurveyViewModel())
+    @await Html.PartialAsync("_QuestionEditor", new QuestionViewModel())
 </template>
-

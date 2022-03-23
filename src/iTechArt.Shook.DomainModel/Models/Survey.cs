@@ -7,6 +7,7 @@ namespace iTechArt.Shook.DomainModel.Models
         public const int SurveyMinLength = 10;
         public const int SurveyMaxLength = 60;
 
+
         public int Id { get; set; }
 
         public string Title { get; set; }

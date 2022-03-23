@@ -34,6 +34,7 @@ namespace iTechArt.Shook.Repositories.Repositories
         {
             var collection = await DbContext.Set<Survey>()
                 .Where(s => s.OwnerId == userId)
+                .Include(s => s.Questions)
                 .ToListAsync();
 
             return collection;

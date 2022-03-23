@@ -1,15 +1,15 @@
-﻿using System.Security.Claims;
-using System;
+﻿using System;
+using System.Security.Claims;
 
 namespace iTechArt.Shook.WebApp.Helpers
 {
-    public static class Helper
+    public static class UserClaimsPrincipalExtensions
     {
-        public static int GetUserIdClaimsPrincipal(ClaimsPrincipal userClaimsPrincipal)
+        public static int GetUserId(this ClaimsPrincipal userClaimsPrincipal)
         {
             var userIdClaim = userClaimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if(!int.TryParse(userIdClaim, out var userId))
+            if (!int.TryParse(userIdClaim, out var userId))
             {
                 throw new ArgumentException("Wrong id.");
             }
